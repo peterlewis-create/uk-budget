@@ -12,13 +12,17 @@ import {
   Info,
   CheckCircle,
   HelpCircle,
-  Percent
+  Percent,
+  Landmark,
+  Scale,
+  AlertTriangle
 } from 'lucide-react';
-import { G20_FISCAL_DATA, G20CountryFiscalData, INTERNATIONAL_BENCHMARKS } from '../data/ukBudgetData';
+import { G20_FISCAL_DATA, G20CountryFiscalData, INTERNATIONAL_BENCHMARKS, UK_FISCAL_TOTALS } from '../data/ukBudgetData';
 
 export const G20ComparisonTab: React.FC = () => {
+  const [activeMetricMode, setActiveMetricMode] = useState<'debt' | 'spending'>('debt'); // default to debt per request!
   const [filterRegion, setFilterRegion] = useState<'all' | 'g7' | 'europe' | 'americas' | 'asia'>('all');
-  const [sortBy, setSortBy] = useState<'spending' | 'revenue' | 'deficit' | 'debt'>('spending');
+  const [sortBy, setSortBy] = useState<'high_to_low' | 'low_to_high' | 'per_capita'>('high_to_low');
   const [selectedCountry, setSelectedCountry] = useState<G20CountryFiscalData | null>(null);
 
   // Filter countries
@@ -32,70 +36,145 @@ export const G20ComparisonTab: React.FC = () => {
 
   // Sort countries
   const sortedCountries = [...filteredCountries].sort((a, b) => {
-    if (sortBy === 'spending') return b.spendingPercentGdp - a.spendingPercentGdp;
-    if (sortBy === 'revenue') return b.revenuePercentGdp - a.revenuePercentGdp;
-    if (sortBy === 'deficit') return a.deficitPercentGdp - b.deficitPercentGdp; // lowest/widest deficit first
-    if (sortBy === 'debt') return b.debtPercentGdp - a.debtPercentGdp;
+    if (activeMetricMode === 'debt') {
+      if (sortBy === 'high_to_low') return b.debtPercentGdp - a.debtPercentGdp;
+      if (sortBy === 'low_to_high') return a.debtPercentGdp - b.debtPercentGdp;
+      if (sortBy === 'per_capita') return b.debtPerCapitaGbp - a.debtPerCapitaGbp;
+    } else {
+      if (sortBy === 'high_to_low') return b.spendingPercentGdp - a.spendingPercentGdp;
+      if (sortBy === 'low_to_high') return a.spendingPercentGdp - b.spendingPercentGdp;
+      if (sortBy === 'per_capita') return b.spendingPerCapitaGbp - a.spendingPerCapitaGbp;
+    }
     return 0;
   });
 
   const ukData = G20_FISCAL_DATA.find(c => c.code === 'GBR')!;
 
+  const getDebtTierColor = (debtPct: number) => {
+    if (debtPct > 200) return '#a855f7'; // Purple - Extreme (Japan)
+    if (debtPct >= 100) return '#ef4444'; // Red - Heavy (>100%)
+    if (debtPct >= 80) return '#f59e0b'; // Amber - Elevated (UK 98.4%)
+    if (debtPct >= 50) return '#3b82f6'; // Blue - Moderate
+    return '#10b981'; // Green - Low
+  };
+
   return (
     <div className="space-y-8 animate-fadeIn">
+      {/* Primary Metric Mode Switcher */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800 w-fit">
+          <button
+            onClick={() => setActiveMetricMode('debt')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all ${
+              activeMetricMode === 'debt'
+                ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <Landmark className="w-4 h-4" />
+            <span>Public Debt over GDP (%)</span>
+          </button>
+          <button
+            onClick={() => setActiveMetricMode('spending')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all ${
+              activeMetricMode === 'spending'
+                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <BarChart3 className="w-4 h-4" />
+            <span>Public Expenditure over GDP (%)</span>
+          </button>
+        </div>
+
+        <div className="text-xs text-slate-400">
+          IMF Fiscal Monitor & Sovereign Debt Databank (2024/25)
+        </div>
+      </div>
+
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
         <div className="space-y-1">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold border border-amber-500/20">
             <Globe2 className="w-3.5 h-3.5" />
-            International Public Expenditure Comparison
+            {activeMetricMode === 'debt' 
+              ? 'G20 Sovereign Debt as % of GDP Comparison' 
+              : 'G20 Public Expenditure as % of GDP Comparison'}
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            UK Public Spending Compared to G20 & Global Peers
+            {activeMetricMode === 'debt' 
+              ? 'Public Debt over GDP Across G20 Nations' 
+              : 'UK Public Expenditure Compared to G20 Peers'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-            How the United Kingdom's state size (<strong>44.3% of GDP</strong>) ranks against the world's 20 largest economies.
-            Click any bar to enlarge the graph and explore detailed breakdowns with figures and percentages.
+            {activeMetricMode === 'debt'
+              ? 'Comparing total accumulated sovereign liabilities as a proportion of annual gross domestic product. The UK stands at 98.4% (£2.72 Trillion), just under the 100% threshold.'
+              : 'Comparing the proportion of national economic output allocated to public services, pensions, and infrastructure.'}
           </p>
         </div>
 
         {/* UK Quick Stat Pill */}
-        <div className="p-4 rounded-xl bg-slate-950 border border-blue-500/30 text-left md:text-right shrink-0 shadow-lg">
-          <div className="text-xs text-blue-400 font-semibold flex items-center justify-start md:justify-end gap-1.5">
-            <span>🇬🇧 United Kingdom</span>
+        <div className="p-4 rounded-xl bg-slate-950 border border-amber-500/30 text-left md:text-right shrink-0 shadow-lg">
+          <div className="text-xs text-amber-400 font-semibold flex items-center justify-start md:justify-end gap-1.5">
+            <span>🇬🇧 United Kingdom Debt</span>
           </div>
           <div className="text-2xl font-black text-white mt-0.5">
-            44.3% <span className="text-xs font-sans text-slate-400 font-normal">of GDP</span>
+            98.4% <span className="text-xs font-sans text-slate-400 font-normal">of GDP</span>
           </div>
           <div className="text-[11px] text-slate-400">
-            5th in G7 • Above OECD avg (42.5%)
+            £2,724.8bn • ~£39,950 / resident
           </div>
         </div>
       </div>
 
       {/* Benchmark Reference Badges */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
-          <span className="text-[11px] text-slate-400 block font-medium">UK Public Spending</span>
-          <span className="text-xl font-extrabold text-blue-400 font-mono mt-0.5 block">44.3%</span>
-          <span className="text-[10px] text-slate-500">£1,226.4bn / £2,768bn GDP</span>
+      {activeMetricMode === 'debt' ? (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+            <span className="text-[11px] text-slate-400 block font-medium">UK Debt over GDP</span>
+            <span className="text-xl font-extrabold text-amber-400 font-mono mt-0.5 block">98.4%</span>
+            <span className="text-[10px] text-slate-500">£2,724.8bn (AA rating)</span>
+          </div>
+          <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+            <span className="text-[11px] text-slate-400 block font-medium">G7 Economies Average</span>
+            <span className="text-xl font-extrabold text-red-400 font-mono mt-0.5 block">{INTERNATIONAL_BENCHMARKS.g7DebtAverage}%</span>
+            <span className="text-[10px] text-slate-500">Pulled up by Japan (254%) & US (122%)</span>
+          </div>
+          <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+            <span className="text-[11px] text-slate-400 block font-medium">G20 All Nations Average</span>
+            <span className="text-xl font-extrabold text-blue-400 font-mono mt-0.5 block">{INTERNATIONAL_BENCHMARKS.g20DebtAverage}%</span>
+            <span className="text-[10px] text-slate-500">UK is +6.0% above average</span>
+          </div>
+          <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+            <span className="text-[11px] text-slate-400 block font-medium">Maastricht Target</span>
+            <span className="text-xl font-extrabold text-emerald-400 font-mono mt-0.5 block">{INTERNATIONAL_BENCHMARKS.maastrichtLimit}%</span>
+            <span className="text-[10px] text-slate-500">EU Fiscal Stability Rule</span>
+          </div>
         </div>
-        <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
-          <span className="text-[11px] text-slate-400 block font-medium">G7 Economies Average</span>
-          <span className="text-xl font-extrabold text-amber-400 font-mono mt-0.5 block">{INTERNATIONAL_BENCHMARKS.g7Average}%</span>
-          <span className="text-[10px] text-slate-500">France, UK, DE, IT, US, CA, JP</span>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+            <span className="text-[11px] text-slate-400 block font-medium">UK Public Spending</span>
+            <span className="text-xl font-extrabold text-blue-400 font-mono mt-0.5 block">44.3%</span>
+            <span className="text-[10px] text-slate-500">£1,226.4bn / £2,768bn GDP</span>
+          </div>
+          <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+            <span className="text-[11px] text-slate-400 block font-medium">G7 Economies Average</span>
+            <span className="text-xl font-extrabold text-amber-400 font-mono mt-0.5 block">{INTERNATIONAL_BENCHMARKS.g7Average}%</span>
+            <span className="text-[10px] text-slate-500">France, UK, DE, IT, US, CA, JP</span>
+          </div>
+          <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+            <span className="text-[11px] text-slate-400 block font-medium">European Union Average</span>
+            <span className="text-xl font-extrabold text-indigo-400 font-mono mt-0.5 block">{INTERNATIONAL_BENCHMARKS.euAverage}%</span>
+            <span className="text-[10px] text-slate-500">High social safety net models</span>
+          </div>
+          <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+            <span className="text-[11px] text-slate-400 block font-medium">OECD Average</span>
+            <span className="text-xl font-extrabold text-teal-400 font-mono mt-0.5 block">{INTERNATIONAL_BENCHMARKS.oecdAverage}%</span>
+            <span className="text-[10px] text-slate-500">38 democratic economies</span>
+          </div>
         </div>
-        <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
-          <span className="text-[11px] text-slate-400 block font-medium">European Union Average</span>
-          <span className="text-xl font-extrabold text-indigo-400 font-mono mt-0.5 block">{INTERNATIONAL_BENCHMARKS.euAverage}%</span>
-          <span className="text-[10px] text-slate-500">High social safety net models</span>
-        </div>
-        <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
-          <span className="text-[11px] text-slate-400 block font-medium">OECD Average</span>
-          <span className="text-xl font-extrabold text-teal-400 font-mono mt-0.5 block">{INTERNATIONAL_BENCHMARKS.oecdAverage}%</span>
-          <span className="text-[10px] text-slate-500">38 democratic economies</span>
-        </div>
-      </div>
+      )}
 
       {/* Control Bar: Filter by Region & Sort Metric */}
       <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between p-4 rounded-xl bg-slate-900/70 border border-slate-800">
@@ -103,31 +182,31 @@ export const G20ComparisonTab: React.FC = () => {
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none text-xs font-semibold">
           <button
             onClick={() => setFilterRegion('all')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${filterRegion === 'all' ? 'bg-blue-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${filterRegion === 'all' ? 'bg-amber-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white'}`}
           >
             All G20
           </button>
           <button
             onClick={() => setFilterRegion('g7')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${filterRegion === 'g7' ? 'bg-blue-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${filterRegion === 'g7' ? 'bg-amber-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white'}`}
           >
             G7 Only
           </button>
           <button
             onClick={() => setFilterRegion('europe')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${filterRegion === 'europe' ? 'bg-blue-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${filterRegion === 'europe' ? 'bg-amber-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white'}`}
           >
             Europe
           </button>
           <button
             onClick={() => setFilterRegion('americas')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${filterRegion === 'americas' ? 'bg-blue-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${filterRegion === 'americas' ? 'bg-amber-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white'}`}
           >
             Americas
           </button>
           <button
             onClick={() => setFilterRegion('asia')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${filterRegion === 'asia' ? 'bg-blue-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${filterRegion === 'asia' ? 'bg-amber-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white'}`}
           >
             Asia-Pacific
           </button>
@@ -139,51 +218,54 @@ export const G20ComparisonTab: React.FC = () => {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="bg-slate-950 border border-slate-700 text-white rounded-lg px-2.5 py-1.5 font-medium focus:outline-none focus:border-blue-500"
+            className="bg-slate-950 border border-slate-700 text-white rounded-lg px-2.5 py-1.5 font-medium focus:outline-none focus:border-amber-500"
           >
-            <option value="spending">Public Spending % of GDP</option>
-            <option value="revenue">Government Revenue % of GDP</option>
-            <option value="deficit">Annual Deficit % of GDP</option>
-            <option value="debt">Public Debt % of GDP</option>
+            <option value="high_to_low">Highest {activeMetricMode === 'debt' ? 'Debt' : 'Spending'} First</option>
+            <option value="low_to_high">Lowest {activeMetricMode === 'debt' ? 'Debt' : 'Spending'} First</option>
+            <option value="per_capita">Per Capita (£/resident)</option>
           </select>
         </div>
       </div>
 
-      {/* Main Interactive G20 Comparison Bar Chart */}
+      {/* MAIN INTERACTIVE GRAPH CARD */}
       <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
           <div>
             <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-blue-400" />
-              General Government Expenditure (% of GDP) Across G20
+              <Landmark className="w-5 h-5 text-amber-400" />
+              {activeMetricMode === 'debt' 
+                ? 'Public Sector Debt as % of GDP Across G20 Nations' 
+                : 'General Government Expenditure (% of GDP) Across G20'}
             </h3>
             <p className="text-xs text-slate-400">
               Select any country bar to enlarge the graph and open an interactive fiscal breakdown.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
-            <span className="w-3 h-3 rounded-sm bg-blue-500 inline-block"></span>
-            <span>United Kingdom</span>
-            <span className="w-3 h-3 rounded-sm bg-slate-700 inline-block ml-3"></span>
-            <span>Other G20</span>
-          </div>
+
+          {activeMetricMode === 'debt' && (
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <span className="text-slate-400">100% of GDP Threshold:</span>
+              <span className="px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30 font-bold">
+                Critical Zone
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Visual Bar Graph (Horizontal ranking) */}
         <div className="space-y-2.5 pt-2">
-          {sortedCountries.map((country, index) => {
+          {sortedCountries.map((country) => {
             const isUK = country.code === 'GBR';
-            const value = sortBy === 'spending' 
-              ? country.spendingPercentGdp 
-              : sortBy === 'revenue' 
-              ? country.revenuePercentGdp 
-              : sortBy === 'deficit' 
-              ? Math.abs(country.deficitPercentGdp) 
-              : country.debtPercentGdp;
+            const value = activeMetricMode === 'debt' 
+              ? country.debtPercentGdp 
+              : country.spendingPercentGdp;
 
-            // Normalize width against max value in dataset
-            const maxVal = sortBy === 'debt' ? 260 : 65;
+            // Maximum scaling: 260% for debt (Japan 254.6%), 65% for spending (France 58.3%)
+            const maxVal = activeMetricMode === 'debt' ? 260 : 65;
             const barWidthPercent = (value / maxVal) * 100;
+            const barColor = activeMetricMode === 'debt' 
+              ? getDebtTierColor(country.debtPercentGdp)
+              : isUK ? '#3b82f6' : '#64748b';
 
             return (
               <div
@@ -191,7 +273,7 @@ export const G20ComparisonTab: React.FC = () => {
                 onClick={() => setSelectedCountry(country)}
                 className={`p-2.5 sm:p-3 rounded-xl transition-all cursor-pointer group flex items-center gap-3 border ${
                   isUK
-                    ? 'bg-blue-950/40 border-blue-500/60 ring-1 ring-blue-500/30'
+                    ? 'bg-amber-950/30 border-amber-500/60 ring-1 ring-amber-500/30'
                     : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 hover:bg-slate-850'
                 }`}
               >
@@ -199,11 +281,11 @@ export const G20ComparisonTab: React.FC = () => {
                 <div className="w-28 sm:w-36 flex items-center gap-2 shrink-0">
                   <span className="text-xl">{country.flag}</span>
                   <div className="truncate">
-                    <span className={`text-xs font-bold block truncate ${isUK ? 'text-blue-300 font-black' : 'text-white'}`}>
+                    <span className={`text-xs font-bold block truncate ${isUK ? 'text-amber-300 font-black' : 'text-white'}`}>
                       {country.country}
                     </span>
                     <span className="text-[10px] text-slate-500">
-                      {country.isG7 ? 'G7' : 'G20'} • {country.region}
+                      {country.isG7 ? 'G7' : 'G20'} • {country.debtRating}
                     </span>
                   </div>
                 </div>
@@ -211,11 +293,12 @@ export const G20ComparisonTab: React.FC = () => {
                 {/* The Bar */}
                 <div className="flex-1 h-7 bg-slate-900 rounded-lg overflow-hidden flex items-center p-1 relative">
                   <div
-                    style={{ width: `${Math.max(5, barWidthPercent)}%` }}
-                    className={`h-full rounded-md flex items-center justify-end px-2.5 transition-all duration-300 ${
-                      isUK
-                        ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 shadow-md shadow-blue-500/30'
-                        : 'bg-gradient-to-r from-slate-700 to-slate-600 group-hover:from-slate-600 group-hover:to-slate-500'
+                    style={{ 
+                      width: `${Math.max(5, barWidthPercent)}%`,
+                      backgroundColor: isUK ? '#f59e0b' : barColor
+                    }}
+                    className={`h-full rounded-md flex items-center justify-end px-2.5 transition-all duration-300 shadow-sm ${
+                      isUK ? 'brightness-110 shadow-amber-500/30' : 'group-hover:brightness-110'
                     }`}
                   >
                     <span className="text-[11px] font-bold text-white font-mono drop-shadow">
@@ -223,23 +306,34 @@ export const G20ComparisonTab: React.FC = () => {
                     </span>
                   </div>
 
-                  {/* Benchmark Markers */}
-                  {sortBy === 'spending' && (
+                  {/* Benchmark Markers for Debt */}
+                  {activeMetricMode === 'debt' && (
                     <>
-                      {/* OECD Avg Marker */}
+                      {/* 100% of GDP Critical Marker Line */}
                       <div 
-                        style={{ left: `${(INTERNATIONAL_BENCHMARKS.oecdAverage / maxVal) * 100}%` }}
-                        className="absolute top-0 bottom-0 w-0.5 bg-teal-400/50 pointer-events-none"
-                        title="OECD Avg: 42.5%"
+                        style={{ left: `${(INTERNATIONAL_BENCHMARKS.centuryThreshold / maxVal) * 100}%` }}
+                        className="absolute top-0 bottom-0 w-0.5 bg-red-500/80 pointer-events-none z-10"
+                        title="100% of GDP Threshold"
                       />
-                      {/* G7 Avg Marker */}
+                      {/* G7 Average Line */}
                       <div 
-                        style={{ left: `${(INTERNATIONAL_BENCHMARKS.g7Average / maxVal) * 100}%` }}
-                        className="absolute top-0 bottom-0 w-0.5 bg-amber-400/60 pointer-events-none"
-                        title="G7 Avg: 46.2%"
+                        style={{ left: `${(INTERNATIONAL_BENCHMARKS.g7DebtAverage / maxVal) * 100}%` }}
+                        className="absolute top-0 bottom-0 w-0.5 bg-amber-400/50 pointer-events-none z-10"
+                        title="G7 Debt Average: 127.8%"
+                      />
+                      {/* 60% Maastricht Target Line */}
+                      <div 
+                        style={{ left: `${(INTERNATIONAL_BENCHMARKS.maastrichtLimit / maxVal) * 100}%` }}
+                        className="absolute top-0 bottom-0 w-0.5 bg-emerald-400/60 pointer-events-none z-10"
+                        title="60% Maastricht Rule"
                       />
                     </>
                   )}
+                </div>
+
+                {/* Per Capita Column */}
+                <div className="w-20 sm:w-28 text-right hidden sm:block shrink-0 font-mono text-xs text-slate-400">
+                  £{(activeMetricMode === 'debt' ? country.debtPerCapitaGbp : country.spendingPerCapitaGbp).toLocaleString()}
                 </div>
 
                 {/* Enlarge Icon Action */}
@@ -256,64 +350,78 @@ export const G20ComparisonTab: React.FC = () => {
 
         {/* Chart Reference Footnote */}
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400 pt-3 border-t border-slate-800">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-0.5 bg-teal-400"></span> OECD Avg (42.5%)
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-0.5 bg-amber-400"></span> G7 Avg (46.2%)
-            </span>
-          </div>
-          <span>Sources: IMF Fiscal Monitor, OECD National Accounts & HM Treasury OBR Outturn.</span>
+          {activeMetricMode === 'debt' ? (
+            <div className="flex items-center gap-4">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-0.5 bg-emerald-400"></span> 60% Maastricht Ceiling
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-0.5 bg-red-500"></span> 100% of GDP Level
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-0.5 bg-amber-400"></span> G7 Average (127.8%)
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-4">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-0.5 bg-teal-400"></span> OECD Avg (42.5%)
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-0.5 bg-amber-400"></span> G7 Avg (46.2%)
+              </span>
+            </div>
+          )}
+          <span>Sources: IMF World Economic Outlook, Fiscal Monitor & ONS UK Public Sector Finances.</span>
         </div>
       </div>
 
-      {/* Structural Fiscal Comparisons Grid */}
+      {/* Structural Fiscal Insights */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Comparison 1: UK vs France */}
+        {/* Card 1: Japan */}
         <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
-            <span>🇬🇧 UK vs 🇫🇷 France</span>
-            <span className="text-red-400">France +14.0% higher</span>
+          <div className="flex items-center justify-between text-xs font-semibold text-purple-400">
+            <span>🇯🇵 Japan (254.6% Debt)</span>
+            <span>World Highest</span>
           </div>
-          <h4 className="text-sm font-bold text-white">The European High-Welfare Model</h4>
+          <h4 className="text-sm font-bold text-white">How Japan Sustains 254% Debt</h4>
           <p className="text-xs text-slate-400 leading-relaxed">
-            France's public sector (58.3% of GDP) is substantially larger than the UK's (44.3%). 
-            France spends significantly more on municipal administration, early statutory retirement, and universal healthcare.
+            Despite debt exceeding 2.5 times GDP, over 90% of Japanese Government Bonds (JGBs) are held domestically 
+            by domestic banks, life insurers, and the Bank of Japan, minimizing capital flight risks and default premiums.
           </p>
         </div>
 
-        {/* Comparison 2: UK vs Germany */}
+        {/* Card 2: UK Position */}
         <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
-            <span>🇬🇧 UK vs 🇩🇪 Germany</span>
-            <span className="text-emerald-400">Germany 63.7% Debt</span>
+          <div className="flex items-center justify-between text-xs font-semibold text-amber-400">
+            <span>🇬🇧 United Kingdom (98.4%)</span>
+            <span>Near 100% Threshold</span>
           </div>
-          <h4 className="text-sm font-bold text-white">The German Debt Brake Framework</h4>
+          <h4 className="text-sm font-bold text-white">The UK's 20-Year Debt Surge</h4>
           <p className="text-xs text-slate-400 leading-relaxed">
-            Germany spends 48.6% of GDP (higher than UK), but raises 46.1% in revenue, keeping its deficit low (-2.5%) 
-            and total national debt at just 63.7% of GDP compared to the UK's 98.4%.
+            UK debt stood at just 35% of GDP before the 2008 Financial Crisis. Banking bailouts, post-crisis deficits, 
+            COVID-19 pandemic furlough (£313bn peak borrowing), and energy subsidies pushed debt to £2,724.8bn (98.4% of GDP).
           </p>
         </div>
 
-        {/* Comparison 3: UK vs United States */}
+        {/* Card 3: US Deficits */}
         <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
-            <span>🇬🇧 UK vs 🇺🇸 United States</span>
-            <span className="text-blue-400">UK +6.8% higher spending</span>
+          <div className="flex items-center justify-between text-xs font-semibold text-red-400">
+            <span>🇺🇸 United States (122.3%)</span>
+            <span>$34 Trillion</span>
           </div>
-          <h4 className="text-sm font-bold text-white">Single-Payer vs Market Healthcare</h4>
+          <h4 className="text-sm font-bold text-white">Global Reserve Currency Advantage</h4>
           <p className="text-xs text-slate-400 leading-relaxed">
-            US federal + state public spending is 37.5% of GDP. Because much of US healthcare is privately funded 
-            through employer health insurance, total government spending as a share of GDP appears lower than European systems.
+            US federal debt has expanded rapidly due to large structural budget deficits (exceeding 6% of GDP annually). 
+            The global dominance of the US Dollar as the primary global reserve asset provides unmatched borrowing depth.
           </p>
         </div>
       </div>
 
-      {/* ENLARGED COUNTRY MODAL (When any country bar is selected) */}
+      {/* ENLARGED COUNTRY MODAL (When any country bar is clicked) */}
       {selectedCountry && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn"
           onClick={() => setSelectedCountry(null)}
         >
           <div 
@@ -327,13 +435,13 @@ export const G20ComparisonTab: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="text-xl font-bold text-white">{selectedCountry.country}</h3>
-                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/30">
-                      {selectedCountry.isG7 ? 'G7 Major Economy' : 'G20 Member'}
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                      Credit Rating: {selectedCountry.debtRating}
                     </span>
                     <span className="text-xs text-slate-400">({selectedCountry.region})</span>
                   </div>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    Official Fiscal Profile & Structural Breakdown
+                    Sovereign Debt Profile & Fiscal Analysis
                   </p>
                 </div>
               </div>
@@ -346,25 +454,25 @@ export const G20ComparisonTab: React.FC = () => {
               </button>
             </div>
 
-            {/* Modal Scrollable Body with Enlarged Graph */}
+            {/* Modal Scrollable Body */}
             <div className="p-6 overflow-y-auto space-y-6">
               {/* Enlarged Visual Comparison Bar */}
               <div className="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
                 <div className="flex justify-between text-xs font-semibold text-slate-300">
-                  <span>Enlarged Public Expenditure Comparison</span>
-                  <span className="font-mono text-blue-400">{selectedCountry.spendingPercentGdp}% of GDP</span>
+                  <span>Enlarged Public Debt Comparison</span>
+                  <span className="font-mono text-amber-400">{selectedCountry.debtPercentGdp}% of GDP</span>
                 </div>
 
-                {/* Country Bar */}
+                {/* Country Debt Bar */}
                 <div className="space-y-1">
                   <div className="flex justify-between text-[11px] text-slate-400">
                     <span>{selectedCountry.country}</span>
-                    <span className="font-mono font-bold text-white">{selectedCountry.spendingPercentGdp}%</span>
+                    <span className="font-mono font-bold text-white">{selectedCountry.debtPercentGdp}%</span>
                   </div>
                   <div className="h-5 w-full bg-slate-900 rounded-lg overflow-hidden flex">
                     <div
-                      style={{ width: `${(selectedCountry.spendingPercentGdp / 65) * 100}%` }}
-                      className="h-full bg-gradient-to-r from-blue-600 to-indigo-500 rounded-lg"
+                      style={{ width: `${(selectedCountry.debtPercentGdp / 260) * 100}%` }}
+                      className="h-full bg-gradient-to-r from-amber-600 to-red-500 rounded-lg"
                     />
                   </div>
                 </div>
@@ -373,12 +481,12 @@ export const G20ComparisonTab: React.FC = () => {
                 <div className="space-y-1">
                   <div className="flex justify-between text-[11px] text-slate-400">
                     <span>🇬🇧 United Kingdom (Benchmark)</span>
-                    <span className="font-mono font-bold text-blue-400">{ukData.spendingPercentGdp}%</span>
+                    <span className="font-mono font-bold text-amber-400">{ukData.debtPercentGdp}%</span>
                   </div>
                   <div className="h-5 w-full bg-slate-900 rounded-lg overflow-hidden flex">
                     <div
-                      style={{ width: `${(ukData.spendingPercentGdp / 65) * 100}%` }}
-                      className="h-full bg-blue-500 rounded-lg"
+                      style={{ width: `${(ukData.debtPercentGdp / 260) * 100}%` }}
+                      className="h-full bg-amber-500 rounded-lg"
                     />
                   </div>
                 </div>
@@ -387,33 +495,40 @@ export const G20ComparisonTab: React.FC = () => {
                 <div className="space-y-1">
                   <div className="flex justify-between text-[11px] text-slate-400">
                     <span>G7 Economies Average</span>
-                    <span className="font-mono font-bold text-amber-400">{INTERNATIONAL_BENCHMARKS.g7Average}%</span>
+                    <span className="font-mono font-bold text-red-400">{INTERNATIONAL_BENCHMARKS.g7DebtAverage}%</span>
                   </div>
                   <div className="h-5 w-full bg-slate-900 rounded-lg overflow-hidden flex">
                     <div
-                      style={{ width: `${(INTERNATIONAL_BENCHMARKS.g7Average / 65) * 100}%` }}
-                      className="h-full bg-amber-500 rounded-lg"
+                      style={{ width: `${(INTERNATIONAL_BENCHMARKS.g7DebtAverage / 260) * 100}%` }}
+                      className="h-full bg-red-500 rounded-lg"
                     />
                   </div>
+                </div>
+
+                {/* 100% Threshold Indicator */}
+                <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 font-mono">
+                  <span>Maastricht Ceiling: 60%</span>
+                  <span className="text-red-400 font-bold">100% of GDP Threshold</span>
+                  <span>Scale Max: 260%</span>
                 </div>
               </div>
 
               {/* 4 Key Figures Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 block font-medium">Public Expenditure</span>
-                  <span className="text-xl font-extrabold text-white font-mono mt-0.5 block">
-                    {selectedCountry.spendingPercentGdp}%
+                  <span className="text-[11px] text-slate-400 block font-medium">Public Debt</span>
+                  <span className="text-xl font-extrabold text-amber-400 font-mono mt-0.5 block">
+                    {selectedCountry.debtPercentGdp}%
                   </span>
                   <span className="text-[10px] text-slate-500">of GDP</span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 block font-medium">Government Revenue</span>
-                  <span className="text-xl font-extrabold text-emerald-400 font-mono mt-0.5 block">
-                    {selectedCountry.revenuePercentGdp}%
+                  <span className="text-[11px] text-slate-400 block font-medium">Debt Per Resident</span>
+                  <span className="text-xl font-extrabold text-white font-mono mt-0.5 block">
+                    £{selectedCountry.debtPerCapitaGbp.toLocaleString()}
                   </span>
-                  <span className="text-[10px] text-slate-500">Taxes & receipts</span>
+                  <span className="text-[10px] text-slate-500">per person (GBP)</span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
@@ -425,32 +540,18 @@ export const G20ComparisonTab: React.FC = () => {
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 block font-medium">Public Debt</span>
-                  <span className="text-xl font-extrabold text-amber-400 font-mono mt-0.5 block">
-                    {selectedCountry.debtPercentGdp}%
+                  <span className="text-[11px] text-slate-400 block font-medium">Public Spending</span>
+                  <span className="text-xl font-extrabold text-blue-400 font-mono mt-0.5 block">
+                    {selectedCountry.spendingPercentGdp}%
                   </span>
                   <span className="text-[10px] text-slate-500">of GDP</span>
                 </div>
               </div>
 
-              {/* Per Capita Spending */}
-              <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
-                <div>
-                  <span className="text-xs text-slate-400 font-medium">Approximate Public Spending Per Resident</span>
-                  <div className="text-xl font-extrabold text-white font-mono mt-0.5">
-                    £{selectedCountry.spendingPerCapitaGbp.toLocaleString()} / person / year
-                  </div>
-                </div>
-                <div className="text-right text-xs text-slate-400">
-                  <span>UK Equivalent:</span>
-                  <div className="text-sm font-bold text-blue-400 font-mono">£17,980</div>
-                </div>
-              </div>
-
-              {/* Structural Analysis */}
-              <div className="p-4 rounded-xl bg-blue-950/20 border border-blue-900/40 space-y-2">
-                <h4 className="text-xs font-bold text-blue-300 uppercase tracking-wide">
-                  Economic & Fiscal Context:
+              {/* Structural Context */}
+              <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-900/40 space-y-2">
+                <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wide">
+                  Sovereign Debt Sustainability & Drivers:
                 </h4>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   {selectedCountry.description}
@@ -473,4 +574,3 @@ export const G20ComparisonTab: React.FC = () => {
     </div>
   );
 };
-

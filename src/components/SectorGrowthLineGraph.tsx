@@ -609,3 +609,4 @@ export const SectorGrowthLineGraph: React.FC = () => {
     </div>
   );
 };
+

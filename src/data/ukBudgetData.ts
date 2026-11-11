@@ -606,22 +606,26 @@ export interface G20CountryFiscalData {
   isG7: boolean;
   region: 'Europe' | 'Americas' | 'Asia-Pacific' | 'Middle East & Africa';
   spendingPerCapitaGbp: number; // Approximate GBP per capita
+  debtPerCapitaGbp: number; // Sovereign debt per resident in GBP
+  debtRating: 'AAA' | 'AA+' | 'AA' | 'AA-' | 'A+' | 'A' | 'BBB+' | 'BBB' | 'BBB-' | 'BB';
   description: string;
 }
 
 export const G20_FISCAL_DATA: G20CountryFiscalData[] = [
   {
-    code: 'FRA',
-    country: 'France',
-    flag: '🇫🇷',
-    spendingPercentGdp: 58.3,
-    revenuePercentGdp: 52.8,
-    deficitPercentGdp: -5.5,
-    debtPercentGdp: 110.6,
+    code: 'JPN',
+    country: 'Japan',
+    flag: '🇯🇵',
+    spendingPercentGdp: 43.8,
+    revenuePercentGdp: 37.9,
+    deficitPercentGdp: -5.9,
+    debtPercentGdp: 254.6,
     isG7: true,
-    region: 'Europe',
-    spendingPerCapitaGbp: 21450,
-    description: 'Highest public expenditure in the G20, driven by extensive universal state pensions, early retirement schemes, and municipal healthcare.'
+    region: 'Asia-Pacific',
+    spendingPerCapitaGbp: 14600,
+    debtPerCapitaGbp: 62400,
+    debtRating: 'A+',
+    description: 'World’s highest sovereign debt ratio at 254.6% of GDP, anchored by ultra-low Bank of Japan bond yield control and deep domestic institutional savings.'
   },
   {
     code: 'ITA',
@@ -634,85 +638,9 @@ export const G20_FISCAL_DATA: G20CountryFiscalData[] = [
     isG7: true,
     region: 'Europe',
     spendingPerCapitaGbp: 18200,
-    description: 'High aging demographics place significant burden on state pension obligations alongside substantial legacy debt interest costs.'
-  },
-  {
-    code: 'DEU',
-    country: 'Germany',
-    flag: '🇩🇪',
-    spendingPercentGdp: 48.6,
-    revenuePercentGdp: 46.1,
-    deficitPercentGdp: -2.5,
-    debtPercentGdp: 63.7,
-    isG7: true,
-    region: 'Europe',
-    spendingPerCapitaGbp: 22100,
-    description: 'Constitutional "Schuldenbremse" (debt brake) legally caps federal borrowing, maintaining the lowest debt-to-GDP in the G7.'
-  },
-  {
-    code: 'CAN',
-    country: 'Canada',
-    flag: '🇨🇦',
-    spendingPercentGdp: 46.5,
-    revenuePercentGdp: 44.2,
-    deficitPercentGdp: -2.3,
-    debtPercentGdp: 104.7,
-    isG7: true,
-    region: 'Americas',
-    spendingPerCapitaGbp: 19800,
-    description: 'Decentralized federalism where provincial governments manage single-payer healthcare (Medicare) and post-secondary education.'
-  },
-  {
-    code: 'GBR',
-    country: 'United Kingdom',
-    flag: '🇬🇧',
-    spendingPercentGdp: 44.3,
-    revenuePercentGdp: 41.2,
-    deficitPercentGdp: -3.1,
-    debtPercentGdp: 98.4,
-    isG7: true,
-    region: 'Europe',
-    spendingPerCapitaGbp: 17980,
-    description: 'Total Managed Expenditure of £1.23T represents 44.3% of GDP, placing the UK mid-table among G7 peers, below France & Germany but above the US.'
-  },
-  {
-    code: 'JPN',
-    country: 'Japan',
-    flag: '🇯🇵',
-    spendingPercentGdp: 43.8,
-    revenuePercentGdp: 37.9,
-    deficitPercentGdp: -5.9,
-    debtPercentGdp: 254.6,
-    isG7: true,
-    region: 'Asia-Pacific',
-    spendingPerCapitaGbp: 14600,
-    description: 'World’s highest sovereign debt ratio at 254% of GDP, anchored by ultra-low Bank of Japan bond yield yield curve control and domestic savings.'
-  },
-  {
-    code: 'ESP',
-    country: 'Spain (G20 Guest)',
-    flag: '🇪🇸',
-    spendingPercentGdp: 46.4,
-    revenuePercentGdp: 42.8,
-    deficitPercentGdp: -3.6,
-    debtPercentGdp: 105.1,
-    isG7: false,
-    region: 'Europe',
-    spendingPerCapitaGbp: 14200,
-    description: 'Extensive regional autonomy with high decentralized spending on health and regional infrastructure across 17 autonomous communities.'
-  },
-  {
-    code: 'BRA',
-    country: 'Brazil',
-    flag: '🇧🇷',
-    spendingPercentGdp: 39.4,
-    revenuePercentGdp: 31.8,
-    deficitPercentGdp: -7.6,
-    debtPercentGdp: 88.6,
-    isG7: false,
-    region: 'Americas',
-    spendingPerCapitaGbp: 3850,
-    description: 'Highest public expenditure ratio in Latin America, driven by constitutional welfare entitlements (Bolsa Família) and social security.'
+    debtPerCapitaGbp: 36800,
+    debtRating: 'BBB',
+    description: 'Heavy legacy debt burden from the 1980s and 1990s combined with demographic aging, requiring strict EU deficit monitoring.'
   },
   {
     code: 'USA',
@@ -725,33 +653,84 @@ export const G20_FISCAL_DATA: G20CountryFiscalData[] = [
     isG7: true,
     region: 'Americas',
     spendingPerCapitaGbp: 24800,
-    description: 'Large defense budget, Social Security, and Medicare combined with structurally wide primary deficits (~6% of GDP) financed as world reserve currency.'
+    debtPerCapitaGbp: 68500,
+    debtRating: 'AA+',
+    description: 'Federal debt surpassed $34 Trillion (122.3% of GDP), driven by large primary deficits, Social Security, and national defense, supported by US Dollar reserve status.'
   },
   {
-    code: 'AUS',
-    country: 'Australia',
-    flag: '🇦🇺',
-    spendingPercentGdp: 36.8,
-    revenuePercentGdp: 36.3,
-    deficitPercentGdp: -0.5,
-    debtPercentGdp: 50.1,
-    isG7: false,
-    region: 'Asia-Pacific',
-    spendingPerCapitaGbp: 18900,
-    description: 'Strong commodity export revenues (iron ore, LNG) and mineral royalties support near-balanced federal budget surpluses.'
+    code: 'FRA',
+    country: 'France',
+    flag: '🇫🇷',
+    spendingPercentGdp: 58.3,
+    revenuePercentGdp: 52.8,
+    deficitPercentGdp: -5.5,
+    debtPercentGdp: 110.6,
+    isG7: true,
+    region: 'Europe',
+    spendingPerCapitaGbp: 21450,
+    debtPerCapitaGbp: 35900,
+    debtRating: 'AA-',
+    description: 'Debt passed 110% of GDP following energy crisis protections and large universal public service outlays, placing public finances under scrutiny.'
   },
   {
-    code: 'ZAF',
-    country: 'South Africa',
-    flag: '🇿🇦',
-    spendingPercentGdp: 34.2,
-    revenuePercentGdp: 28.5,
-    deficitPercentGdp: -5.7,
-    debtPercentGdp: 74.1,
+    code: 'ESP',
+    country: 'Spain (G20 Guest)',
+    flag: '🇪🇸',
+    spendingPercentGdp: 46.4,
+    revenuePercentGdp: 42.8,
+    deficitPercentGdp: -3.6,
+    debtPercentGdp: 105.1,
     isG7: false,
-    region: 'Middle East & Africa',
-    spendingPerCapitaGbp: 2200,
-    description: 'Extensive social welfare grant coverage (supporting over 28 million recipients) alongside major sovereign bailouts for state utilities (Eskom).'
+    region: 'Europe',
+    spendingPerCapitaGbp: 14200,
+    debtPerCapitaGbp: 26800,
+    debtRating: 'A',
+    description: 'Deleveraging gradually from post-eurozone crisis peaks of 120%, but remaining above 100% of GDP with high youth unemployment.'
+  },
+  {
+    code: 'CAN',
+    country: 'Canada',
+    flag: '🇨🇦',
+    spendingPercentGdp: 46.5,
+    revenuePercentGdp: 44.2,
+    deficitPercentGdp: -2.3,
+    debtPercentGdp: 104.7,
+    isG7: true,
+    region: 'Americas',
+    spendingPerCapitaGbp: 19800,
+    debtPerCapitaGbp: 37400,
+    debtRating: 'AAA',
+    description: 'Federal debt is relatively low (~45% GDP), but combined federal and provincial liabilities (e.g. Ontario, Quebec) push total gross debt to 104.7%.'
+  },
+  {
+    code: 'GBR',
+    country: 'United Kingdom',
+    flag: '🇬🇧',
+    spendingPercentGdp: 44.3,
+    revenuePercentGdp: 41.2,
+    deficitPercentGdp: -3.1,
+    debtPercentGdp: 98.4,
+    isG7: true,
+    region: 'Europe',
+    spendingPerCapitaGbp: 17980,
+    debtPerCapitaGbp: 39950,
+    debtRating: 'AA',
+    description: 'Public Sector Net Debt stands at £2,724.8bn (98.4% of GDP). Surged from 35% in 2007 due to the financial crisis, pandemic furlough, and energy subsidies.'
+  },
+  {
+    code: 'BRA',
+    country: 'Brazil',
+    flag: '🇧🇷',
+    spendingPercentGdp: 39.4,
+    revenuePercentGdp: 31.8,
+    deficitPercentGdp: -7.6,
+    debtPercentGdp: 88.6,
+    isG7: false,
+    region: 'Americas',
+    spendingPerCapitaGbp: 3850,
+    debtPerCapitaGbp: 6400,
+    debtRating: 'BB',
+    description: 'Highest debt-to-GDP in Latin America, facing elevated domestic interest rates that make debt refinancing and servicing costly.'
   },
   {
     code: 'CHN',
@@ -764,46 +743,9 @@ export const G20_FISCAL_DATA: G20CountryFiscalData[] = [
     isG7: false,
     region: 'Asia-Pacific',
     spendingPerCapitaGbp: 3950,
-    description: 'Official budget is complemented by substantial local government financing vehicle (LGFV) off-budget bond issuances for infrastructure.'
-  },
-  {
-    code: 'SAU',
-    country: 'Saudi Arabia',
-    flag: '🇸🇦',
-    spendingPercentGdp: 32.4,
-    revenuePercentGdp: 30.1,
-    deficitPercentGdp: -2.3,
-    debtPercentGdp: 26.2,
-    isG7: false,
-    region: 'Middle East & Africa',
-    spendingPerCapitaGbp: 9400,
-    description: 'Financed predominantly by oil dividends and Aramco royalty taxes, funding massive Vision 2030 gigaproject capital transformations.'
-  },
-  {
-    code: 'KOR',
-    country: 'South Korea',
-    flag: '🇰🇷',
-    spendingPercentGdp: 30.2,
-    revenuePercentGdp: 28.1,
-    deficitPercentGdp: -2.1,
-    debtPercentGdp: 53.8,
-    isG7: false,
-    region: 'Asia-Pacific',
-    spendingPerCapitaGbp: 9800,
-    description: 'Lean state expenditure with conservative fiscal limits, though facing rapid expansion in healthcare needs due to super-aging population.'
-  },
-  {
-    code: 'MEX',
-    country: 'Mexico',
-    flag: '🇲🇽',
-    spendingPercentGdp: 30.1,
-    revenuePercentGdp: 24.2,
-    deficitPercentGdp: -5.9,
-    debtPercentGdp: 50.2,
-    isG7: false,
-    region: 'Americas',
-    spendingPerCapitaGbp: 3200,
-    description: 'Low tax-to-GDP ratio due to large informal labor sector, with recent increases in welfare stipends and infrastructure projects.'
+    debtPerCapitaGbp: 8200,
+    debtRating: 'A+',
+    description: 'Central government debt is modest, but local government debt and state-backed investment vehicles raise estimated aggregate public liabilities.'
   },
   {
     code: 'IND',
@@ -816,7 +758,84 @@ export const G20_FISCAL_DATA: G20CountryFiscalData[] = [
     isG7: false,
     region: 'Asia-Pacific',
     spendingPerCapitaGbp: 680,
-    description: 'Rapidly industrializing economy directing capital expenditure toward highway corridors, railway modernizations, and digital identity subsidies.'
+    debtPerCapitaGbp: 1850,
+    debtRating: 'BBB-',
+    description: 'Combined federal and state debt stands at 82.5%, largely denominated in domestic rupees and funded by high domestic household savings.'
+  },
+  {
+    code: 'ZAF',
+    country: 'South Africa',
+    flag: '🇿🇦',
+    spendingPercentGdp: 34.2,
+    revenuePercentGdp: 28.5,
+    deficitPercentGdp: -5.7,
+    debtPercentGdp: 74.1,
+    isG7: false,
+    region: 'Middle East & Africa',
+    spendingPerCapitaGbp: 2200,
+    debtPerCapitaGbp: 4200,
+    debtRating: 'BB',
+    description: 'Rapid debt accumulation over the last decade driven by state enterprise debt absorption (Eskom) and low baseline economic growth.'
+  },
+  {
+    code: 'DEU',
+    country: 'Germany',
+    flag: '🇩🇪',
+    spendingPercentGdp: 48.6,
+    revenuePercentGdp: 46.1,
+    deficitPercentGdp: -2.5,
+    debtPercentGdp: 63.7,
+    isG7: true,
+    region: 'Europe',
+    spendingPerCapitaGbp: 22100,
+    debtPerCapitaGbp: 24600,
+    debtRating: 'AAA',
+    description: 'Constitutional debt brake limits federal borrowing to 0.35% of GDP in normal years, keeping debt near the EU 60% Maastricht stability ceiling.'
+  },
+  {
+    code: 'KOR',
+    country: 'South Korea',
+    flag: '🇰🇷',
+    spendingPercentGdp: 30.2,
+    revenuePercentGdp: 28.1,
+    deficitPercentGdp: -2.1,
+    debtPercentGdp: 53.8,
+    isG7: false,
+    region: 'Asia-Pacific',
+    spendingPerCapitaGbp: 9800,
+    debtPerCapitaGbp: 14200,
+    debtRating: 'AA',
+    description: 'Strict fiscal rules and conservative budget frameworks maintain one of the lowest debt burdens among advanced OECD nations.'
+  },
+  {
+    code: 'MEX',
+    country: 'Mexico',
+    flag: '🇲🇽',
+    spendingPercentGdp: 30.1,
+    revenuePercentGdp: 24.2,
+    deficitPercentGdp: -5.9,
+    debtPercentGdp: 50.2,
+    isG7: false,
+    region: 'Americas',
+    spendingPerCapitaGbp: 3200,
+    debtPerCapitaGbp: 4800,
+    debtRating: 'BBB',
+    description: 'Modest debt-to-GDP backed by prudent debt profile management and external oil stabilization reserve funds.'
+  },
+  {
+    code: 'AUS',
+    country: 'Australia',
+    flag: '🇦🇺',
+    spendingPercentGdp: 36.8,
+    revenuePercentGdp: 36.3,
+    deficitPercentGdp: -0.5,
+    debtPercentGdp: 50.1,
+    isG7: false,
+    region: 'Asia-Pacific',
+    spendingPerCapitaGbp: 18900,
+    debtPerCapitaGbp: 21200,
+    debtRating: 'AAA',
+    description: 'Commodity revenues and disciplined fiscal consolidation have kept net federal debt exceptionally low compared to G7 peers.'
   },
   {
     code: 'IDN',
@@ -829,7 +848,24 @@ export const G20_FISCAL_DATA: G20CountryFiscalData[] = [
     isG7: false,
     region: 'Asia-Pacific',
     spendingPerCapitaGbp: 820,
-    description: 'Statutory 3% GDP deficit ceiling strictly enforced post-Asian financial crisis, with heavy focus on fuel and food basic subsidies.'
+    debtPerCapitaGbp: 1650,
+    debtRating: 'BBB',
+    description: 'Constitutional 60% of GDP debt ceiling strictly respected post-Asian crisis, creating strong macroeconomic resilience.'
+  },
+  {
+    code: 'SAU',
+    country: 'Saudi Arabia',
+    flag: '🇸🇦',
+    spendingPercentGdp: 32.4,
+    revenuePercentGdp: 30.1,
+    deficitPercentGdp: -2.3,
+    debtPercentGdp: 26.2,
+    isG7: false,
+    region: 'Middle East & Africa',
+    spendingPerCapitaGbp: 9400,
+    debtPerCapitaGbp: 7100,
+    debtRating: 'A+',
+    description: 'Lowest debt burden in the G20, funded by sovereign petroleum reserves and Public Investment Fund (PIF) sovereign asset wealth.'
   }
 ];
 
@@ -838,6 +874,13 @@ export const INTERNATIONAL_BENCHMARKS = {
   euAverage: 49.1,
   oecdAverage: 42.5,
   g20Average: 38.4,
+  // Debt Benchmarks
+  g7DebtAverage: 127.8,
+  euDebtAverage: 88.6,
+  oecdDebtAverage: 112.5,
+  g20DebtAverage: 92.4,
+  maastrichtLimit: 60.0,
+  centuryThreshold: 100.0
 };
 
 export interface PolicyLever {

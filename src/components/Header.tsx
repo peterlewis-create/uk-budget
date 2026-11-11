@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
   const tabs = [
     { id: 'overview', label: 'Overview & Flow', icon: Landmark, badge: 'Summary' },
     { id: 'yearly_splits', label: 'Yearly Splits', icon: BarChart3, badge: 'Interactive' },
-    { id: 'g20', label: 'G20 Comparison', icon: Globe2, badge: '44.3% GDP' },
+    { id: 'g20', label: 'G20 Comparison', icon: Globe2, badge: 'Debt & Spend' },
     { id: 'spending', label: 'Public Spending', icon: PieChart, badge: '£1.23T' },
     { id: 'revenue', label: 'Tax Receipts', icon: Coins, badge: '£1.14T' },
     { id: 'calculator', label: 'Where My Tax Goes', icon: Receipt, badge: 'Personal' },
