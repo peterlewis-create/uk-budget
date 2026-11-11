@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { 
-  ArrowUpRight, 
-  ArrowDownRight, 
-  Sparkles, 
-  Scale, 
-  AlertCircle, 
-  CheckCircle, 
+import {
+  ArrowUpRight,
+  ArrowDownRight,
+  Sparkles,
+  Scale,
+  AlertCircle,
+  CheckCircle,
   ArrowRight,
   TrendingDown,
   Landmark,
   BarChart3
 } from 'lucide-react';
-import { 
-  UK_FISCAL_TOTALS, 
-  UK_SPENDING_DATA, 
-  SpendingItem 
+import {
+  UK_FISCAL_TOTALS,
+  UK_SPENDING_DATA,
+  SpendingItem
 } from '../data/ukBudgetData';
 import { IconHelper } from './IconHelper';
 import { TabType } from './Header';
@@ -42,8 +42,8 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
             How the United Kingdom Government Spends & Taxes £1.23 Trillion
           </h2>
           <p className="mt-2 text-sm sm:text-base text-slate-300 leading-relaxed">
-            Every year, HM Treasury collects taxes from 33.6 million workers and businesses to fund 
-            the National Health Service, State Pensions, Defence, Schools, and infrastructure. 
+            Every year, HM Treasury collects taxes from 33.6 million workers and businesses to fund
+            the National Health Service, State Pensions, Defence, Schools, and infrastructure.
             Explore the public balance sheet, simulate budget policies, or see your personal tax contribution.
           </p>
 
@@ -185,14 +185,14 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
             <span>Taxation covers <strong>92.9%</strong> | Borrowing covers <strong>7.1%</strong></span>
           </div>
           <div className="h-9 w-full bg-slate-950 rounded-xl overflow-hidden flex border border-slate-800 p-1 gap-1">
-            <div 
+            <div
               style={{ width: `${(UK_FISCAL_TOTALS.totalReceipts / UK_FISCAL_TOTALS.totalSpending) * 100}%` }}
               className="h-full bg-gradient-to-r from-emerald-600 to-teal-500 rounded-lg flex items-center px-3 text-xs font-bold text-white shadow-inner truncate transition-all duration-300"
               title={`Taxation & Receipts: £${UK_FISCAL_TOTALS.totalReceipts}bn (92.9%)`}
             >
               Taxation & Receipts: £1,139.2bn (92.9%)
             </div>
-            <div 
+            <div
               style={{ width: `${(UK_FISCAL_TOTALS.netBorrowing / UK_FISCAL_TOTALS.totalSpending) * 100}%` }}
               className="h-full bg-rose-600 rounded-lg flex items-center justify-center px-2 text-xs font-bold text-white shadow-inner truncate transition-all duration-300"
               title={`Net Borrowing: £${UK_FISCAL_TOTALS.netBorrowing}bn (7.1%)`}
@@ -215,7 +215,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
                 onClick={() => onSelectSpendingItem(item)}
                 onMouseEnter={() => setHoveredSector(item.id)}
                 onMouseLeave={() => setHoveredSector(null)}
-                style={{ 
+                style={{
                   width: `${item.percentage}%`,
                   backgroundColor: item.color,
                   opacity: hoveredSector && hoveredSector !== item.id ? 0.4 : 1
@@ -239,7 +239,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
                 <span>{item.name.split('(')[0]}: <strong>£{item.amount.toFixed(0)}bn</strong> ({item.percentage}%)</span>
               </button>
             ))}
-            <button 
+            <button
               onClick={() => setActiveTab('spending')}
               className="text-blue-400 hover:text-blue-300 ml-auto font-medium"
             >
@@ -275,7 +275,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
               <div>
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div 
+                    <div
                       className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-inner"
                       style={{ backgroundColor: `${item.color}25`, color: item.color }}
                     >
@@ -326,8 +326,8 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-white">Debt Interest Exceeds Defence & Police Combined</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              At <strong className="text-rose-400">£102.3bn</strong> annually, the UK spends more on servicing sovereign gilts 
-              than the entire defence budget (£54.2bn) and police/justice system (£42.1bn) combined. Around 25% of UK debt is 
+              At <strong className="text-rose-400">£102.3bn</strong> annually, the UK spends more on servicing sovereign gilts
+              than the entire defence budget (£54.2bn) and police/justice system (£42.1bn) combined. Around 25% of UK debt is
               inflation-linked, creating high vulnerability to price rises.
             </p>
           </div>
@@ -341,7 +341,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-white">Direct Taxes Pay For Over Half the State</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Income Tax (<strong className="text-blue-400">£276.4bn</strong>) and National Insurance Contributions (<strong className="text-indigo-400">£168.2bn</strong>) 
+              Income Tax (<strong className="text-blue-400">£276.4bn</strong>) and National Insurance Contributions (<strong className="text-indigo-400">£168.2bn</strong>)
               make up 39.1% of all revenue. The top 10% of income earners contribute over 60% of all UK income tax collected.
             </p>
           </div>
@@ -355,8 +355,8 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-white">The State Pension & Demographic Aging</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              State Pensions cost <strong className="text-emerald-400">£138.2bn</strong> this fiscal year across 12.7 million pensioners. 
-              Under the Triple Lock formula, pensions increase by the highest of average wage growth, CPI inflation, or 2.5%, 
+              State Pensions cost <strong className="text-emerald-400">£138.2bn</strong> this fiscal year across 12.7 million pensioners.
+              Under the Triple Lock formula, pensions increase by the highest of average wage growth, CPI inflation, or 2.5%,
               adding ~£10bn in new baseline spending every 2 years.
             </p>
           </div>
@@ -370,7 +370,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-white">HM Treasury Fiscal Rules & Headroom</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              The Chancellor is legally bound by two primary fiscal targets: balancing day-to-day spending with revenues 
+              The Chancellor is legally bound by two primary fiscal targets: balancing day-to-day spending with revenues
               by the 5th year of the forecast, and ensuring public sector net financial liabilities (PSNFL) are falling as a share of GDP.
             </p>
           </div>
