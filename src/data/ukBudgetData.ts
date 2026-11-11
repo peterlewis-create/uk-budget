@@ -521,6 +521,73 @@ export const UK_HISTORICAL_DATA: HistoricalYearData[] = [
   { year: '2025/26 (OBR Forecast)', spending: 1268.0, receipts: 1195.0, borrowing: 73.0, debtPercentGdp: 97.9, debtAmount: 2795, gdp: 2855, inflation: 2.1, bankRate: 4.0, keyEvent: 'Projected stabilizing of net debt path' }
 ];
 
+export interface YearlySpendingSplit {
+  year: string;
+  welfare: number; // £bn (Social Protection & Pensions)
+  health: number; // £bn (NHS & Social Care)
+  debtInterest: number; // £bn
+  education: number; // £bn
+  defence: number; // £bn
+  otherServices: number; // £bn
+  totalSpending: number; // £bn
+}
+
+export interface YearlyRevenueSplit {
+  year: string;
+  incomeTax: number; // £bn
+  nics: number; // £bn
+  vat: number; // £bn
+  corpTax: number; // £bn
+  otherTaxes: number; // £bn
+  borrowing: number; // £bn
+  totalReceiptsAndBorrowing: number; // £bn
+}
+
+export const YEARLY_SPENDING_SPLITS: YearlySpendingSplit[] = [
+  { year: '2010/11', welfare: 204.2, health: 121.5, debtInterest: 45.3, education: 88.4, defence: 39.8, otherServices: 198.0, totalSpending: 697.2 },
+  { year: '2012/13', welfare: 212.4, health: 125.6, debtInterest: 47.1, education: 85.2, defence: 38.6, otherServices: 200.3, totalSpending: 709.2 },
+  { year: '2014/15', welfare: 218.7, health: 134.1, debtInterest: 45.2, education: 84.1, defence: 37.4, otherServices: 215.8, totalSpending: 735.3 },
+  { year: '2016/17', welfare: 223.5, health: 144.2, debtInterest: 48.0, education: 85.0, defence: 36.3, otherServices: 235.1, totalSpending: 772.1 },
+  { year: '2018/19', welfare: 232.1, health: 153.4, debtInterest: 49.2, education: 87.3, defence: 38.2, otherServices: 264.3, totalSpending: 824.5 },
+  { year: '2019/20', welfare: 240.4, health: 164.8, debtInterest: 48.1, education: 88.5, defence: 39.9, otherServices: 292.4, totalSpending: 874.1 },
+  { year: '2020/21', welfare: 275.4, health: 199.2, debtInterest: 39.8, education: 89.2, defence: 42.4, otherServices: 463.8, totalSpending: 1109.8 }, // COVID Furlough peak
+  { year: '2021/22', welfare: 264.1, health: 198.5, debtInterest: 69.9, education: 88.1, defence: 46.1, otherServices: 378.5, totalSpending: 1045.2 },
+  { year: '2022/23', welfare: 278.4, health: 196.2, debtInterest: 111.8, education: 87.4, defence: 50.8, otherServices: 430.0, totalSpending: 1154.6 }, // Inflation interest spike
+  { year: '2023/24', welfare: 298.5, health: 203.4, debtInterest: 107.5, education: 89.6, defence: 52.3, otherServices: 447.0, totalSpending: 1198.3 },
+  { year: '2024/25', welfare: 316.5, health: 211.4, debtInterest: 102.3, education: 91.8, defence: 54.2, otherServices: 450.2, totalSpending: 1226.4 },
+  { year: '2025/26', welfare: 328.0, health: 220.5, debtInterest: 105.8, education: 95.2, defence: 56.4, otherServices: 462.1, totalSpending: 1268.0 }
+];
+
+export const YEARLY_REVENUE_SPLITS: YearlyRevenueSplit[] = [
+  { year: '2010/11', incomeTax: 153.2, nics: 99.4, vat: 85.3, corpTax: 43.1, otherTaxes: 162.2, borrowing: 154.0, totalReceiptsAndBorrowing: 697.2 },
+  { year: '2012/13', incomeTax: 155.6, nics: 101.5, vat: 101.8, corpTax: 40.5, otherTaxes: 194.0, borrowing: 115.8, totalReceiptsAndBorrowing: 709.2 },
+  { year: '2014/15', incomeTax: 163.1, nics: 107.2, vat: 111.4, corpTax: 43.0, otherTaxes: 219.5, borrowing: 91.1, totalReceiptsAndBorrowing: 735.3 },
+  { year: '2016/17', incomeTax: 175.8, nics: 126.1, vat: 120.3, corpTax: 56.0, otherTaxes: 247.9, borrowing: 46.0, totalReceiptsAndBorrowing: 772.1 },
+  { year: '2018/19', incomeTax: 191.2, nics: 137.5, vat: 132.0, corpTax: 55.1, otherTaxes: 267.7, borrowing: 41.0, totalReceiptsAndBorrowing: 824.5 },
+  { year: '2019/20', incomeTax: 193.4, nics: 142.6, vat: 130.1, corpTax: 49.3, otherTaxes: 300.9, borrowing: 57.8, totalReceiptsAndBorrowing: 874.1 },
+  { year: '2020/21', incomeTax: 196.4, nics: 144.2, vat: 130.5, corpTax: 52.4, otherTaxes: 273.3, borrowing: 313.0, totalReceiptsAndBorrowing: 1109.8 },
+  { year: '2021/22', incomeTax: 228.1, nics: 160.8, vat: 158.4, corpTax: 67.2, otherTaxes: 310.0, borrowing: 120.7, totalReceiptsAndBorrowing: 1045.2 },
+  { year: '2022/23', incomeTax: 251.2, nics: 177.3, vat: 160.0, corpTax: 84.8, otherTaxes: 353.1, borrowing: 128.2, totalReceiptsAndBorrowing: 1154.6 },
+  { year: '2023/24', incomeTax: 268.5, nics: 170.1, vat: 168.0, corpTax: 93.4, otherTaxes: 377.5, borrowing: 120.8, totalReceiptsAndBorrowing: 1198.3 },
+  { year: '2024/25', incomeTax: 276.4, nics: 168.2, vat: 172.5, corpTax: 96.8, otherTaxes: 425.3, borrowing: 87.2, totalReceiptsAndBorrowing: 1226.4 },
+  { year: '2025/26', incomeTax: 295.0, nics: 174.0, vat: 181.5, corpTax: 101.2, otherTaxes: 443.3, borrowing: 73.0, totalReceiptsAndBorrowing: 1268.0 }
+];
+
+// Debt Interest Real-Time Rate Constants
+export const DEBT_INTEREST_METRICS = {
+  annualAmount: 102300000000, // £102.3bn
+  perSecond: 3241.65, // £3,241.65 every second
+  perMinute: 194499.0, // ~£194,500 every minute
+  perHour: 11669940.0, // ~£11.67 Million every hour
+  perDay: 280078576.0, // ~£280.1 Million every day
+  // Comparative benchmarks
+  medianWorkerAnnualSalary: 37500, // Seconds to earn: 11.56 seconds
+  nhsNurseAnnualSalary: 38000, // Seconds to earn: 11.72 seconds
+  nhsHipReplacementCost: 8000, // Seconds to fund: 2.47 seconds
+  newAmbulanceCost: 240000, // Seconds to fund: 74.0 seconds
+  primarySchoolPupilPerYear: 7690, // Seconds to fund: 2.37 seconds
+};
+
 export interface PolicyLever {
   id: string;
   name: string;
@@ -767,3 +834,4 @@ export function calculatePersonalTax(grossIncome: number) {
     taxDistribution
   };
 }
+

@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import { 
   LineChart, 
   TrendingUp, 
-  TrendingDown, 
   Calendar, 
-  Sparkles, 
-  Info,
-  Clock,
-  Landmark,
-  Scale
+  Clock, 
+  BarChart3,
+  Flame,
+  ArrowRight
 } from 'lucide-react';
 import { UK_HISTORICAL_DATA, HistoricalYearData } from '../data/ukBudgetData';
+import { DebtInterestTicker } from './DebtInterestTicker';
+import { YearlySplitGraphs } from './YearlySplitGraphs';
 
 export const HistoricalTab: React.FC = () => {
   const [selectedMetric, setSelectedMetric] = useState<'debt' | 'spending_vs_receipts' | 'borrowing' | 'macro'>('debt');
   const [activeYear, setActiveYear] = useState<HistoricalYearData>(UK_HISTORICAL_DATA[UK_HISTORICAL_DATA.length - 2]); // 2024/25
+  const [showYearlySplits, setShowYearlySplits] = useState(true);
 
   return (
     <div className="space-y-8 animate-fadeIn">
@@ -23,7 +24,7 @@ export const HistoricalTab: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20 mb-2">
             <Calendar className="w-3.5 h-3.5" />
-            Quarter-Century Fiscal History (2000–2026)
+            Quarter-Century Fiscal History & Split Analysis (2000–2026)
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
             How UK Debt & Public Spending Surged from 30% to 98% of GDP
@@ -70,6 +71,9 @@ export const HistoricalTab: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Real-Time Debt Interest Counter Widget */}
+      <DebtInterestTicker variant="compact" />
 
       {/* Interactive Visual SVG Chart */}
       <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
@@ -171,6 +175,11 @@ export const HistoricalTab: React.FC = () => {
             <div>Bank Rate: <strong className="text-slate-200">{activeYear.bankRate}%</strong></div>
           </div>
         </div>
+      </div>
+
+      {/* Embedded Yearly Splits Section */}
+      <div className="pt-4 border-t border-slate-800/80">
+        <YearlySplitGraphs />
       </div>
 
       {/* Historical Milestones Cards */}

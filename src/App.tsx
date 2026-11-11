@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Header, TabType } from './components/Header';
 import { OverviewTab } from './components/OverviewTab';
+import { YearlySplitGraphs } from './components/YearlySplitGraphs';
 import { SpendingTab } from './components/SpendingTab';
 import { RevenueTab } from './components/RevenueTab';
 import { TaxCalculatorTab } from './components/TaxCalculatorTab';
@@ -8,8 +9,8 @@ import { ChancellorSimulatorTab } from './components/ChancellorSimulatorTab';
 import { HistoricalTab } from './components/HistoricalTab';
 import { SpendingDetailModal } from './components/SpendingDetailModal';
 import { AboutModal } from './components/AboutModal';
-import { SpendingItem, UK_FISCAL_TOTALS } from './data/ukBudgetData';
-import { Landmark, Heart, ExternalLink } from 'lucide-react';
+import { SpendingItem } from './data/ukBudgetData';
+import { ExternalLink } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
@@ -22,7 +23,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-blue-600 selection:text-white">
-      {/* Top sticky navigation bar */}
+      {/* Top sticky navigation bar with real-time ticker */}
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -37,6 +38,8 @@ export const App: React.FC = () => {
             onSelectSpendingItem={handleSelectSpendingItem}
           />
         )}
+
+        {activeTab === 'yearly_splits' && <YearlySplitGraphs />}
 
         {activeTab === 'spending' && (
           <SpendingTab

@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
 import { 
-  TrendingUp, 
-  TrendingDown, 
-  Landmark, 
   ArrowUpRight, 
   ArrowDownRight, 
   Sparkles, 
   Scale, 
-  AlertCircle,
-  HelpCircle,
-  CheckCircle,
-  ArrowRight
+  AlertCircle, 
+  CheckCircle, 
+  ArrowRight,
+  TrendingDown,
+  Landmark,
+  BarChart3
 } from 'lucide-react';
 import { 
   UK_FISCAL_TOTALS, 
   UK_SPENDING_DATA, 
-  UK_REVENUE_DATA, 
   SpendingItem 
 } from '../data/ukBudgetData';
 import { IconHelper } from './IconHelper';
 import { TabType } from './Header';
+import { DebtInterestTicker } from './DebtInterestTicker';
 
 interface OverviewTabProps {
   setActiveTab: (tab: TabType) => void;
@@ -50,8 +49,15 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
 
           <div className="mt-5 flex flex-wrap gap-3">
             <button
-              onClick={() => setActiveTab('calculator')}
+              onClick={() => setActiveTab('yearly_splits')}
               className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs sm:text-sm transition-all shadow-md shadow-blue-600/30 flex items-center gap-2"
+            >
+              <BarChart3 className="w-4 h-4" />
+              <span>Yearly Split Graphs (2010–2026)</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('calculator')}
+              className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs sm:text-sm border border-slate-700 transition-all flex items-center gap-2"
             >
               <span>Calculate My Tax Receipt</span>
               <ArrowRight className="w-4 h-4" />
@@ -66,6 +72,9 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           </div>
         </div>
       </div>
+
+      {/* Real-Time Debt Interest Live Ticker Widget */}
+      <DebtInterestTicker variant="full" />
 
       {/* Top 4 Key KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

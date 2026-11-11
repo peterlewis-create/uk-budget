@@ -64,3 +64,4 @@ export const IconHelper: React.FC<IconHelperProps> = ({ name, ...props }) => {
     default: return <Coins {...props} />;
   }
 };
+

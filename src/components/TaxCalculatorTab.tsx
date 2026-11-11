@@ -275,3 +275,4 @@ export const TaxCalculatorTab: React.FC = () => {
     </div>
   );
 };
+

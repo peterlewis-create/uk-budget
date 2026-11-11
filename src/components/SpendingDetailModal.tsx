@@ -145,3 +145,4 @@ export const SpendingDetailModal: React.FC<SpendingDetailModalProps> = ({ item, 
     </div>
   );
 };
+

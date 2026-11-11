@@ -318,3 +318,4 @@ export const SpendingTab: React.FC<SpendingTabProps> = ({ selectedItem, setSelec
     </div>
   );
 };
+

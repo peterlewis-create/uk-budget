@@ -296,3 +296,4 @@ export const ChancellorSimulatorTab: React.FC = () => {
     </div>
   );
 };
+

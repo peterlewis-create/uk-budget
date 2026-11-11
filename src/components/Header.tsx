@@ -7,11 +7,13 @@ import {
   LineChart, 
   Coins, 
   HelpCircle,
-  ExternalLink
+  ExternalLink,
+  BarChart3
 } from 'lucide-react';
 import { UK_FISCAL_TOTALS } from '../data/ukBudgetData';
+import { DebtInterestTicker } from './DebtInterestTicker';
 
-export type TabType = 'overview' | 'spending' | 'revenue' | 'calculator' | 'simulator' | 'historical';
+export type TabType = 'overview' | 'yearly_splits' | 'spending' | 'revenue' | 'calculator' | 'simulator' | 'historical';
 
 interface HeaderProps {
   activeTab: TabType;
@@ -22,6 +24,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenAbout }) => {
   const tabs = [
     { id: 'overview', label: 'Overview & Flow', icon: Landmark, badge: 'Summary' },
+    { id: 'yearly_splits', label: 'Yearly Splits', icon: BarChart3, badge: 'Graphs' },
     { id: 'spending', label: 'Public Spending', icon: PieChart, badge: '£1.23T' },
     { id: 'revenue', label: 'Tax Receipts', icon: Coins, badge: '£1.14T' },
     { id: 'calculator', label: 'Where My Tax Goes', icon: Receipt, badge: 'Personal' },
@@ -31,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
 
   return (
     <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-xl">
-      {/* Top micro bar with official data notice */}
+      {/* Top micro bar with official data notice & LIVE TICKER */}
       <div className="bg-slate-950 px-4 py-1.5 border-b border-slate-800/60 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-3">
           <span className="inline-flex items-center gap-1.5 font-medium text-amber-400">
@@ -42,14 +45,12 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
           <span className="hidden sm:inline">Total Public Expenditure: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn</strong></span>
           <span className="hidden md:inline text-slate-600">|</span>
           <span className="hidden md:inline">Receipts: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn</strong></span>
-          <span className="hidden md:inline text-slate-600">|</span>
-          <span className="hidden md:inline">Net Borrowing: <strong className="text-rose-400">£{UK_FISCAL_TOTALS.netBorrowing.toFixed(1)}bn ({UK_FISCAL_TOTALS.borrowingPercentGdp}% GDP)</strong></span>
         </div>
 
-        <div className="flex items-center gap-4 text-xs">
-          <span className="text-slate-400">
-            National Debt: <strong className="text-amber-300">£{UK_FISCAL_TOTALS.netDebt.toFixed(0)}bn ({UK_FISCAL_TOTALS.debtPercentGdp}% GDP)</strong>
-          </span>
+        {/* Live Debt Interest Mini Ticker in Header */}
+        <div className="flex items-center gap-3 text-xs">
+          <DebtInterestTicker variant="mini" />
+          <span className="hidden sm:inline text-slate-600">|</span>
           <button 
             onClick={onOpenAbout}
             className="text-slate-400 hover:text-slate-200 flex items-center gap-1 transition-colors"
@@ -100,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
           </div>
         </div>
 
-        {/* Tab Navigation Navigation Bar */}
+        {/* Tab Navigation Bar */}
         <nav className="flex space-x-1 overflow-x-auto pb-2 scrollbar-none border-t border-slate-800/80 pt-2">
           {tabs.map((tab) => {
             const Icon = tab.icon;
