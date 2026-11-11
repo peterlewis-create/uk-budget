@@ -276,3 +276,4 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
     </div>
   );
 };
+

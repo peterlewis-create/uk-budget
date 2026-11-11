@@ -8,12 +8,13 @@ import {
   Coins, 
   HelpCircle,
   ExternalLink,
-  BarChart3
+  BarChart3,
+  Globe2
 } from 'lucide-react';
 import { UK_FISCAL_TOTALS } from '../data/ukBudgetData';
 import { DebtInterestTicker } from './DebtInterestTicker';
 
-export type TabType = 'overview' | 'yearly_splits' | 'spending' | 'revenue' | 'calculator' | 'simulator' | 'historical';
+export type TabType = 'overview' | 'yearly_splits' | 'g20' | 'spending' | 'revenue' | 'calculator' | 'simulator' | 'historical';
 
 interface HeaderProps {
   activeTab: TabType;
@@ -24,7 +25,8 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenAbout }) => {
   const tabs = [
     { id: 'overview', label: 'Overview & Flow', icon: Landmark, badge: 'Summary' },
-    { id: 'yearly_splits', label: 'Yearly Splits', icon: BarChart3, badge: 'Graphs' },
+    { id: 'yearly_splits', label: 'Yearly Splits', icon: BarChart3, badge: 'Interactive' },
+    { id: 'g20', label: 'G20 Comparison', icon: Globe2, badge: '44.3% GDP' },
     { id: 'spending', label: 'Public Spending', icon: PieChart, badge: '£1.23T' },
     { id: 'revenue', label: 'Tax Receipts', icon: Coins, badge: '£1.14T' },
     { id: 'calculator', label: 'Where My Tax Goes', icon: Receipt, badge: 'Personal' },
@@ -42,7 +44,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
             HM Treasury & OBR 2024/25 Dataset
           </span>
           <span className="hidden sm:inline text-slate-600">|</span>
-          <span className="hidden sm:inline">Total Public Expenditure: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn</strong></span>
+          <span className="hidden sm:inline">Total Public Expenditure: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn (44.3% GDP)</strong></span>
           <span className="hidden md:inline text-slate-600">|</span>
           <span className="hidden md:inline">Receipts: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn</strong></span>
         </div>

@@ -49,6 +49,13 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
 
           <div className="mt-5 flex flex-wrap gap-3">
             <button
+              onClick={() => setActiveTab('g20')}
+              className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs sm:text-sm transition-all shadow-md shadow-indigo-600/30 flex items-center gap-2"
+            >
+              <span>🇬🇧 G20 Spending Comparison (44.3% GDP)</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button
               onClick={() => setActiveTab('yearly_splits')}
               className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs sm:text-sm transition-all shadow-md shadow-blue-600/30 flex items-center gap-2"
             >
@@ -60,14 +67,6 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
               className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs sm:text-sm border border-slate-700 transition-all flex items-center gap-2"
             >
               <span>Calculate My Tax Receipt</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setActiveTab('simulator')}
-              className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs sm:text-sm border border-slate-700 transition-all flex items-center gap-2"
-            >
-              <span>Chancellor Simulator</span>
-              <Scale className="w-4 h-4 text-amber-400" />
             </button>
           </div>
         </div>
@@ -89,8 +88,10 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <div className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
             £{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn
           </div>
-          <div className="mt-2 flex items-center gap-2 text-xs text-slate-400">
-            <span className="font-semibold text-blue-400">£17,980</span> per UK resident
+          <div className="mt-2 flex items-center justify-between text-xs text-slate-400">
+            <span><strong className="text-blue-400">44.3%</strong> of UK GDP</span>
+            <span className="text-slate-500">•</span>
+            <span><strong className="text-slate-200">£17,980</strong> / resident</span>
           </div>
           <div className="mt-2 text-[11px] text-slate-500 leading-tight">
             Total Managed Expenditure (TME) including public services & capital investments.

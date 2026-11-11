@@ -9,13 +9,18 @@ import {
   Calendar,
   Sparkles,
   ArrowRight,
-  Info
+  Info,
+  Maximize2,
+  X,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { 
   YEARLY_SPENDING_SPLITS, 
   YEARLY_REVENUE_SPLITS, 
   YearlySpendingSplit, 
-  YearlyRevenueSplit 
+  YearlyRevenueSplit,
+  UK_FISCAL_TOTALS
 } from '../data/ukBudgetData';
 
 export const YearlySplitGraphs: React.FC = () => {
@@ -24,26 +29,29 @@ export const YearlySplitGraphs: React.FC = () => {
   const [selectedYearIndex, setSelectedYearIndex] = useState<number>(YEARLY_SPENDING_SPLITS.length - 2); // default 2024/25
   const [highlightCategory, setHighlightCategory] = useState<string | null>(null);
 
+  // Enlarged Graph Modal state
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   // Compare mode
   const [compareYearIndex1, setCompareYearIndex1] = useState<number>(0); // 2010/11
   const [compareYearIndex2, setCompareYearIndex2] = useState<number>(YEARLY_SPENDING_SPLITS.length - 2); // 2024/25
 
   const spendingCategories = [
-    { key: 'welfare', label: 'Welfare & Pensions', color: '#3b82f6' },
-    { key: 'health', label: 'Health & NHS', color: '#06b6d4' },
-    { key: 'debtInterest', label: 'Debt Interest', color: '#ef4444' },
-    { key: 'education', label: 'Education & Skills', color: '#8b5cf6' },
-    { key: 'defence', label: 'Defence & Security', color: '#10b981' },
-    { key: 'otherServices', label: 'Other Services & Capital', color: '#64748b' },
+    { key: 'welfare', label: 'Welfare & Pensions', color: '#3b82f6', desc: 'State Pension, Universal Credit, disability living benefits' },
+    { key: 'health', label: 'Health & NHS', color: '#06b6d4', desc: 'NHS hospitals, GPs, medicines, and adult social care support' },
+    { key: 'debtInterest', label: 'Debt Interest', color: '#ef4444', desc: 'Sovereign gilt coupons and inflation-linked index payments' },
+    { key: 'education', label: 'Education & Skills', color: '#8b5cf6', desc: 'Primary & secondary schools, colleges, student support' },
+    { key: 'defence', label: 'Defence & Security', color: '#10b981', desc: 'Royal Navy, Army, RAF, nuclear deterrent, procurement' },
+    { key: 'otherServices', label: 'Other Services & Capital', color: '#64748b', desc: 'Transport, police, housing, science, international aid' },
   ];
 
   const revenueCategories = [
-    { key: 'incomeTax', label: 'Income Tax', color: '#3b82f6' },
-    { key: 'nics', label: 'National Insurance', color: '#6366f1' },
-    { key: 'vat', label: 'VAT (Consumption)', color: '#06b6d4' },
-    { key: 'corpTax', label: 'Corporation Tax', color: '#8b5cf6' },
-    { key: 'otherTaxes', label: 'Other Taxes & Levies', color: '#10b981' },
-    { key: 'borrowing', label: 'Borrowing (Deficit)', color: '#ef4444' },
+    { key: 'incomeTax', label: 'Income Tax', color: '#3b82f6', desc: 'Direct taxation on personal employment earnings and pensions' },
+    { key: 'nics', label: 'National Insurance', color: '#6366f1', desc: 'Employee and employer contributions for NHS & state pension fund' },
+    { key: 'vat', label: 'VAT (Consumption)', color: '#06b6d4', desc: '20% consumption sales tax on goods and services' },
+    { key: 'corpTax', label: 'Corporation Tax', color: '#8b5cf6', desc: '25% tax on taxable company profits' },
+    { key: 'otherTaxes', label: 'Other Taxes & Levies', color: '#10b981', desc: 'Council tax, business rates, fuel duty, CGT, stamp duty' },
+    { key: 'borrowing', label: 'Borrowing (Deficit)', color: '#ef4444', desc: 'Shortfall funded by issuing new sovereign HM Treasury gilts' },
   ];
 
   const currentSpendingYear = YEARLY_SPENDING_SPLITS[selectedYearIndex];
@@ -51,6 +59,29 @@ export const YearlySplitGraphs: React.FC = () => {
 
   const year1Spending = YEARLY_SPENDING_SPLITS[compareYearIndex1];
   const year2Spending = YEARLY_SPENDING_SPLITS[compareYearIndex2];
+
+  const activeCategories = splitMode === 'spending' ? spendingCategories : revenueCategories;
+  const activeYearData = splitMode === 'spending' ? currentSpendingYear : currentRevenueYear;
+  const activeTotal = splitMode === 'spending' 
+    ? currentSpendingYear.totalSpending 
+    : currentRevenueYear.totalReceiptsAndBorrowing;
+
+  const handleBarClick = (index: number) => {
+    setSelectedYearIndex(index);
+    setIsModalOpen(true);
+  };
+
+  const handlePrevYear = () => {
+    if (selectedYearIndex > 0) {
+      setSelectedYearIndex(selectedYearIndex - 1);
+    }
+  };
+
+  const handleNextYear = () => {
+    if (selectedYearIndex < YEARLY_SPENDING_SPLITS.length - 1) {
+      setSelectedYearIndex(selectedYearIndex + 1);
+    }
+  };
 
   return (
     <div className="space-y-8 animate-fadeIn">
@@ -65,8 +96,8 @@ export const YearlySplitGraphs: React.FC = () => {
             UK Budget Split Per Year: Spending & Revenue Over Time
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-            Analyze how the composition of British public expenditure and taxation has shifted over 15 years, 
-            revealing the explosive growth in healthcare, state pensions, and debt servicing.
+            Analyze how the composition of British public expenditure and taxation has shifted over 15 years.
+            Click any bar to <strong>enlarge the graph</strong> and inspect an itemized breakdown with figures and percentages.
           </p>
         </div>
 
@@ -128,18 +159,27 @@ export const YearlySplitGraphs: React.FC = () => {
                 : `UK Receipts & Borrowing Split per Year (${displayFormat === 'absolute' ? '£ Billions' : 'Percentage Share %'})`}
             </h3>
             <p className="text-xs text-slate-400">
-              Click any column to view the detailed table below. Click legend items to highlight specific categories.
+              Click any bar to enlarge graph with detailed figures & percentages.
             </p>
           </div>
 
-          <div className="text-xs text-slate-400">
-            Selected Year: <strong className="text-white font-mono">{splitMode === 'spending' ? currentSpendingYear.year : currentRevenueYear.year}</strong>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-slate-400">
+              Selected: <strong className="text-white font-mono">{activeYearData.year}</strong>
+            </span>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="px-2.5 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 text-xs font-semibold border border-blue-500/30 transition-colors flex items-center gap-1.5"
+            >
+              <Maximize2 className="w-3.5 h-3.5" />
+              <span>Enlarge Graph</span>
+            </button>
           </div>
         </div>
 
         {/* Legend Row */}
         <div className="flex flex-wrap items-center gap-3 text-xs">
-          {(splitMode === 'spending' ? spendingCategories : revenueCategories).map((cat) => {
+          {activeCategories.map((cat) => {
             const isHighlighted = highlightCategory === cat.key;
             return (
               <button
@@ -175,7 +215,6 @@ export const YearlySplitGraphs: React.FC = () => {
                 ? (item as YearlySpendingSplit).totalSpending 
                 : (item as YearlyRevenueSplit).totalReceiptsAndBorrowing;
 
-              // Normalized bar height: if percentage format, total height is always 100%. If absolute, scaled against max ~£1,300bn.
               const barTotalHeightPercent = displayFormat === 'percentage' 
                 ? 100 
                 : (total / 1350) * 100;
@@ -183,22 +222,24 @@ export const YearlySplitGraphs: React.FC = () => {
               return (
                 <div
                   key={item.year}
-                  onClick={() => setSelectedYearIndex(index)}
+                  onClick={() => handleBarClick(index)}
                   className="flex-1 flex flex-col items-center h-full justify-end group cursor-pointer relative"
+                  title="Click to enlarge graph & view breakdown"
                 >
                   {/* Floating tooltip */}
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-10 bg-slate-800 text-[11px] text-white px-2.5 py-1.5 rounded-lg shadow-xl whitespace-nowrap z-20 pointer-events-none border border-slate-700 font-mono">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-12 bg-slate-800 text-[11px] text-white px-2.5 py-1.5 rounded-lg shadow-xl whitespace-nowrap z-20 pointer-events-none border border-slate-700 font-mono text-center">
                     <strong className="text-blue-300">{item.year}</strong>: £{total.toFixed(1)}bn
+                    <div className="text-[9px] text-amber-400 font-sans">Click to enlarge 🔍</div>
                   </div>
 
                   {/* Stacked container */}
                   <div
                     style={{ height: `${barTotalHeightPercent}%` }}
                     className={`w-full flex flex-col-reverse rounded-t overflow-hidden transition-all duration-300 ${
-                      isSelected ? 'ring-2 ring-white brightness-110 shadow-lg' : 'hover:brightness-110 opacity-90'
+                      isSelected ? 'ring-2 ring-white brightness-125 shadow-lg' : 'hover:brightness-110 opacity-90'
                     }`}
                   >
-                    {(splitMode === 'spending' ? spendingCategories : revenueCategories).map((cat) => {
+                    {activeCategories.map((cat) => {
                       const amount = (item as any)[cat.key] as number;
                       const segmentHeight = (amount / total) * 100;
                       const isCatDimmed = highlightCategory && highlightCategory !== cat.key;
@@ -228,29 +269,31 @@ export const YearlySplitGraphs: React.FC = () => {
           </div>
         </div>
 
-        {/* Selected Year Detailed Split Table */}
+        {/* Selected Year Detailed Split Summary */}
         <div className="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
             <div>
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-amber-400" />
-                <span>Exact Yearly Split for Fiscal Year: <strong>{splitMode === 'spending' ? currentSpendingYear.year : currentRevenueYear.year}</strong></span>
+                <span>Exact Yearly Split for Fiscal Year: <strong>{activeYearData.year}</strong></span>
               </h4>
               <span className="text-xs text-slate-400">
-                Total: <strong className="text-white font-mono">£{(splitMode === 'spending' ? currentSpendingYear.totalSpending : currentRevenueYear.totalReceiptsAndBorrowing).toFixed(1)}bn</strong>
+                Total: <strong className="text-white font-mono">£{activeTotal.toFixed(1)}bn</strong>
               </span>
             </div>
-            <span className="text-xs text-slate-500">
-              Click any other year column on the graph to inspect
-            </span>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="text-xs text-blue-400 hover:text-blue-300 font-medium flex items-center gap-1 self-start sm:self-auto"
+            >
+              <span>View Enlarged Modal with Percentages</span>
+              <Maximize2 className="w-3.5 h-3.5" />
+            </button>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            {(splitMode === 'spending' ? spendingCategories : revenueCategories).map((cat) => {
-              const currentItem = splitMode === 'spending' ? currentSpendingYear : currentRevenueYear;
-              const amount = (currentItem as any)[cat.key] as number;
-              const total = splitMode === 'spending' ? currentSpendingYear.totalSpending : currentRevenueYear.totalReceiptsAndBorrowing;
-              const percentage = (amount / total) * 100;
+            {activeCategories.map((cat) => {
+              const amount = (activeYearData as any)[cat.key] as number;
+              const percentage = (amount / activeTotal) * 100;
 
               return (
                 <div
@@ -362,17 +405,176 @@ export const YearlySplitGraphs: React.FC = () => {
             </tbody>
           </table>
         </div>
-
-        {/* Commentary */}
-        <div className="p-4 rounded-xl bg-blue-950/20 border border-blue-900/40 text-xs text-slate-300 space-y-1.5">
-          <span className="font-bold text-blue-300 block">Key Takeaway from 15-Year Fiscal Shift:</span>
-          <p className="leading-relaxed">
-            Between 2010 and 2024, <strong className="text-white">Public Debt Interest</strong> surged by over <strong className="text-red-400">+125%</strong> (from £45.3bn to £102.3bn), 
-            and <strong className="text-white">Health & Social Care</strong> surged by <strong className="text-cyan-400">+74%</strong> (from £121.5bn to £211.4bn). 
-            In contrast, discretionary areas like Education (+3.8%) and Defence (+36%) experienced much slower growth or real-terms freezes.
-          </p>
-        </div>
       </div>
+
+      {/* ENLARGED GRAPH MODAL (Triggered when user clicks ANY bar) */}
+      {isModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div 
+            className="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] animate-scaleUp"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header with Navigation */}
+            <div className="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-950/70">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                  <BarChart3 className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-white">
+                      Enlarged Fiscal Year Breakdown: {activeYearData.year}
+                    </h3>
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                      {splitMode === 'spending' ? 'Public Spending' : 'Revenue & Borrowing'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Total {splitMode === 'spending' ? 'Expenditure' : 'Receipts & Borrowing'}: <strong className="text-white font-mono">£{activeTotal.toFixed(1)}bn</strong>
+                  </p>
+                </div>
+              </div>
+
+              {/* Prev / Next Year & Close */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handlePrevYear}
+                  disabled={selectedYearIndex === 0}
+                  className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition-colors"
+                  title="Previous Year"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={handleNextYear}
+                  disabled={selectedYearIndex === YEARLY_SPENDING_SPLITS.length - 1}
+                  className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition-colors"
+                  title="Next Year"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors ml-2"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 overflow-y-auto space-y-6">
+              {/* Giant Segmented Proportion Bar */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-semibold text-slate-300">
+                  <span>Proportional Stacked Composition</span>
+                  <span className="text-slate-400">100% of Total Budget</span>
+                </div>
+                <div className="h-10 w-full bg-slate-950 rounded-xl overflow-hidden flex border border-slate-800 p-1 gap-1 shadow-inner">
+                  {activeCategories.map((cat) => {
+                    const amount = (activeYearData as any)[cat.key] as number;
+                    const pct = (amount / activeTotal) * 100;
+                    return (
+                      <div
+                        key={cat.key}
+                        style={{ width: `${pct}%`, backgroundColor: cat.color }}
+                        className="h-full rounded-lg flex items-center justify-center text-[11px] font-bold text-white shadow-sm truncate transition-all duration-300 px-1 hover:brightness-110"
+                        title={`${cat.label}: £${amount.toFixed(1)}bn (${pct.toFixed(1)}%)`}
+                      >
+                        {pct > 8 ? `${pct.toFixed(0)}%` : ''}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Comprehensive Breakdown Cards with Figures and Percentages */}
+              <div className="space-y-3">
+                <h4 className="text-xs uppercase font-bold tracking-wider text-slate-400">
+                  Itemized Component Breakdown (Figures & Percentages)
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {activeCategories.map((cat) => {
+                    const amount = (activeYearData as any)[cat.key] as number;
+                    const percentage = (amount / activeTotal) * 100;
+                    const perCapita = (amount * 1000000000) / (UK_FISCAL_TOTALS.population * 1000000);
+
+                    return (
+                      <div
+                        key={cat.key}
+                        className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between space-y-2"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center gap-2.5">
+                            <span className="w-3.5 h-3.5 rounded-md shrink-0 shadow-sm" style={{ backgroundColor: cat.color }}></span>
+                            <div>
+                              <span className="text-xs font-bold text-white block">{cat.label}</span>
+                              <span className="text-[11px] text-slate-400">{cat.desc}</span>
+                            </div>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <div className="text-lg font-black text-white font-mono">
+                              £{amount.toFixed(1)}bn
+                            </div>
+                            <div className="text-xs font-bold" style={{ color: cat.color }}>
+                              {percentage.toFixed(1)}% of total
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Mini Progress Bar & Per Capita */}
+                        <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+                          <div className="flex-1 mr-3 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div
+                              className="h-full rounded-full"
+                              style={{ width: `${percentage}%`, backgroundColor: cat.color }}
+                            />
+                          </div>
+                          <span className="font-mono text-slate-300">
+                            ~£{Math.round(perCapita).toLocaleString()} / person
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Historical Context Callout for this Year */}
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 text-xs text-slate-300 flex items-center justify-between gap-4">
+                <div>
+                  <span className="font-bold text-white block">UK Fiscal Context:</span>
+                  <span className="text-slate-400">
+                    In {activeYearData.year}, total public finance commitments stood at £{activeTotal.toFixed(1)}bn. 
+                    {splitMode === 'spending' && activeYearData.year.includes('2020/21') && ' Marked the historic COVID-19 pandemic surge with £313bn emergency borrowing.'}
+                    {splitMode === 'spending' && activeYearData.year.includes('2022/23') && ' Marked peak 40-year inflation spike driving debt interest payments to record £111.8bn.'}
+                  </span>
+                </div>
+                <div className="text-right shrink-0">
+                  <span className="text-[10px] text-slate-500 uppercase block">Share of GDP</span>
+                  <span className="text-base font-bold text-blue-400 font-mono">~44.3%</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-slate-800 bg-slate-950/70 flex justify-between items-center">
+              <span className="text-xs text-slate-500">
+                Tip: Use ← and → arrow buttons to switch years seamlessly.
+              </span>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition-colors"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

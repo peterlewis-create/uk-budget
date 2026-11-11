@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Header, TabType } from './components/Header';
 import { OverviewTab } from './components/OverviewTab';
 import { YearlySplitGraphs } from './components/YearlySplitGraphs';
+import { G20ComparisonTab } from './components/G20ComparisonTab';
 import { SpendingTab } from './components/SpendingTab';
 import { RevenueTab } from './components/RevenueTab';
 import { TaxCalculatorTab } from './components/TaxCalculatorTab';
@@ -40,6 +41,8 @@ export const App: React.FC = () => {
         )}
 
         {activeTab === 'yearly_splits' && <YearlySplitGraphs />}
+
+        {activeTab === 'g20' && <G20ComparisonTab />}
 
         {activeTab === 'spending' && (
           <SpendingTab

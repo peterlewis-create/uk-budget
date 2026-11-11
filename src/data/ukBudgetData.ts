@@ -588,6 +588,251 @@ export const DEBT_INTEREST_METRICS = {
   primarySchoolPupilPerYear: 7690, // Seconds to fund: 2.37 seconds
 };
 
+export interface G20CountryFiscalData {
+  code: string;
+  country: string;
+  flag: string;
+  spendingPercentGdp: number; // General government total expenditure % of GDP
+  revenuePercentGdp: number;  // General government total revenue % of GDP
+  deficitPercentGdp: number;  // Net lending/borrowing % of GDP (negative = deficit)
+  debtPercentGdp: number;     // Gross government debt % of GDP
+  isG7: boolean;
+  region: 'Europe' | 'Americas' | 'Asia-Pacific' | 'Middle East & Africa';
+  spendingPerCapitaGbp: number; // Approximate GBP per capita
+  description: string;
+}
+
+export const G20_FISCAL_DATA: G20CountryFiscalData[] = [
+  {
+    code: 'FRA',
+    country: 'France',
+    flag: '🇫🇷',
+    spendingPercentGdp: 58.3,
+    revenuePercentGdp: 52.8,
+    deficitPercentGdp: -5.5,
+    debtPercentGdp: 110.6,
+    isG7: true,
+    region: 'Europe',
+    spendingPerCapitaGbp: 21450,
+    description: 'Highest public expenditure in the G20, driven by extensive universal state pensions, early retirement schemes, and municipal healthcare.'
+  },
+  {
+    code: 'ITA',
+    country: 'Italy',
+    flag: '🇮🇹',
+    spendingPercentGdp: 55.8,
+    revenuePercentGdp: 48.4,
+    deficitPercentGdp: -7.4,
+    debtPercentGdp: 137.3,
+    isG7: true,
+    region: 'Europe',
+    spendingPerCapitaGbp: 18200,
+    description: 'High aging demographics place significant burden on state pension obligations alongside substantial legacy debt interest costs.'
+  },
+  {
+    code: 'DEU',
+    country: 'Germany',
+    flag: '🇩🇪',
+    spendingPercentGdp: 48.6,
+    revenuePercentGdp: 46.1,
+    deficitPercentGdp: -2.5,
+    debtPercentGdp: 63.7,
+    isG7: true,
+    region: 'Europe',
+    spendingPerCapitaGbp: 22100,
+    description: 'Constitutional "Schuldenbremse" (debt brake) legally caps federal borrowing, maintaining the lowest debt-to-GDP in the G7.'
+  },
+  {
+    code: 'CAN',
+    country: 'Canada',
+    flag: '🇨🇦',
+    spendingPercentGdp: 46.5,
+    revenuePercentGdp: 44.2,
+    deficitPercentGdp: -2.3,
+    debtPercentGdp: 104.7,
+    isG7: true,
+    region: 'Americas',
+    spendingPerCapitaGbp: 19800,
+    description: 'Decentralized federalism where provincial governments manage single-payer healthcare (Medicare) and post-secondary education.'
+  },
+  {
+    code: 'GBR',
+    country: 'United Kingdom',
+    flag: '🇬🇧',
+    spendingPercentGdp: 44.3,
+    revenuePercentGdp: 41.2,
+    deficitPercentGdp: -3.1,
+    debtPercentGdp: 98.4,
+    isG7: true,
+    region: 'Europe',
+    spendingPerCapitaGbp: 17980,
+    description: 'Total Managed Expenditure of £1.23T represents 44.3% of GDP, placing the UK mid-table among G7 peers, below France & Germany but above the US.'
+  },
+  {
+    code: 'JPN',
+    country: 'Japan',
+    flag: '🇯🇵',
+    spendingPercentGdp: 43.8,
+    revenuePercentGdp: 37.9,
+    deficitPercentGdp: -5.9,
+    debtPercentGdp: 254.6,
+    isG7: true,
+    region: 'Asia-Pacific',
+    spendingPerCapitaGbp: 14600,
+    description: 'World’s highest sovereign debt ratio at 254% of GDP, anchored by ultra-low Bank of Japan bond yield yield curve control and domestic savings.'
+  },
+  {
+    code: 'ESP',
+    country: 'Spain (G20 Guest)',
+    flag: '🇪🇸',
+    spendingPercentGdp: 46.4,
+    revenuePercentGdp: 42.8,
+    deficitPercentGdp: -3.6,
+    debtPercentGdp: 105.1,
+    isG7: false,
+    region: 'Europe',
+    spendingPerCapitaGbp: 14200,
+    description: 'Extensive regional autonomy with high decentralized spending on health and regional infrastructure across 17 autonomous communities.'
+  },
+  {
+    code: 'BRA',
+    country: 'Brazil',
+    flag: '🇧🇷',
+    spendingPercentGdp: 39.4,
+    revenuePercentGdp: 31.8,
+    deficitPercentGdp: -7.6,
+    debtPercentGdp: 88.6,
+    isG7: false,
+    region: 'Americas',
+    spendingPerCapitaGbp: 3850,
+    description: 'Highest public expenditure ratio in Latin America, driven by constitutional welfare entitlements (Bolsa Família) and social security.'
+  },
+  {
+    code: 'USA',
+    country: 'United States',
+    flag: '🇺🇸',
+    spendingPercentGdp: 37.5,
+    revenuePercentGdp: 31.2,
+    deficitPercentGdp: -6.3,
+    debtPercentGdp: 122.3,
+    isG7: true,
+    region: 'Americas',
+    spendingPerCapitaGbp: 24800,
+    description: 'Large defense budget, Social Security, and Medicare combined with structurally wide primary deficits (~6% of GDP) financed as world reserve currency.'
+  },
+  {
+    code: 'AUS',
+    country: 'Australia',
+    flag: '🇦🇺',
+    spendingPercentGdp: 36.8,
+    revenuePercentGdp: 36.3,
+    deficitPercentGdp: -0.5,
+    debtPercentGdp: 50.1,
+    isG7: false,
+    region: 'Asia-Pacific',
+    spendingPerCapitaGbp: 18900,
+    description: 'Strong commodity export revenues (iron ore, LNG) and mineral royalties support near-balanced federal budget surpluses.'
+  },
+  {
+    code: 'ZAF',
+    country: 'South Africa',
+    flag: '🇿🇦',
+    spendingPercentGdp: 34.2,
+    revenuePercentGdp: 28.5,
+    deficitPercentGdp: -5.7,
+    debtPercentGdp: 74.1,
+    isG7: false,
+    region: 'Middle East & Africa',
+    spendingPerCapitaGbp: 2200,
+    description: 'Extensive social welfare grant coverage (supporting over 28 million recipients) alongside major sovereign bailouts for state utilities (Eskom).'
+  },
+  {
+    code: 'CHN',
+    country: 'China',
+    flag: '🇨🇳',
+    spendingPercentGdp: 33.8,
+    revenuePercentGdp: 26.4,
+    deficitPercentGdp: -7.4,
+    debtPercentGdp: 83.6,
+    isG7: false,
+    region: 'Asia-Pacific',
+    spendingPerCapitaGbp: 3950,
+    description: 'Official budget is complemented by substantial local government financing vehicle (LGFV) off-budget bond issuances for infrastructure.'
+  },
+  {
+    code: 'SAU',
+    country: 'Saudi Arabia',
+    flag: '🇸🇦',
+    spendingPercentGdp: 32.4,
+    revenuePercentGdp: 30.1,
+    deficitPercentGdp: -2.3,
+    debtPercentGdp: 26.2,
+    isG7: false,
+    region: 'Middle East & Africa',
+    spendingPerCapitaGbp: 9400,
+    description: 'Financed predominantly by oil dividends and Aramco royalty taxes, funding massive Vision 2030 gigaproject capital transformations.'
+  },
+  {
+    code: 'KOR',
+    country: 'South Korea',
+    flag: '🇰🇷',
+    spendingPercentGdp: 30.2,
+    revenuePercentGdp: 28.1,
+    deficitPercentGdp: -2.1,
+    debtPercentGdp: 53.8,
+    isG7: false,
+    region: 'Asia-Pacific',
+    spendingPerCapitaGbp: 9800,
+    description: 'Lean state expenditure with conservative fiscal limits, though facing rapid expansion in healthcare needs due to super-aging population.'
+  },
+  {
+    code: 'MEX',
+    country: 'Mexico',
+    flag: '🇲🇽',
+    spendingPercentGdp: 30.1,
+    revenuePercentGdp: 24.2,
+    deficitPercentGdp: -5.9,
+    debtPercentGdp: 50.2,
+    isG7: false,
+    region: 'Americas',
+    spendingPerCapitaGbp: 3200,
+    description: 'Low tax-to-GDP ratio due to large informal labor sector, with recent increases in welfare stipends and infrastructure projects.'
+  },
+  {
+    code: 'IND',
+    country: 'India',
+    flag: '🇮🇳',
+    spendingPercentGdp: 28.6,
+    revenuePercentGdp: 19.9,
+    deficitPercentGdp: -8.7,
+    debtPercentGdp: 82.5,
+    isG7: false,
+    region: 'Asia-Pacific',
+    spendingPerCapitaGbp: 680,
+    description: 'Rapidly industrializing economy directing capital expenditure toward highway corridors, railway modernizations, and digital identity subsidies.'
+  },
+  {
+    code: 'IDN',
+    country: 'Indonesia',
+    flag: '🇮🇩',
+    spendingPercentGdp: 17.5,
+    revenuePercentGdp: 15.2,
+    deficitPercentGdp: -2.3,
+    debtPercentGdp: 39.8,
+    isG7: false,
+    region: 'Asia-Pacific',
+    spendingPerCapitaGbp: 820,
+    description: 'Statutory 3% GDP deficit ceiling strictly enforced post-Asian financial crisis, with heavy focus on fuel and food basic subsidies.'
+  }
+];
+
+export const INTERNATIONAL_BENCHMARKS = {
+  g7Average: 46.2,
+  euAverage: 49.1,
+  oecdAverage: 42.5,
+  g20Average: 38.4,
+};
+
 export interface PolicyLever {
   id: string;
   name: string;
