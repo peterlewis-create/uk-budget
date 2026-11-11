@@ -547,7 +547,9 @@ export const YEARLY_SPENDING_SPLITS: YearlySpendingSplit[] = [
   { year: '2010/11', welfare: 204.2, health: 121.5, debtInterest: 45.3, education: 88.4, defence: 39.8, otherServices: 198.0, totalSpending: 697.2 },
   { year: '2012/13', welfare: 212.4, health: 125.6, debtInterest: 47.1, education: 85.2, defence: 38.6, otherServices: 200.3, totalSpending: 709.2 },
   { year: '2014/15', welfare: 218.7, health: 134.1, debtInterest: 45.2, education: 84.1, defence: 37.4, otherServices: 215.8, totalSpending: 735.3 },
+  { year: '2015/16', welfare: 220.8, health: 139.0, debtInterest: 45.1, education: 84.6, defence: 36.8, otherServices: 226.8, totalSpending: 753.1 },
   { year: '2016/17', welfare: 223.5, health: 144.2, debtInterest: 48.0, education: 85.0, defence: 36.3, otherServices: 235.1, totalSpending: 772.1 },
+  { year: '2017/18', welfare: 227.4, health: 148.6, debtInterest: 53.6, education: 86.2, defence: 37.1, otherServices: 246.3, totalSpending: 799.2 },
   { year: '2018/19', welfare: 232.1, health: 153.4, debtInterest: 49.2, education: 87.3, defence: 38.2, otherServices: 264.3, totalSpending: 824.5 },
   { year: '2019/20', welfare: 240.4, health: 164.8, debtInterest: 48.1, education: 88.5, defence: 39.9, otherServices: 292.4, totalSpending: 874.1 },
   { year: '2020/21', welfare: 275.4, health: 199.2, debtInterest: 39.8, education: 89.2, defence: 42.4, otherServices: 463.8, totalSpending: 1109.8 }, // COVID Furlough peak
@@ -557,6 +559,11 @@ export const YEARLY_SPENDING_SPLITS: YearlySpendingSplit[] = [
   { year: '2024/25', welfare: 316.5, health: 211.4, debtInterest: 102.3, education: 91.8, defence: 54.2, otherServices: 450.2, totalSpending: 1226.4 },
   { year: '2025/26', welfare: 328.0, health: 220.5, debtInterest: 105.8, education: 95.2, defence: 56.4, otherServices: 462.1, totalSpending: 1268.0 }
 ];
+
+// Consecutive 10-year dataset (2014/15 to 2024/25) for Sector Growth X/Y Line Graph
+export const TEN_YEAR_SECTOR_DATA = YEARLY_SPENDING_SPLITS.filter(item => 
+  ['2014/15', '2015/16', '2016/17', '2017/18', '2018/19', '2019/20', '2020/21', '2021/22', '2022/23', '2023/24', '2024/25'].includes(item.year)
+);
 
 export const YEARLY_REVENUE_SPLITS: YearlyRevenueSplit[] = [
   { year: '2010/11', incomeTax: 153.2, nics: 99.4, vat: 85.3, corpTax: 43.1, otherTaxes: 162.2, borrowing: 154.0, totalReceiptsAndBorrowing: 697.2 },

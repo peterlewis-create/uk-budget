@@ -13,7 +13,8 @@ import {
   Maximize2,
   X,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  LineChart
 } from 'lucide-react';
 import { 
   YEARLY_SPENDING_SPLITS, 
@@ -22,8 +23,10 @@ import {
   YearlyRevenueSplit,
   UK_FISCAL_TOTALS
 } from '../data/ukBudgetData';
+import { SectorGrowthLineGraph } from './SectorGrowthLineGraph';
 
 export const YearlySplitGraphs: React.FC = () => {
+  const [activeAnalysisMode, setActiveAnalysisMode] = useState<'splits' | 'lines'>('lines'); // default to 10-year lines or splits
   const [splitMode, setSplitMode] = useState<'spending' | 'revenue'>('spending');
   const [displayFormat, setDisplayFormat] = useState<'absolute' | 'percentage'>('absolute');
   const [selectedYearIndex, setSelectedYearIndex] = useState<number>(YEARLY_SPENDING_SPLITS.length - 2); // default 2024/25
@@ -85,7 +88,37 @@ export const YearlySplitGraphs: React.FC = () => {
 
   return (
     <div className="space-y-8 animate-fadeIn">
-      {/* Header & Controls Banner */}
+      {/* Top Primary Navigation Switcher: Lines vs Stacked Splits */}
+      <div className="flex items-center justify-center sm:justify-start gap-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800 w-fit">
+        <button
+          onClick={() => setActiveAnalysisMode('lines')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all ${
+            activeAnalysisMode === 'lines'
+              ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+              : 'text-slate-400 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          <LineChart className="w-4 h-4" />
+          <span>10-Year Growth Lines (X/Y)</span>
+        </button>
+        <button
+          onClick={() => setActiveAnalysisMode('splits')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all ${
+            activeAnalysisMode === 'splits'
+              ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+              : 'text-slate-400 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          <BarChart3 className="w-4 h-4" />
+          <span>Stacked Bar Yearly Splits</span>
+        </button>
+      </div>
+
+      {activeAnalysisMode === 'lines' ? (
+        <SectorGrowthLineGraph />
+      ) : (
+        <>
+          {/* Header & Controls Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20">
@@ -574,6 +607,8 @@ export const YearlySplitGraphs: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   );

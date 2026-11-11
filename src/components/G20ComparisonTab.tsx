@@ -473,3 +473,4 @@ export const G20ComparisonTab: React.FC = () => {
     </div>
   );
 };
+
