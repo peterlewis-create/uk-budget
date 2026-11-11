@@ -368,3 +368,4 @@ export const PerPersonBudgetCalculator: React.FC = () => {
     </div>
   );
 };
+

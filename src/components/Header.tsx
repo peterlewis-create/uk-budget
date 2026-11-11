@@ -1,11 +1,11 @@
 import React from 'react';
-import { 
-  Landmark, 
-  PieChart, 
-  Receipt, 
-  Sliders, 
-  LineChart, 
-  Coins, 
+import {
+  Landmark,
+  PieChart,
+  Receipt,
+  Sliders,
+  LineChart,
+  Coins,
   HelpCircle,
   ExternalLink,
   BarChart3,
@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
         <div className="flex items-center gap-3 text-xs">
           <DebtInterestTicker variant="mini" />
           <span className="hidden sm:inline text-slate-600">|</span>
-          <button 
+          <button
             onClick={onOpenAbout}
             className="text-slate-400 hover:text-slate-200 flex items-center gap-1 transition-colors"
           >
@@ -92,9 +92,9 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
 
           {/* Quick Action Badge */}
           <div className="flex items-center gap-2">
-            <a 
-              href="https://obr.uk" 
-              target="_blank" 
+            <a
+              href="https://obr.uk"
+              target="_blank"
               rel="noreferrer"
               className="text-xs text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition-all flex items-center gap-1.5"
             >
@@ -114,21 +114,19 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as TabType)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-150 ${
-                  isActive
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-                }`}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-150 ${isActive
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                  }`}
               >
                 <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
                 <span>{tab.label}</span>
                 {tab.badge && (
                   <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded-md font-semibold tracking-tight ${
-                      isActive
-                        ? 'bg-blue-700/80 text-blue-100'
-                        : 'bg-slate-800 text-slate-400 border border-slate-700/50'
-                    }`}
+                    className={`text-[10px] px-1.5 py-0.5 rounded-md font-semibold tracking-tight ${isActive
+                      ? 'bg-blue-700/80 text-blue-100'
+                      : 'bg-slate-800 text-slate-400 border border-slate-700/50'
+                      }`}
                   >
                     {tab.badge}
                   </span>
