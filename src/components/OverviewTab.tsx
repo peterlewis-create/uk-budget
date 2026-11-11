@@ -49,24 +49,24 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
 
           <div className="mt-5 flex flex-wrap gap-3">
             <button
+              onClick={() => setActiveTab('per_person')}
+              className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs sm:text-sm transition-all shadow-md shadow-emerald-600/30 flex items-center gap-2"
+            >
+              <span>👥 Per Person Budget (£17,982/person)</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button
               onClick={() => setActiveTab('g20')}
               className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs sm:text-sm transition-all shadow-md shadow-indigo-600/30 flex items-center gap-2"
             >
-              <span>🇬🇧 G20 Spending Comparison (44.3% GDP)</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>🇬🇧 G20 Comparison (44.3% GDP)</span>
             </button>
             <button
               onClick={() => setActiveTab('yearly_splits')}
               className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs sm:text-sm transition-all shadow-md shadow-blue-600/30 flex items-center gap-2"
             >
               <BarChart3 className="w-4 h-4" />
-              <span>Yearly Split Graphs (2010–2026)</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('calculator')}
-              className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs sm:text-sm border border-slate-700 transition-all flex items-center gap-2"
-            >
-              <span>Calculate My Tax Receipt</span>
+              <span>Yearly Split Graphs</span>
             </button>
           </div>
         </div>

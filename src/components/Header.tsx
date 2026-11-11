@@ -9,12 +9,13 @@ import {
   HelpCircle,
   ExternalLink,
   BarChart3,
-  Globe2
+  Globe2,
+  Users
 } from 'lucide-react';
 import { UK_FISCAL_TOTALS } from '../data/ukBudgetData';
 import { DebtInterestTicker } from './DebtInterestTicker';
 
-export type TabType = 'overview' | 'yearly_splits' | 'g20' | 'spending' | 'revenue' | 'calculator' | 'simulator' | 'historical';
+export type TabType = 'overview' | 'yearly_splits' | 'g20' | 'per_person' | 'spending' | 'revenue' | 'calculator' | 'simulator' | 'historical';
 
 interface HeaderProps {
   activeTab: TabType;
@@ -26,6 +27,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
   const tabs = [
     { id: 'overview', label: 'Overview & Flow', icon: Landmark, badge: 'Summary' },
     { id: 'yearly_splits', label: 'Yearly Splits', icon: BarChart3, badge: 'Interactive' },
+    { id: 'per_person', label: 'Per Person Budget', icon: Users, badge: '£17.9k/ea' },
     { id: 'g20', label: 'G20 Comparison', icon: Globe2, badge: 'Debt & Spend' },
     { id: 'spending', label: 'Public Spending', icon: PieChart, badge: '£1.23T' },
     { id: 'revenue', label: 'Tax Receipts', icon: Coins, badge: '£1.14T' },
@@ -44,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
             HM Treasury & OBR 2024/25 Dataset
           </span>
           <span className="hidden sm:inline text-slate-600">|</span>
-          <span className="hidden sm:inline">Total Public Expenditure: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn (44.3% GDP)</strong></span>
+          <span className="hidden sm:inline">Total Public Expenditure: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn (£17,982/person)</strong></span>
           <span className="hidden md:inline text-slate-600">|</span>
           <span className="hidden md:inline">Receipts: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn</strong></span>
         </div>
