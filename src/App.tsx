@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header, TabType } from './components/Header';
 import { OverviewTab } from './components/OverviewTab';
 import { YearlySplitGraphs } from './components/YearlySplitGraphs';
@@ -13,8 +13,12 @@ import { SpendingDetailModal } from './components/SpendingDetailModal';
 import { AboutModal } from './components/AboutModal';
 import { SpendingItem } from './data/ukBudgetData';
 import { ExternalLink } from 'lucide-react';
+import { ConsentBanner } from './components/ConsentBanner';
+import { trackEvent } from "./utils/analytics";
 
 export const App: React.FC = () => {
+  // Import GA tracking and consent banner
+  // We'll add imports at top separately
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [selectedSpendingItem, setSelectedSpendingItem] = useState<SpendingItem | null>(null);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
