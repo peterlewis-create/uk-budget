@@ -13,11 +13,12 @@ import {
   TrendingUp,
   Percent
 } from 'lucide-react';
-import { calculatePersonalTax, UK_FISCAL_TOTALS } from '../data/ukBudgetData';
+import { calculatePersonalTax, UK_FISCAL_TOTALS, UKIncomeTaxNation } from '../data/ukBudgetData';
 import { IconHelper } from './IconHelper';
 
 export const TaxCalculatorTab: React.FC = () => {
   const [salary, setSalary] = useState<number>(37500);
+  const [nation, setNation] = useState<UKIncomeTaxNation>('england-wales-ni');
   const [timeframe, setTimeframe] = useState<'annual' | 'monthly' | 'daily'>('annual');
 
   const presets = [
@@ -29,7 +30,7 @@ export const TaxCalculatorTab: React.FC = () => {
     { label: '£100k Club', value: 100000, desc: 'Allowance taper zone' }
   ];
 
-  const taxDetails = calculatePersonalTax(salary);
+  const taxDetails = calculatePersonalTax(salary, nation);
 
   const formatCurrency = (val: number) => {
     if (timeframe === 'annual') return `£${Math.round(val).toLocaleString()}`;
@@ -50,14 +51,13 @@ export const TaxCalculatorTab: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20 mb-2">
             <Receipt className="w-3.5 h-3.5" />
-            Personal Tax Breakdown Engine (2024/25)
+            Illustrative Employee PAYE & NIC Calculator (2026/27)
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            Where Does Your Tax Money Actually Go?
+            Calculate Your Tax — Explore Public Spending
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mt-1">
-            Enter your gross annual salary to see your exact Income Tax, National Insurance contributions, 
-            and an itemized receipt showing how many pounds and pence fund the NHS, State Pensions, Defence, and more.
+            Enter annual employment earnings to estimate Income Tax and employee Class 1 National Insurance using 2026/27 rates. The public-spending allocation is an illustrative proportional comparison, not a statement that your taxes are earmarked.
           </p>
         </div>
 
@@ -90,6 +90,22 @@ export const TaxCalculatorTab: React.FC = () => {
         </div>
       </div>
 
+      <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+        <label htmlFor="tax-region" className="text-xs font-bold text-slate-300 block">
+          Income Tax jurisdiction (2026/27)
+        </label>
+        <select id="tax-region" value={nation} onChange={e => setNation(e.target.value as UKIncomeTaxNation)}
+          className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-white text-sm">
+          <option value="england-wales-ni">England, Wales and Northern Ireland</option>
+          <option value="scotland">Scotland — non-savings income tax bands</option>
+        </select>
+        <p className="text-xs text-slate-400">
+          Illustrative PAYE estimate for an employee under State Pension age with a standard allowance.
+          Assumes gross salary equals adjusted net income; excludes pension relief, salary sacrifice,
+          tax-code adjustments, student loans, benefits and other income. Scottish savings and dividend
+          income has different rules. Source: HMRC 2026/27 rates and thresholds.
+        </p>
+      </div>
       {/* Salary Input & Preset Selection */}
       <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-6">
         <div className="space-y-3">
@@ -219,8 +235,8 @@ export const TaxCalculatorTab: React.FC = () => {
         {/* Itemized Line Items */}
         <div className="p-6 divide-y divide-slate-800/80 space-y-3">
           <div className="flex justify-between text-xs uppercase font-bold text-slate-400 pb-2">
-            <span>Public Service / Department</span>
-            <span className="text-right">Your Contribution ({getSubTitle()})</span>
+            <span>Treasury expenditure function (illustrative share)</span>
+            <span className="text-right">Equivalent Share ({getSubTitle()})</span>
           </div>
 
           {taxDetails.taxDistribution.map((item) => {
