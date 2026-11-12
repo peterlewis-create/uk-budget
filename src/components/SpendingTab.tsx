@@ -26,7 +26,7 @@ export const SpendingTab: React.FC<SpendingTabProps> = ({ selectedItem, setSelec
   const [delAmeFilter, setDelAmeFilter] = useState<'All' | 'DEL' | 'AME'>('All');
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const categories = ['All', 'Public Services', 'Welfare & Benefits', 'Financing', 'Infrastructure', 'Economy', 'Administration'];
+  const categories = ['All', 'Public Services', 'Welfare & Benefits', 'Infrastructure', 'Economy', 'Administration', 'Environment'];
 
   const filteredItems = UK_SPENDING_DATA.filter((item) => {
     const matchesSearch = 
@@ -35,7 +35,7 @@ export const SpendingTab: React.FC<SpendingTabProps> = ({ selectedItem, setSelec
       item.breakdown.some(b => b.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
     const matchesCategory = categoryFilter === 'All' || item.category === categoryFilter;
-    const matchesDelAme = delAmeFilter === 'All' || item.delVsAme === delAmeFilter || (delAmeFilter === 'DEL' && item.delVsAme === 'Mixed');
+    const matchesDelAme = true; // COFOG does not classify spending as DEL or AME
 
     return matchesSearch && matchesCategory && matchesDelAme;
   });
@@ -53,14 +53,13 @@ export const SpendingTab: React.FC<SpendingTabProps> = ({ selectedItem, setSelec
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20">
             <PieChart className="w-3.5 h-3.5" />
-            Total Managed Expenditure (ONS headline; categories under review)
+            HM Treasury Functional Expenditure · 2024/25 (COFOG)
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            UK Public Spending Breakdown (£{UK_FISCAL_TOTALS.totalSpending.toFixed(1)} Billion)
+            UK Spending by Function · Treasury expenditure on services
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-            Detailed breakdown of departmental budgets, public services, welfare, and debt servicing.
-            Detailed sector and sub-programme allocations are legacy estimates currently undergoing reconciliation to HM Treasury's published functional-spending tables. The ONS headline total is verified; these category cards must not be treated as audited.
+            These ten functions are HM Treasury's official 2024/25 categories, reported to one decimal place. They sum to £1,167.6bn before EU transactions; the Treasury expenditure-on-services total is £1,166.3bn and TME is £1,290.6bn. ONS TME is £1,290.3bn on its October 2026 vintage. No fabricated programme-level splits are shown.
           </p>
         </div>
 
@@ -68,11 +67,10 @@ export const SpendingTab: React.FC<SpendingTabProps> = ({ selectedItem, setSelec
         <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800/80 text-xs space-y-1 max-w-sm">
           <div className="flex items-center gap-1.5 font-semibold text-slate-200">
             <Layers className="w-3.5 h-3.5 text-blue-400" />
-            <span>Budget Control Framework:</span>
+            <span>Classification note:</span>
           </div>
           <p className="text-slate-400 text-[11px] leading-relaxed">
-            <strong className="text-blue-400">DEL</strong> = Departmental Expenditure Limits (set multi-year budgets, e.g. NHS, Schools, Defence).<br />
-            <strong className="text-amber-400">AME</strong> = Annually Managed Expenditure (demand-led, e.g. State Pensions, Debt Interest).
+            The ten categories are functional expenditure (COFOG). They do not map directly to the separate DEL/AME budgeting system. Debt interest is included within public services classifications, rather than shown again as an extra function.
           </p>
         </div>
       </div>
@@ -108,27 +106,6 @@ export const SpendingTab: React.FC<SpendingTabProps> = ({ selectedItem, setSelec
           ))}
         </div>
 
-        {/* DEL/AME Toggle */}
-        <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs font-medium">
-          <button
-            onClick={() => setDelAmeFilter('All')}
-            className={`px-2.5 py-1 rounded-md transition-colors ${delAmeFilter === 'All' ? 'bg-slate-800 text-white font-semibold' : 'text-slate-400 hover:text-white'}`}
-          >
-            All Types
-          </button>
-          <button
-            onClick={() => setDelAmeFilter('DEL')}
-            className={`px-2.5 py-1 rounded-md transition-colors ${delAmeFilter === 'DEL' ? 'bg-blue-600/30 text-blue-300 font-semibold' : 'text-slate-400 hover:text-white'}`}
-          >
-            DEL Only
-          </button>
-          <button
-            onClick={() => setDelAmeFilter('AME')}
-            className={`px-2.5 py-1 rounded-md transition-colors ${delAmeFilter === 'AME' ? 'bg-amber-600/30 text-amber-300 font-semibold' : 'text-slate-400 hover:text-white'}`}
-          >
-            AME Only
-          </button>
-        </div>
       </div>
 
       {/* Filter summary status */}
@@ -136,7 +113,7 @@ export const SpendingTab: React.FC<SpendingTabProps> = ({ selectedItem, setSelec
         <span>
           Showing <strong>{filteredItems.length}</strong> spending sectors (Total:{' '}
           <strong className="text-white">£{totalFilteredAmount.toFixed(1)}bn</strong> /{' '}
-          <strong className="text-blue-400">{((totalFilteredAmount / UK_FISCAL_TOTALS.totalSpending) * 100).toFixed(1)}%</strong> of budget)
+          <strong className="text-blue-400">{((totalFilteredAmount / UK_FISCAL_TOTALS.totalSpending) * 100).toFixed(1)}%</strong> of ONS 2024/25 TME; categories are Treasury TES functions)
         </span>
         {searchTerm && (
           <button 
@@ -235,9 +212,10 @@ export const SpendingTab: React.FC<SpendingTabProps> = ({ selectedItem, setSelec
                   <div>
                     <h4 className="text-xs uppercase font-bold tracking-wider text-slate-400 mb-3 flex items-center gap-2">
                       <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-                      Detailed Sub-Programs & Allocations
+                      Sub-programme breakdown
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {item.breakdown.length === 0 && <p className="text-xs text-slate-400">Official programme-level allocations are not available in this dataset. No estimated amounts are presented.</p>}
                       {item.breakdown.map((sub, idx) => (
                         <div
                           key={idx}
