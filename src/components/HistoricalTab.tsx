@@ -24,13 +24,13 @@ export const HistoricalTab: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20 mb-2">
             <Calendar className="w-3.5 h-3.5" />
-            ONS Verified Annual Fiscal Trends (2020/21–2024/25)
+            ONS Verified Fiscal History (2000/01–2025/26)
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            UK Borrowing, Debt and Public Finances — Verified Annual Data
+            UK Debt, Spending and Borrowing Across 25 Years
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mt-1">
-            This chart uses source-checked ONS public sector finances from 2020/21 to 2024/25. Earlier years and unverified macroeconomic series are excluded until reconciled to official releases.
+            Selected fiscal years between 2000/01 and 2025/26 use ONS October 2026-vintage spending, receipts, borrowing and March debt stock; macroeconomic fields are deliberately excluded pending separate verification. Figures are outturn, not forecasts.
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export const HistoricalTab: React.FC = () => {
         <div className="flex items-center justify-between">
           <h3 className="text-base font-bold text-white flex items-center gap-2">
             <LineChart className="w-5 h-5 text-blue-400" />
-            {selectedMetric === 'debt' && 'Public Sector Net Debt as % of GDP (2020/21–2024/25)'}
+            {selectedMetric === 'debt' && 'Public Sector Net Debt as % of GDP (2000/01–2025/26)'}
             {selectedMetric === 'spending_vs_receipts' && 'Total Managed Expenditure vs Total Receipts (£ Billions)'}
             {selectedMetric === 'borrowing' && 'Annual Public Sector Net Borrowing / Deficit (£ Billions)'}
             {selectedMetric === 'macro' && 'CPI Inflation Rate vs Bank of England Base Interest Rate (%)'}
