@@ -123,13 +123,13 @@ export const YearlySplitGraphs: React.FC = () => {
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20">
             <BarChart3 className="w-3.5 h-3.5" />
-            Annual Multi-Year Composition Analysis (2010–2026)
+            Illustrative Multi-Year Composition Analysis (2010–2026)
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
             UK Budget Split Per Year: Spending & Revenue Over Time
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-            Analyze how the composition of British public expenditure and taxation has shifted over 15 years.
+            Explore an illustrative historical composition of public expenditure and taxation. Category-level history is undergoing source verification; do not treat individual series as audited.
             Click any bar to <strong>enlarge the graph</strong> and inspect an itemized breakdown with figures and percentages.
           </p>
         </div>
