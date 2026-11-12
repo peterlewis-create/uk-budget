@@ -178,14 +178,27 @@ export const UK_REVENUE_DATA: RevenueItem[] = [
   { id: "other-hmrc", name: "Other HMRC Taxes and Duties", category: "Other", amount: 86.1, percentage: 9.82989, color: "#64748b", description: "Remaining HMRC receipts, including Capital Gains Tax, alcohol duties, Insurance Premium Tax and other taxes and duties. This is HMRC's published residual category, not non-tax public-sector income.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." }
 ];
 
-/** ONS October 2026 vintage, 2020/21-2024/25 PSF outturn. Historical GDP,
- *  inflation and Bank Rate fields intentionally excluded until series are validated. */
+/** ONS Public Sector Finances, October 2026 vintage. These selected year-end FY
+ *  outturn figures are constructed by summing twelve Apr-Mar monthly observations:
+ *  series KX5Q (PS ex banks TME), JW2O (PS ex banks current receipts),
+ *  DZLS (PS net borrowing ex banks). March PSND is KSE6; debt/GDP is HF6X.
+ *  All monetary figures £bn. GDP, CPI and Bank Rate unused pending source validation.
+ *  The FY2025/26 amount is outturn, not a forecast.
+ */
 export const UK_HISTORICAL_DATA: HistoricalYearData[] = [
-  { year: '2020/21', spending: 1103.793, receipts: 792.959, borrowing: 310.834, debtPercentGdp: 95.2, debtAmount: 2157.667, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; debt excludes public sector banks' },
-  { year: '2021/22', spending: 1038.195, receipts: 922.217, borrowing: 115.978, debtPercentGdp: 93.9, debtAmount: 2379.717, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; debt excludes public sector banks' },
-  { year: '2022/23', spending: 1158.392, receipts: 1034.576, borrowing: 123.816, debtPercentGdp: 92.7, debtAmount: 2542.731, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; debt excludes public sector banks' },
-  { year: '2023/24', spending: 1231.793, receipts: 1096.559, borrowing: 135.234, debtPercentGdp: 93.7, debtAmount: 2684.142, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; debt excludes public sector banks' },
-  { year: '2024/25', spending: 1290.348, receipts: 1140.539, borrowing: 149.809, debtPercentGdp: 92.9, debtAmount: 2806.699, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; debt excludes public sector banks' }
+  { year: '2000/01', spending: 390.115, receipts: 406.42, borrowing: -16.305, debtPercentGdp: 28.3, debtAmount: 321.966, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2004/05', spending: 534.903, receipts: 483.238, borrowing: 51.665, debtPercentGdp: 33.5, debtAmount: 460.879, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2008/09', spending: 685.79, receipts: 569.457, borrowing: 116.333, debtPercentGdp: 50.3, debtAmount: 787.157, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2009/10', spending: 720.331, receipts: 560.687, borrowing: 159.644, debtPercentGdp: 64.4, debtAmount: 1027.887, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2012/13', spending: 759.546, receipts: 635.936, borrowing: 123.61, debtPercentGdp: 77, debtAmount: 1366.18, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2015/16', spending: 794.365, receipts: 714.264, borrowing: 80.101, debtPercentGdp: 80.6, debtAmount: 1594.981, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2018/19', spending: 857.627, receipts: 813.554, borrowing: 44.073, debtPercentGdp: 79.4, debtAmount: 1778.022, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2020/21', spending: 1103.793, receipts: 792.959, borrowing: 310.834, debtPercentGdp: 95.2, debtAmount: 2157.667, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2021/22', spending: 1038.195, receipts: 922.217, borrowing: 115.978, debtPercentGdp: 93.9, debtAmount: 2379.717, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2022/23', spending: 1158.392, receipts: 1034.576, borrowing: 123.816, debtPercentGdp: 92.7, debtAmount: 2542.731, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2023/24', spending: 1231.793, receipts: 1096.559, borrowing: 135.234, debtPercentGdp: 93.7, debtAmount: 2684.142, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2024/25', spending: 1290.348, receipts: 1140.539, borrowing: 149.809, debtPercentGdp: 92.9, debtAmount: 2806.699, gdp: 0, inflation: 0, bankRate: 0 },
+  { year: '2025/26', spending: 1365.598, receipts: 1231.387, borrowing: 134.211, debtPercentGdp: 93.2, debtAmount: 2916.811, gdp: 0, inflation: 0, bankRate: 0 },
 ];
 
 export interface YearlySpendingSplit {
