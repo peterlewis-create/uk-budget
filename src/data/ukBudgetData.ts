@@ -210,21 +210,26 @@ export interface YearlyRevenueSplit {
   totalReceiptsAndBorrowing: number; // £bn
 }
 
+/** HM Treasury May 2026 Public Spending Statistics, Table 9. Nominal COFOG functional
+ *  expenditure-on-services in £bn; excludes TME accounting adjustments. Debt interest
+ *  is a subgroup of general public services and is removed from the residual to avoid
+ *  double counting. Six groups sum to published TES each fiscal year. */
 export const YEARLY_SPENDING_SPLITS: YearlySpendingSplit[] = [
-  { year: '2010/11', welfare: 204.2, health: 121.5, debtInterest: 45.3, education: 88.4, defence: 39.8, otherServices: 198.0, totalSpending: 697.2 },
-  { year: '2012/13', welfare: 212.4, health: 125.6, debtInterest: 47.1, education: 85.2, defence: 38.6, otherServices: 200.3, totalSpending: 709.2 },
-  { year: '2014/15', welfare: 218.7, health: 134.1, debtInterest: 45.2, education: 84.1, defence: 37.4, otherServices: 215.8, totalSpending: 735.3 },
-  { year: '2015/16', welfare: 220.8, health: 139.0, debtInterest: 45.1, education: 84.6, defence: 36.8, otherServices: 226.8, totalSpending: 753.1 },
-  { year: '2016/17', welfare: 223.5, health: 144.2, debtInterest: 48.0, education: 85.0, defence: 36.3, otherServices: 235.1, totalSpending: 772.1 },
-  { year: '2017/18', welfare: 227.4, health: 148.6, debtInterest: 53.6, education: 86.2, defence: 37.1, otherServices: 246.3, totalSpending: 799.2 },
-  { year: '2018/19', welfare: 232.1, health: 153.4, debtInterest: 49.2, education: 87.3, defence: 38.2, otherServices: 264.3, totalSpending: 824.5 },
-  { year: '2019/20', welfare: 240.4, health: 164.8, debtInterest: 48.1, education: 88.5, defence: 39.9, otherServices: 292.4, totalSpending: 874.1 },
-  { year: '2020/21', welfare: 275.4, health: 199.2, debtInterest: 39.8, education: 89.2, defence: 42.4, otherServices: 463.8, totalSpending: 1109.8 }, // COVID Furlough peak
-  { year: '2021/22', welfare: 264.1, health: 198.5, debtInterest: 69.9, education: 88.1, defence: 46.1, otherServices: 378.5, totalSpending: 1045.2 },
-  { year: '2022/23', welfare: 278.4, health: 196.2, debtInterest: 111.8, education: 87.4, defence: 50.8, otherServices: 430.0, totalSpending: 1154.6 }, // Inflation interest spike
-  { year: '2023/24', welfare: 298.5, health: 203.4, debtInterest: 107.5, education: 89.6, defence: 52.3, otherServices: 447.0, totalSpending: 1198.3 },
-  { year: '2024/25', welfare: 316.5, health: 211.4, debtInterest: 102.3, education: 91.8, defence: 54.2, otherServices: 450.2, totalSpending: 1226.4 },
-  { year: '2025/26', welfare: 328.0, health: 220.5, debtInterest: 105.8, education: 95.2, defence: 56.4, otherServices: 462.1, totalSpending: 1268.0 }
+  { year: '2010/11', welfare: 230.4, health: 119.9, debtInterest: 57.3, education: 91.5, defence: 39.3, otherServices: 136.9, totalSpending: 675.3 },
+  { year: '2011/12', welfare: 244.8, health: 121.3, debtInterest: 60.1, education: 86.5, defence: 38.7, otherServices: 126.6, totalSpending: 678 },
+  { year: '2012/13', welfare: 253.4, health: 124.3, debtInterest: 55.9, education: 84.1, defence: 36.3, otherServices: 127, totalSpending: 681 },
+  { year: '2013/14', welfare: 254.2, health: 129.4, debtInterest: 55.9, education: 84.7, defence: 36.4, otherServices: 131.4, totalSpending: 692 },
+  { year: '2014/15', welfare: 261.1, health: 134.1, debtInterest: 53.7, education: 85.1, defence: 36.7, otherServices: 133.8, totalSpending: 704.5 },
+  { year: '2015/16', welfare: 264.9, health: 138.5, debtInterest: 54.9, education: 84.9, defence: 36.6, otherServices: 139.2, totalSpending: 719 },
+  { year: '2016/17', welfare: 265.4, health: 142.6, debtInterest: 56.9, education: 84.9, defence: 37.1, otherServices: 140.3, totalSpending: 727.2 },
+  { year: '2017/18', welfare: 268.7, health: 147.3, debtInterest: 61.6, education: 86.1, defence: 38.7, otherServices: 147.5, totalSpending: 749.9 },
+  { year: '2018/19', welfare: 274.8, health: 152.9, debtInterest: 56.3, education: 88.1, defence: 40.2, otherServices: 160.3, totalSpending: 772.6 },
+  { year: '2019/20', welfare: 275.8, health: 164.1, debtInterest: 55.2, education: 90.6, defence: 42.2, otherServices: 171.6, totalSpending: 799.5 },
+  { year: '2020/21', welfare: 299.3, health: 218.6, debtInterest: 42.3, education: 95.5, defence: 44.6, otherServices: 311.1, totalSpending: 1011.4 },
+  { year: '2021/22', welfare: 300, health: 216.2, debtInterest: 72.7, education: 100.1, defence: 48.7, otherServices: 213.8, totalSpending: 951.5 },
+  { year: '2022/23', welfare: 322, health: 212.7, debtInterest: 130.4, education: 107.3, defence: 55.5, otherServices: 248.7, totalSpending: 1076.6 },
+  { year: '2023/24', welfare: 364.9, health: 222, debtInterest: 127.3, education: 114.2, defence: 56.8, otherServices: 229.5, totalSpending: 1114.7 },
+  { year: '2024/25', welfare: 387.2, health: 242.4, debtInterest: 126.5, education: 122.6, defence: 63.7, otherServices: 223.9, totalSpending: 1166.3 }
 ];
 
 // Consecutive 10-year dataset (2014/15 to 2024/25) for Sector Growth X/Y Line Graph
