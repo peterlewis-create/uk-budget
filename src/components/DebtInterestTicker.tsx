@@ -46,7 +46,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
       const offset = new Intl.DateTimeFormat('en-GB', {
         timeZone: 'Europe/London', timeZoneName: 'shortOffset'
       }).formatToParts(new Date(utcMidnight)).find(p => p.type === 'timeZoneName')?.value || 'GMT';
-      const match = offset.match(/GMT([+-])(\\d{1,2})(?::(\\d{2}))?/);
+      const match = offset.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/);
       const offsetMs = match ? (match[1] === '+' ? 1 : -1) * (Number(match[2]) * 60 + Number(match[3] || 0)) * 60000 : 0;
       setTodayInterest(Math.max(0, (now - (utcMidnight - offsetMs)) / 1000) * DEBT_INTEREST_METRICS.perSecond);
     };
