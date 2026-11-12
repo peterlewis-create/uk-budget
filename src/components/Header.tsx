@@ -33,7 +33,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
     { id: 'revenue', label: 'Tax Receipts', icon: Coins, badge: '£1.14T' },
     { id: 'calculator', label: 'Where My Tax Goes', icon: Receipt, badge: 'Personal' },
     { id: 'simulator', label: 'Chancellor Simulator', icon: Sliders, badge: 'Interactive' },
-    { id: 'historical', label: 'Historical Trends', icon: LineChart, badge: '2020–2025' },
+    { id: 'historical', label: 'Historical Trends', icon: LineChart, badge: '2000–2026' },
   ];
 
   return (
