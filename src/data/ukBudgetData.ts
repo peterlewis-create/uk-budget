@@ -65,292 +65,100 @@ export const UK_FISCAL_TOTALS: FiscalTotals = {
   netDebt: 2806.699, // March 2025 PSND ex banks
   debtPercentGdp: 92.9, // ONS March 2025 PSND / GDP
   gdp: 3021.2, // indicative ratio-implied denominator; do not label as official annual GDP
-  population: 68.2, // legacy demographic assumption: NOT YET VERIFIED
-  taxPayingAdults: 33.6, // legacy demographic assumption: NOT YET VERIFIED
+  population: 69.2563, // ONS revised mid-2024 population, published October 2026
+  taxPayingAdults: 38.6, // HMRC 2024/25 estimated Income Tax payers, published July 2026
 };
 
 export const UK_SPENDING_DATA: SpendingItem[] = [
   {
-    id: 'social-protection',
-    name: 'Social Protection & Welfare',
-    category: 'Welfare & Benefits',
-    amount: 316.5,
-    percentage: 25.8,
-    perCapita: 4640,
-    delVsAme: 'AME',
-    icon: 'Shield',
-    color: '#3b82f6', // blue
-    description: 'Financial support across life stages: State Pensions, disability benefits, Universal Credit, and support for families with children.',
-    breakdown: [
-      { name: 'State Pensions', amount: 138.2, description: 'Basic and new State Pension payments to ~12.7 million UK pensioners, protected by the Triple Lock.' },
-      { name: 'Universal Credit & Working-Age Support', amount: 88.4, description: 'Means-tested income and housing support for low-income and unemployed individuals and households.' },
-      { name: 'Disability & Incapacity Benefits (PIP, DLA, ESA)', amount: 43.2, description: 'Personal Independence Payment, Attendance Allowance, and disability living allowances for chronic health conditions.' },
-      { name: 'Child Benefit & Family Allowances', amount: 28.5, description: 'Universal child benefits, nursery credits, and carer allowances supporting carers and dependents.' },
-      { name: 'Other Social Security & Winter Fuel', amount: 18.2, description: 'Local welfare grants, pension credit top-ups, funeral expenses, and seasonal support payments.' }
-    ],
-    keyFacts: [
-      'The single largest item in the UK Budget, accounting for over 25p in every pound spent.',
-      'State Pension is the largest single component at £138.2bn, rising rapidly due to demographic aging.',
-      'Classified almost entirely as AME (Annually Managed Expenditure), meaning funding rises automatically with claimant eligibility.'
-    ]
+    id: 'social-protection', name: 'Social protection', category: 'Welfare & Benefits', amount: 387.2,
+    percentage: 33.1620, perCapita: Math.round(387.2 * 1000 / UK_FISCAL_TOTALS.population),
+    delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
+    icon: 'Shield', color: '#3b82f6',
+    description: 'State pensions, social assistance and other government social protection expenditure.',
+    breakdown: [], // Not invented: detailed programme allocations require source verification
+    keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   },
   {
-    id: 'health',
-    name: 'Health & Social Care (NHS)',
-    category: 'Public Services',
-    amount: 211.4,
-    percentage: 17.2,
-    perCapita: 3100,
-    delVsAme: 'DEL',
-    icon: 'HeartPulse',
-    color: '#06b6d4', // cyan
-    description: 'National Health Service operations across England, Scotland, Wales, and Northern Ireland, alongside adult social care subsidies.',
-    breakdown: [
-      { name: 'NHS Hospitals & Acute Healthcare', amount: 135.2, description: 'Staff salaries (doctors, nurses, specialists), elective surgeries, emergency care, and hospital operations.' },
-      { name: 'General Practice & Primary Care', amount: 18.6, description: 'GP surgeries, community nursing, family doctors, and urgent primary diagnostic clinics.' },
-      { name: 'Prescription Medicines & Clinical Supplies', amount: 19.4, description: 'NICE-approved pharmaceutical treatments, vaccines, cancer therapies, and medical devices.' },
-      { name: 'Adult Social Care Grants & Support', amount: 18.2, description: 'Central grants to local authorities for residential care homes, elderly assistance, and dementia care.' },
-      { name: 'Capital Infrastructure & Technology', amount: 20.0, description: 'Hospital building programmes, diagnostic hubs, surgical robots, MRI/CT scanners, and digital systems.' }
-    ],
-    keyFacts: [
-      'NHS employs over 1.4 million people in England alone, making it one of the world’s largest employers.',
-      'Healthcare spending has expanded from ~5% of GDP in the 1990s to ~8% of GDP today.',
-      'Every UK resident receives on average £3,100 of annual healthcare funding via taxation.'
-    ]
+    id: 'health', name: 'Health', category: 'Public Services', amount: 242.4,
+    percentage: 20.7605, perCapita: Math.round(242.4 * 1000 / UK_FISCAL_TOTALS.population),
+    delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
+    icon: 'HeartPulse', color: '#06b6d4',
+    description: 'Government expenditure on health under the Treasury COFOG classification.',
+    breakdown: [], // Not invented: detailed programme allocations require source verification
+    keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   },
   {
-    id: 'debt-interest',
-    name: 'Public Debt Interest',
-    category: 'Financing',
-    amount: 102.3,
-    percentage: 8.3,
-    perCapita: 1500,
-    delVsAme: 'AME',
-    icon: 'Landmark',
-    color: '#ef4444', // red
-    description: 'Coupons and interest payments made by the Treasury to holders of UK Government Gilts (bonds) and index-linked liabilities.',
-    breakdown: [
-      { name: 'Conventional Gilt Coupon Payments', amount: 64.5, description: 'Fixed coupon yields paid bi-annually on standard sovereign UK bonds held by pension funds, banks, and foreign institutions.' },
-      { name: 'Index-Linked Gilt Inflation Uplifts', amount: 28.6, description: 'Principal and interest uplifts on inflation-linked debt tied to RPI; highly sensitive to inflation rate movements.' },
-      { name: 'Bank of England APF Interest Settlement', amount: 9.2, description: 'Treasury indemnities on Asset Purchase Facility reserves held at Bank Rate.' }
-    ],
-    keyFacts: [
-      'Now the 3rd largest spending category—costing more than Defence, Police, and Transport combined.',
-      'Around 25% of UK sovereign debt is index-linked (the highest proportion among G7 nations), exposing public finances directly to inflation spikes.',
-      'Does not buy a single hospital bed, school, or military vehicle; it is purely the cost of past borrowing.'
-    ]
+    id: 'general-public-services', name: 'General public services', category: 'Administration', amount: 159.5,
+    percentage: 13.6605, perCapita: Math.round(159.5 * 1000 / UK_FISCAL_TOTALS.population),
+    delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
+    icon: 'Building2', color: '#64748b',
+    description: 'General public services, including public debt transactions and government administration within the functional classification.',
+    breakdown: [], // Not invented: detailed programme allocations require source verification
+    keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   },
   {
-    id: 'education',
-    name: 'Education & Skills',
-    category: 'Public Services',
-    amount: 91.8,
-    percentage: 7.5,
-    perCapita: 1346,
-    delVsAme: 'DEL',
-    icon: 'GraduationCap',
-    color: '#8b5cf6', // purple
-    description: 'Funding for state primary and secondary schools, 16-19 sixth form colleges, apprenticeships, and university student finance subsidy.',
-    breakdown: [
-      { name: 'Primary & Secondary State Schools', amount: 59.4, description: 'Dedicated Schools Grant (DSG), teacher salaries, classroom materials, and academy trust budgets.' },
-      { name: 'Higher Education & Student Loan Subsidies', amount: 15.8, description: 'Resource accounting write-offs for income-contingent university student loans and research funding.' },
-      { name: 'Early Years & Childcare Entitlements', amount: 8.4, description: 'State-funded 15 and 30-hour childcare allowances for eligible working parents of young children.' },
-      { name: 'Further Education Colleges & Skills', amount: 8.2, description: 'T-levels, vocational training, apprenticeships, and adult education budget.' }
-    ],
-    keyFacts: [
-      'Over 9 million pupils attend more than 24,000 state-funded schools in England.',
-      'Per-pupil funding in English schools is approximately £7,690 per academic year.',
-      'Student loan write-downs represent non-cash accounting adjustments when graduates are not expected to repay in full before 40 years.'
-    ]
+    id: 'education', name: 'Education', category: 'Public Services', amount: 122.6,
+    percentage: 10.5002, perCapita: Math.round(122.6 * 1000 / UK_FISCAL_TOTALS.population),
+    delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
+    icon: 'GraduationCap', color: '#8b5cf6',
+    description: 'Government spending on education across the United Kingdom.',
+    breakdown: [], // Not invented: detailed programme allocations require source verification
+    keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   },
   {
-    id: 'defence',
-    name: 'Defence & National Security',
-    category: 'Public Services',
-    amount: 54.2,
-    percentage: 4.4,
-    perCapita: 795,
-    delVsAme: 'DEL',
-    icon: 'ShieldAlert',
-    color: '#10b981', // emerald
-    description: 'The Royal Navy, British Army, Royal Air Force, continuous at-sea nuclear deterrent (Trident), and defense equipment procurement.',
-    breakdown: [
-      { name: 'Equipment Procurement & Modernisation', amount: 21.6, description: 'Next-gen fighter jets (GCAP/Tempest), Dreadnought submarines, Ajax armoured vehicles, and ammunition stocks.' },
-      { name: 'Armed Forces Personnel & Pensions', amount: 16.1, description: 'Pay, allowances, healthcare, and military pension schemes for ~140,000 regular service personnel and reservists.' },
-      { name: 'Military Operations & Base Estate', amount: 16.5, description: 'Bases across the UK, overseas garrisons (Cyprus, Falklands), training exercises, logistics, and NATO missions.' }
-    ],
-    keyFacts: [
-      'The UK spends approximately 2.3% of GDP on defence, exceeding the NATO 2.0% guideline.',
-      'The UK maintains a minimum continuous at-sea nuclear deterrent with Vanguard-class ballistic missile submarines.',
-      'Political debate currently focuses on pathways to increase defence expenditure to 2.5% of GDP.'
-    ]
+    id: 'economic-affairs', name: 'Economic affairs', category: 'Economy', amount: 87.8,
+    percentage: 7.5197, perCapita: Math.round(87.8 * 1000 / UK_FISCAL_TOTALS.population),
+    delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
+    icon: 'Cpu', color: '#ec4899',
+    description: 'Transport, energy, industry and other economic affairs classified by HM Treasury.',
+    breakdown: [], // Not invented: detailed programme allocations require source verification
+    keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   },
   {
-    id: 'public-order',
-    name: 'Public Order & Safety (Police & Justice)',
-    category: 'Public Services',
-    amount: 42.1,
-    percentage: 3.4,
-    perCapita: 617,
-    delVsAme: 'DEL',
-    icon: 'Scale',
-    color: '#f59e0b', // amber
-    description: 'Territorial police forces across the UK, HM Prison & Probation Service, Crown Courts, magistrates, and border enforcement.',
-    breakdown: [
-      { name: 'Police Forces & Special Operations', amount: 21.4, description: '43 territorial police forces in England & Wales, Police Scotland, PSNI, National Crime Agency, and counter-terrorism.' },
-      { name: 'Prisons & Probation Service', amount: 7.8, description: 'Operation and security of 120+ adult prisons, youth custody facilities, and rehabilitation probation services.' },
-      { name: 'HM Courts, Tribunals & Legal Aid', amount: 5.7, description: 'Court administration, judiciary pay, criminal justice processing, and means-tested civil & criminal legal aid.' },
-      { name: 'Border Force & Immigration Enforcement', amount: 7.2, description: 'Port security, passport control, immigration tribunals, asylum processing, and accommodation systems.' }
-    ],
-    keyFacts: [
-      'There are over 147,000 police officers across England and Wales.',
-      'UK prison population stands near record levels (~88,000), prompting significant capacity management pressures.'
-    ]
+    id: 'defence', name: 'Defence', category: 'Public Services', amount: 63.7,
+    percentage: 5.4556, perCapita: Math.round(63.7 * 1000 / UK_FISCAL_TOTALS.population),
+    delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
+    icon: 'ShieldAlert', color: '#10b981',
+    description: 'Defence expenditure classified by the Treasury's expenditure-on-services framework.',
+    breakdown: [], // Not invented: detailed programme allocations require source verification
+    keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   },
   {
-    id: 'transport',
-    name: 'Transport Infrastructure',
-    category: 'Infrastructure',
-    amount: 41.5,
-    percentage: 3.4,
-    perCapita: 608,
-    delVsAme: 'DEL',
-    icon: 'Train',
-    color: '#14b8a6', // teal
-    description: 'National and regional rail systems, motorway maintenance, strategic high-speed rail, bus service subsidies, and local active travel.',
-    breakdown: [
-      { name: 'Network Rail & Passenger Rail Services', amount: 22.3, description: 'Track maintenance, signalling, train operating contracts, and High Speed 2 (HS2) London-Birmingham construction.' },
-      { name: 'Strategic Roads & National Highways', amount: 10.8, description: 'Motorway widening, pothole funds, resurfacing, smart motorways, and bridge structural inspections.' },
-      { name: 'Local Transport & Bus Subsidies', amount: 8.4, description: '£2 bus fare cap subsidies, Transport for London (TfL) capital settlements, cycling corridors, and light rail.' }
-    ],
-    keyFacts: [
-      'Over 1.6 billion passenger journeys are made annually on the UK rail network.',
-      'High Speed 2 (Phase 1) is Europe’s largest single infrastructure engineering project.'
-    ]
+    id: 'public-order', name: 'Public order and safety', category: 'Public Services', amount: 51.7,
+    percentage: 4.4279, perCapita: Math.round(51.7 * 1000 / UK_FISCAL_TOTALS.population),
+    delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
+    icon: 'Scale', color: '#f59e0b',
+    description: 'Police, justice, courts, prisons and public safety expenditure.',
+    breakdown: [], // Not invented: detailed programme allocations require source verification
+    keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   },
   {
-    id: 'economic-affairs',
-    name: 'Science, Innovation & Economy',
-    category: 'Economy',
-    amount: 34.2,
-    percentage: 2.8,
-    perCapita: 501,
-    delVsAme: 'Mixed',
-    icon: 'Cpu',
-    color: '#ec4899', // pink
-    description: 'Scientific research councils (UKRI), artificial intelligence supercomputing, aerospace, clean tech innovation, and business loans.',
-    breakdown: [
-      { name: 'Scientific Research & UKRI Councils', amount: 14.6, description: 'Grants to universities, laboratories (Crick Institute, Harwell), quantum computing, and biomedical research.' },
-      { name: 'Clean Energy & Green Transition Subsidies', amount: 10.2, description: 'Contracts for Difference (CfD) offshore wind support, carbon capture hubs, and nuclear power development.' },
-      { name: 'British Business Bank & Regional Growth', amount: 9.4, description: 'Start-up loans, Levelling Up / local enterprise funds, and industrial aerospace/automotive development.' }
-    ],
-    keyFacts: [
-      'The UK ranks 4th globally in the Global Innovation Index.',
-      'The government aims to position the UK as a global hub for Artificial Intelligence and life sciences.'
-    ]
+    id: 'housing-communities', name: 'Housing and community amenities', category: 'Infrastructure', amount: 21.8,
+    percentage: 1.8671, perCapita: Math.round(21.8 * 1000 / UK_FISCAL_TOTALS.population),
+    delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
+    icon: 'Home', color: '#ea580c',
+    description: 'Housing development and community amenities expenditure within the Treasury COFOG framework.',
+    breakdown: [], // Not invented: detailed programme allocations require source verification
+    keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   },
   {
-    id: 'general-public-services',
-    name: 'General Public Services & Administration',
-    category: 'Administration',
-    amount: 32.6,
-    percentage: 2.7,
-    perCapita: 478,
-    delVsAme: 'DEL',
-    icon: 'Building2',
-    color: '#64748b', // slate
-    description: 'Civil service administration, tax collection operations at HMRC, UK Parliament, statistics (ONS), and devolved block grants adjustments.',
-    breakdown: [
-      { name: 'HMRC & Revenue Administration', amount: 6.8, description: 'Tax collection digital infrastructure, compliance investigations, customer contact centres, and customs IT systems.' },
-      { name: 'Central Whitehall & Cabinet Office', amount: 7.4, description: 'Core policy coordination, civil service procurement, cybersecurity, and national archive operations.' },
-      { name: 'Devolved Governments Grant Baselines', amount: 14.2, description: 'Barnett formula baseline administration and cross-border public service standardizations.' },
-      { name: 'Parliament, Audit & Statistics', amount: 4.2, description: 'House of Commons & Lords, National Audit Office (NAO), Electoral Commission, and Office for National Statistics.' }
-    ],
-    keyFacts: [
-      'HMRC processes over £1.1 trillion in tax revenues with an operational budget of around £6.8bn (efficiency of under 0.6%).'
-    ]
+    id: 'environment-rural', name: 'Environmental protection', category: 'Environment', amount: 17.3,
+    percentage: 1.4817, perCapita: Math.round(17.3 * 1000 / UK_FISCAL_TOTALS.population),
+    delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
+    icon: 'Trees', color: '#16a34a',
+    description: 'Waste, pollution and other environment-protection expenditure across government.',
+    breakdown: [], // Not invented: detailed programme allocations require source verification
+    keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   },
   {
-    id: 'housing-communities',
-    name: 'Housing & Local Government',
-    category: 'Infrastructure',
-    amount: 19.8,
-    percentage: 1.6,
-    perCapita: 290,
-    delVsAme: 'DEL',
-    icon: 'Home',
-    color: '#ea580c', // orange
-    description: 'Affordable Homes Programme, cladding and building safety remediation, homelessness prevention, and local council grants.',
-    breakdown: [
-      { name: 'Affordable Homes & Social Housing Grants', amount: 6.8, description: 'Capital grants to housing associations and local councils to build social rent and shared ownership homes.' },
-      { name: 'Local Authority Support Grants', amount: 8.4, description: 'Revenue Support Grant and discretionary funds for local services like libraries, waste, and parks.' },
-      { name: 'Building Safety & Cladding Remediation', amount: 4.6, description: 'Replacing unsafe cladding on high-rise residential buildings following the Grenfell tragedy.' }
-    ],
-    keyFacts: [
-      'England has a target of building 300,000+ new homes each year to ease structural housing shortages.',
-      'Building safety remediation is partially funded through the Residential Property Developer Tax.'
-    ]
-  },
-  {
-    id: 'international-development',
-    name: 'International Aid & Foreign Office (FCDO)',
-    category: 'Foreign Affairs',
-    amount: 14.2,
-    percentage: 1.2,
-    perCapita: 208,
-    delVsAme: 'DEL',
-    icon: 'Globe',
-    color: '#0284c7', // light blue
-    description: 'Official Development Assistance (ODA), humanitarian disaster relief, global disease eradication, and the diplomatic embassy network.',
-    breakdown: [
-      { name: 'Overseas Humanitarian Aid & Global Health', amount: 7.8, description: 'Vaccine alliances (Gavi), emergency food relief in crisis zones, clean water projects, and refugee aid abroad.' },
-      { name: 'Diplomatic Missions & FCDO Network', amount: 3.8, description: 'Embassies, high commissions, consulates across 170+ countries, and multilateral treaty bodies.' },
-      { name: 'In-Donor Refugee Support Costs', amount: 2.6, description: 'First-year housing and welfare costs for eligible asylum seekers and refugees accommodated within the UK.' }
-    ],
-    keyFacts: [
-      'UK ODA spending is set at 0.5% of Gross National Income (GNI), with a legislated ambition to return to 0.7% when fiscal conditions allow.'
-    ]
-  },
-  {
-    id: 'environment-rural',
-    name: 'Environment, Food & Rural Affairs (DEFRA)',
-    category: 'Environment',
-    amount: 8.4,
-    percentage: 0.7,
-    perCapita: 123,
-    delVsAme: 'DEL',
-    icon: 'Trees',
-    color: '#16a34a', // green
-    description: 'River and coastal flood defences, post-Brexit Environmental Land Management (ELMS) farm subsidies, and forestry.',
-    breakdown: [
-      { name: 'Farm Stewardship & Land Management', amount: 3.8, description: 'ELMS subsidies replacing the EU Common Agricultural Policy, rewarding biodiversity, tree planting, and soil health.' },
-      { name: 'Flood & Coastal Erosion Risk Management', amount: 3.1, description: 'Construction and maintenance of sea walls, Thames Barrier operations, and river catchment defenses.' },
-      { name: 'Environmental Protection & Waste Regulation', amount: 1.5, description: 'Environment Agency inspections, water pollution monitoring, national park conservation, and veterinary services.' }
-    ],
-    keyFacts: [
-      'The Environment Agency protects over 300,000 properties with modern flood alleviation schemes.',
-      'Post-Brexit agricultural policy now pays farmers for "public goods" rather than simply acreage owned.'
-    ]
-  },
-  {
-    id: 'reserves-other',
-    name: 'Reserves, EU Settlement & Contingencies',
-    category: 'Contingencies',
-    amount: 67.4,
-    percentage: 5.5,
-    perCapita: 988,
-    delVsAme: 'AME',
-    icon: 'HelpCircle',
-    color: '#94a3b8',
-    description: 'Special reserve funds, unforeseen emergencies, capital depreciation write-offs, and residual EU financial settlement commitments.',
-    breakdown: [
-      { name: 'Treasury Special Contingency Reserve', amount: 15.2, description: 'Unallocated reserve for unexpected in-year geopolitical or economic shocks.' },
-      { name: 'Depreciation & Capital Asset Adjustments', amount: 44.2, description: 'Non-cash accounting charges for wear-and-tear of public buildings, military equipment, and road networks.' },
-      { name: 'EU Withdrawal Financial Settlement Tail', amount: 8.0, description: 'Agreed staged pension and liabilities transfers from UK exit agreements (winding down over time).' }
-    ],
-    keyFacts: [
-      'Significant portion reflects non-cash capital depreciation required by international national accounting standards.'
-    ]
+    id: 'culture', name: 'Recreation, culture and religion', category: 'Public Services', amount: 13.6,
+    percentage: 1.1648, perCapita: Math.round(13.6 * 1000 / UK_FISCAL_TOTALS.population),
+    delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
+    icon: 'Landmark', color: '#0284c7',
+    description: 'Recreation, cultural, religious and other related public services expenditure.',
+    breakdown: [], // Not invented: detailed programme allocations require source verification
+    keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   }
 ];
 
