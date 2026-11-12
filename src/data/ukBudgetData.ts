@@ -857,60 +857,56 @@ export const UK_INCOME_TAX_BRACKETS: TaxBracket[] = [
   { name: 'Additional Rate (45%)', min: 125140, max: Infinity, rate: 0.45 }
 ];
 
-export function calculatePersonalTax(grossIncome: number) {
-  // Income tax calculation (including taper above £100,000)
-  let allowance = 12570;
-  if (grossIncome > 100000) {
-    const reduction = Math.min(12570, (grossIncome - 100000) / 2);
-    allowance = Math.max(0, 12570 - reduction);
-  }
+export type UKIncomeTaxNation = 'england-wales-ni' | 'scotland';
 
-  let taxableIncome = Math.max(0, grossIncome - allowance);
+/**
+ * Illustrative employment PAYE calculation, 2026/27.
+ * Assumes gross earnings equal adjusted net income, standard Personal Allowance,
+ * no tax-code adjustments, no student loan, pensions, salary sacrifice or benefits.
+ * Scotland has separate non-savings income tax bands. NI is employee category A,
+ * annualised, assuming the employee is below State Pension age.
+ * Sources: HMRC income tax rates/allowances and employer thresholds 2026/27.
+ */
+export function calculatePersonalTax(grossIncome: number, nation: UKIncomeTaxNation = 'england-wales-ni') {
+  const income = Number.isFinite(grossIncome) ? Math.max(0, grossIncome) : 0;
+  const allowance = Math.max(0, 12570 - Math.max(0, income - 100000) / 2);
+  const taxableIncome = Math.max(0, income - allowance);
+
+  const bands: { upper: number; rate: number }[] = nation === 'scotland'
+    ? [
+        { upper: 3967, rate: 0.19 },
+        { upper: 16956, rate: 0.20 },
+        { upper: 31092, rate: 0.21 },
+        { upper: 62430, rate: 0.42 },
+        { upper: 125140, rate: 0.45 },
+        { upper: Infinity, rate: 0.48 }
+      ]
+    : [
+        { upper: 37700, rate: 0.20 },
+        { upper: 125140, rate: 0.40 },
+        { upper: Infinity, rate: 0.45 }
+      ];
   let incomeTax = 0;
-
-  // Basic rate band: up to £50,270 gross (or taxable up to £37,700)
-  const basicBandWidth = 50270 - 12570;
-  const basicTaxable = Math.min(taxableIncome, basicBandWidth);
-  incomeTax += basicTaxable * 0.20;
-
-  // Higher rate band: £50,270 to £125,140
-  if (grossIncome > 50270) {
-    const higherTaxable = Math.min(
-      Math.max(0, grossIncome - 50270),
-      125140 - 50270
-    );
-    incomeTax += higherTaxable * 0.40;
+  let lower = 0;
+  for (const band of bands) {
+    incomeTax += Math.max(0, Math.min(taxableIncome, band.upper) - lower) * band.rate;
+    lower = band.upper;
+    if (taxableIncome <= lower) break;
   }
 
-  // Additional rate: above £125,140
-  if (grossIncome > 125140) {
-    const additionalTaxable = grossIncome - 125140;
-    incomeTax += additionalTaxable * 0.45;
-  }
-
-  // Employee Class 1 National Insurance:
-  // £0 to £12,570: 0%
-  // £12,570 to £50,270: 8%
-  // Above £50,270: 2%
-  let nic = 0;
-  if (grossIncome > 12570) {
-    const nicMain = Math.min(grossIncome, 50270) - 12570;
-    nic += nicMain * 0.08;
-  }
-  if (grossIncome > 50270) {
-    const nicUpper = grossIncome - 50270;
-    nic += nicUpper * 0.02;
-  }
+  const nic = Math.max(0, Math.min(income, 50270) - 12570) * 0.08
+    + Math.max(0, income - 50270) * 0.02;
 
   const totalDirectTax = incomeTax + nic;
-  const netTakeHome = grossIncome - totalDirectTax;
-  const effectiveRate = grossIncome > 0 ? (totalDirectTax / grossIncome) * 100 : 0;
+  const netTakeHome = income - totalDirectTax;
+  const effectiveRate = income > 0 ? (totalDirectTax / income) * 100 : 0;
 
-  // Apportion where each £ of their direct tax goes
-  // Based on UK_SPENDING_DATA proportions
-  const totalSpending = UK_FISCAL_TOTALS.totalSpending;
+  // Educational allocation only. UK taxes are NOT earmarked by function.
+  // HM Treasury 2024/25 ten COFOG functions are normalised to 100% here;
+  // EU transactions and differences to TME are excluded from this illustration.
+  const functionalTotal = UK_SPENDING_DATA.reduce((sum, item) => sum + item.amount, 0);
   const taxDistribution = UK_SPENDING_DATA.map(item => {
-    const shareOfSpending = item.amount / totalSpending;
+    const shareOfSpending = functionalTotal ? item.amount / functionalTotal : 0;
     const personalContribution = totalDirectTax * shareOfSpending;
     return {
       id: item.id,
@@ -923,13 +919,13 @@ export function calculatePersonalTax(grossIncome: number) {
       daily: personalContribution / 365,
       breakdown: item.breakdown.map(b => ({
         name: b.name,
-        amount: personalContribution * (b.amount / item.amount)
+        amount: item.amount > 0 ? personalContribution * (b.amount / item.amount) : 0
       }))
     };
   });
 
   return {
-    grossIncome,
+    grossIncome: income,
     personalAllowance: allowance,
     incomeTax,
     nic,
@@ -939,4 +935,3 @@ export function calculatePersonalTax(grossIncome: number) {
     taxDistribution
   };
 }
-
