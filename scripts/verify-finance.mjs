@@ -11,7 +11,7 @@ const sandbox = { exports: {}, console };
 vm.runInNewContext(output, sandbox, { timeout: 5000 });
 const {
   UK_FISCAL_TOTALS, UK_SPENDING_DATA, UK_REVENUE_DATA, HMRC_REVENUE_TOTAL_2024_25, DEBT_INTEREST_METRICS,
-  UK_HISTORICAL_DATA, YEARLY_SPENDING_SPLITS, calculatePersonalTax
+  UK_HISTORICAL_DATA, YEARLY_SPENDING_SPLITS, YEARLY_REVENUE_SPLITS, calculatePersonalTax
 } = sandbox.exports;
 
 const close = (actual, expected, tolerance=0.001) =>
@@ -28,6 +28,13 @@ close(UK_FISCAL_TOTALS.taxPayingAdults, 38.6);
 close(DEBT_INTEREST_METRICS.annualAmount, 123853926000);
 close(DEBT_INTEREST_METRICS.perSecond, DEBT_INTEREST_METRICS.annualAmount / 31536000, 0.00001);
 
+assert.equal(YEARLY_REVENUE_SPLITS.length,5,'HMRC official tax history has five sourced years');
+for(const row of YEARLY_REVENUE_SPLITS){
+  close(row.incomeTax+row.nics+row.vat+row.corpTax+row.otherTaxes,row.totalReceiptsAndBorrowing);
+  close(row.borrowing,0);
+}
+close(YEARLY_REVENUE_SPLITS[0].totalReceiptsAndBorrowing,608.8);
+close(YEARLY_REVENUE_SPLITS[4].totalReceiptsAndBorrowing,875.9);
 assert.equal(UK_REVENUE_DATA.length, 7, 'Exactly seven HMRC tax groups');
 close(HMRC_REVENUE_TOTAL_2024_25, 875.9);
 close(UK_REVENUE_DATA.reduce((a,b)=>a+b.amount,0),HMRC_REVENUE_TOTAL_2024_25);
