@@ -120,7 +120,7 @@ export const UK_SPENDING_DATA: SpendingItem[] = [
     percentage: 5.4556, perCapita: Math.round(63.7 * 1000 / UK_FISCAL_TOTALS.population),
     delVsAme: 'Mixed', // COFOG is NOT a DEL/AME classification; do not infer one
     icon: 'ShieldAlert', color: '#10b981',
-    description: 'Defence expenditure classified by the Treasury's expenditure-on-services framework.',
+    description: 'Defence expenditure classified by the Treasury expenditure-on-services framework.',
     breakdown: [], // Not invented: detailed programme allocations require source verification
     keyFacts: ['HM Treasury, Public Spending Statistics May 2026, Table 9, 2024/25 outturn.']
   },
