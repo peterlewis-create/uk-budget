@@ -39,11 +39,11 @@ export const RevenueTab: React.FC = () => {
             HM Treasury Receipts & Taxation
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            How the UK Raises £1.14 Trillion in Revenue
+            How the UK Raises £{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn in Revenue
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-            Taxes on work, consumption, corporate profits, assets, and environmental duties. 
-            Direct taxes (Income Tax and National Insurance) make up over 40% of all state income.
+            Illustrative breakdown of taxes on work, consumption, corporate profits, assets and environmental duties; detailed tax category amounts are pending source verification. 
+            Figures in the category cards below are legacy estimates, not reconciled to the ONS total.
           </p>
         </div>
 
@@ -51,7 +51,7 @@ export const RevenueTab: React.FC = () => {
         <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-left md:text-right shrink-0">
           <div className="text-xs text-slate-400 font-medium">Total UK Receipts</div>
           <div className="text-2xl font-black text-emerald-400">£{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn</div>
-          <div className="text-[11px] text-slate-500">41.2% of Gross Domestic Product</div>
+          <div className="text-[11px] text-slate-500">ONS 2024/25 outturn · current receipts</div>
         </div>
       </div>
 
