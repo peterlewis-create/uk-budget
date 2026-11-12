@@ -22,11 +22,11 @@ export const TaxCalculatorTab: React.FC = () => {
   const [timeframe, setTimeframe] = useState<'annual' | 'monthly' | 'daily'>('annual');
 
   const presets = [
-    { label: 'Living Wage', value: 23795, desc: 'Full-time minimum wage' },
-    { label: 'UK Median', value: 37500, desc: 'Average full-time worker' },
-    { label: 'Nurse / Teacher', value: 43000, desc: 'Public service mid-career' },
+    { label: 'Example £24k', value: 24000, desc: 'Illustrative gross pay' },
+    { label: 'Example £38k', value: 38000, desc: 'Illustrative gross pay' },
+    { label: 'Example £43k', value: 43000, desc: 'Illustrative gross pay' },
     { label: 'Higher Rate', value: 50270, desc: '40% tax threshold' },
-    { label: 'Manager / Tech', value: 75000, desc: 'Top 15% UK income' },
+    { label: 'Example £75k', value: 75000, desc: 'Illustrative gross pay' },
     { label: '£100k Club', value: 100000, desc: 'Allowance taper zone' }
   ];
 
@@ -141,7 +141,7 @@ export const TaxCalculatorTab: React.FC = () => {
         {/* Quick Presets */}
         <div>
           <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide block mb-2">
-            Quick Benchmarks:
+            Illustrative Income Examples:
           </span>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
             {presets.map((p) => (
@@ -276,7 +276,7 @@ export const TaxCalculatorTab: React.FC = () => {
         {/* Receipt Footer */}
         <div className="bg-slate-950 p-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-xs text-slate-400 text-center sm:text-left">
-            <span className="font-semibold text-slate-200">Thank you for funding the United Kingdom.</span><br />
+            <span className="font-semibold text-slate-200">Indicative allocation — not earmarked tax receipts.</span><br />
             Calculated proportionally using HM Treasury Autumn Budget & OBR outturn data.
           </div>
           <button
