@@ -19,28 +19,39 @@ interface DebtInterestTickerProps {
 }
 
 export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant = 'full' }) => {
-  // Session start time
+  // Interest-only illustration: ONS PSND ex banks at 31 March 2026 + OBR 2026/27 average interest.
+  // Neither amount represents a real-time payment stream or an official continuously updated PSND stock.
+  const anchorDebt = 2_916_811_000_000;
+  const anchorEpoch = Date.UTC(2026, 2, 31, 23); // 1 April 2026, 00:00 BST
   const startTimeRef = useRef<number>(Date.now());
   const [sessionInterest, setSessionInterest] = useState<number>(0);
   const [todayInterest, setTodayInterest] = useState<number>(0);
+  const [cumulativeDebt, setCumulativeDebt] = useState<number>(anchorDebt);
   const [sessionSeconds, setSessionSeconds] = useState<number>(0);
 
   useEffect(() => {
     const updateInterest = () => {
       const now = Date.now();
-      const elapsedSeconds = (now - startTimeRef.current) / 1000;
+      const elapsedSeconds = Math.max(0, (now - startTimeRef.current) / 1000);
       setSessionSeconds(elapsedSeconds);
       setSessionInterest(elapsedSeconds * DEBT_INTEREST_METRICS.perSecond);
+      setCumulativeDebt(anchorDebt + Math.max(0, (now - anchorEpoch) / 1000) * DEBT_INTEREST_METRICS.perSecond);
 
-      // Calculate elapsed seconds since midnight today (UK local time)
-      const date = new Date(now);
-      const midnight = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
-      const secondsSinceMidnight = (now - midnight) / 1000;
-      setTodayInterest(secondsSinceMidnight * DEBT_INTEREST_METRICS.perSecond);
+      // Reconstruct London midnight, including BST/GMT changes. Never use the visitor's time zone.
+      const zoned = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/London', year: 'numeric', month: '2-digit', day: '2-digit'
+      }).formatToParts(new Date(now));
+      const part = (name: string) => Number(zoned.find(p => p.type === name)?.value || 0);
+      const utcMidnight = Date.UTC(part('year'), part('month') - 1, part('day'));
+      const offset = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/London', timeZoneName: 'shortOffset'
+      }).formatToParts(new Date(utcMidnight)).find(p => p.type === 'timeZoneName')?.value || 'GMT';
+      const match = offset.match(/GMT([+-])(\\d{1,2})(?::(\\d{2}))?/);
+      const offsetMs = match ? (match[1] === '+' ? 1 : -1) * (Number(match[2]) * 60 + Number(match[3] || 0)) * 60000 : 0;
+      setTodayInterest(Math.max(0, (now - (utcMidnight - offsetMs)) / 1000) * DEBT_INTEREST_METRICS.perSecond);
     };
-
     updateInterest();
-    const timer = setInterval(updateInterest, 50); // High precision 20fps ticker
+    const timer = setInterval(updateInterest, 100);
     return () => clearInterval(timer);
   }, []);
 
@@ -59,9 +70,9 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
         </span>
-        <span className="text-slate-400 font-sans text-[11px] hidden sm:inline">Debt Interest:</span>
-        <span className="text-red-400 font-bold">+£{formatPounds(sessionInterest, 0)}</span>
-        <span className="text-slate-500 text-[10px]">({sessionSeconds.toFixed(0)}s on page)</span>
+        <span className="text-slate-400 font-sans text-[11px] hidden sm:inline">Indicative debt:</span>
+        <span className="text-red-400 font-bold">+£{formatPounds(cumulativeDebt, 0)}</span>
+        <span className="text-slate-500 text-[10px]">(interest-only projection)</span>
       </div>
     );
   }
@@ -76,7 +87,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
           </div>
           <div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-red-400 flex items-center gap-1.5">
-              <span>Real-Time Debt Interest Counter</span>
+              <span>Estimated Debt Interest Counter</span>
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
             </div>
             <div className="text-xl sm:text-2xl font-black text-white font-mono mt-0.5">
@@ -90,7 +101,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
             +£{DEBT_INTEREST_METRICS.perSecond.toLocaleString('en-GB', { minimumFractionDigits: 2 })} / sec
           </div>
           <div className="text-[10px] text-slate-500 font-mono">
-            +£{formatPounds(sessionInterest, 2)} this session
+            £{formatPounds(cumulativeDebt, 2)} this session
           </div>
         </div>
       </div>
@@ -120,11 +131,11 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
               </h3>
               <span className="flex items-center gap-1 text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30">
                 <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-ping"></span>
-                Real-Time Outflow
+                Indicative Average
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
-              HM Treasury debt servicing on UK sovereign gilts and inflation-linked liabilities (£102.3bn/year)
+              OBR 2026/27 central government interest net of APF (£123.854bn/year); annual average, not actual cash payments
             </p>
           </div>
         </div>
@@ -142,7 +153,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
         {/* Today's Interest So Far */}
         <div className="p-4 rounded-xl bg-slate-950/80 border border-red-900/30 shadow-inner">
           <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span>Interest Paid Today (Since Midnight)</span>
+            <span>Estimated Interest Since UK Midnight</span>
             <Clock className="w-3.5 h-3.5 text-red-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-black text-white font-mono tracking-tight text-red-400">
@@ -150,7 +161,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
           </div>
           <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
             <span>Paces to</span>
-            <strong className="text-slate-200">£280.1m</strong>
+            <strong className="text-slate-200">£339.3m</strong>
             <span>by 23:59:59 tonight</span>
           </div>
         </div>
@@ -158,28 +169,28 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
         {/* Accrued While On Page */}
         <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 shadow-inner">
           <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span>Accrued While You've Viewed Page</span>
+            <span>Illustrative Cumulative Debt (Including Interest)</span>
             <Activity className="w-3.5 h-3.5 text-amber-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-black text-amber-400 font-mono tracking-tight">
-            +£{formatPounds(sessionInterest, 2)}
+            £{formatPounds(cumulativeDebt, 2)}
           </div>
           <div className="text-[11px] text-slate-400 mt-1">
-            Timer: <span className="font-mono text-slate-200">{sessionSeconds.toFixed(1)} seconds</span> elapsed
+            ONS March 2026 debt stock + illustrative interest; not official live debt
           </div>
         </div>
 
         {/* Annual Total */}
         <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 shadow-inner">
           <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span>Total Annual Debt Servicing</span>
+            <span>OBR Annual Interest Forecast (2026/27)</span>
             <Coins className="w-3.5 h-3.5 text-blue-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-black text-white font-mono tracking-tight">
-            £102.3bn
+            £{(DEBT_INTEREST_METRICS.annualAmount / 1e9).toFixed(1)}bn
           </div>
           <div className="text-[11px] text-slate-400 mt-1">
-            8.3% of entire government budget
+            Central government net of APF; forecast, different period from 2024/25 budget
           </div>
         </div>
       </div>
@@ -193,19 +204,19 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
           <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
             <span className="text-[10px] text-slate-400 block uppercase">Every Second</span>
-            <span className="text-sm font-bold text-red-400 font-mono">£3,241.65</span>
+            <span className="text-sm font-bold text-red-400 font-mono">£{formatPounds(DEBT_INTEREST_METRICS.perSecond, 2)}</span>
           </div>
           <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
             <span className="text-[10px] text-slate-400 block uppercase">Every Minute</span>
-            <span className="text-sm font-bold text-amber-400 font-mono">£194,500</span>
+            <span className="text-sm font-bold text-amber-400 font-mono">£{formatPounds(DEBT_INTEREST_METRICS.perMinute, 0)}</span>
           </div>
           <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
             <span className="text-[10px] text-slate-400 block uppercase">Every Hour</span>
-            <span className="text-sm font-bold text-slate-200 font-mono">£11.67 Million</span>
+            <span className="text-sm font-bold text-slate-200 font-mono">£{(DEBT_INTEREST_METRICS.perHour / 1e6).toFixed(2)} Million</span>
           </div>
           <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
             <span className="text-[10px] text-slate-400 block uppercase">Every 24 Hours</span>
-            <span className="text-sm font-bold text-slate-200 font-mono">£280.1 Million</span>
+            <span className="text-sm font-bold text-slate-200 font-mono">£{(DEBT_INTEREST_METRICS.perDay / 1e6).toFixed(1)} Million</span>
           </div>
         </div>
       </div>
@@ -215,9 +226,9 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
         <div className="flex items-center justify-between text-xs">
           <span className="font-bold text-red-300 uppercase tracking-wide flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            What Today's Debt Interest Paid So Far Could Have Funded:
+            What Today's Estimated Interest Could Illustratively Fund:
           </span>
-          <span className="text-[11px] text-slate-400">Live updated</span>
+          <span className="text-[11px] text-slate-400">Indicative comparison</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -268,7 +279,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
         </div>
 
         <p className="text-[11px] text-slate-400 leading-relaxed pt-1">
-          <strong className="text-slate-300">Why is this so high?</strong> Approximately 25% of the UK's £2.7 Trillion national debt 
+          <strong className="text-slate-300">Why is this so high?</strong> Part of the UK's outstanding public debt 
           is index-linked to Retail Price Index (RPI) inflation. When inflation surged between 2022 and 2024, sovereign interest payouts 
           spiked past £100bn per year, where they remain elevated due to higher global interest rates.
         </p>
