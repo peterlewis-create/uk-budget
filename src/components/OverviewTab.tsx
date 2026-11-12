@@ -95,7 +95,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
             <span><strong className="text-slate-200">Assumed population</strong></span>
           </div>
           <div className="mt-2 text-[11px] text-slate-500 leading-tight">
-            Total Managed Expenditure (TME) including public services & capital investments.
+            ONS Total Managed Expenditure (TME), 2024/25; HM Treasury PSS reports £1,290.6bn using its publication basis.
           </div>
         </div>
 
@@ -133,7 +133,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
             <span className="font-semibold text-rose-300">{UK_FISCAL_TOTALS.borrowingPercentGdp}%</span> of UK GDP
           </div>
           <div className="mt-2 text-[11px] text-slate-500 leading-tight">
-            Shortfall between spending and receipts funded by issuing government gilts.
+            ONS public sector net borrowing (PSNB), a statistical deficit measure; it is not identical to gross gilt issuance.
           </div>
         </div>
 
@@ -152,7 +152,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
             <span className="font-semibold text-amber-300">{UK_FISCAL_TOTALS.debtPercentGdp}%</span> of GDP
           </div>
           <div className="mt-2 text-[11px] text-slate-500 leading-tight">
-            Total accumulated UK national debt since the foundation of the Bank of England (1694).
+            ONS public sector net debt excluding banks, measured at the end of March 2025.
           </div>
         </div>
       </div>
@@ -166,7 +166,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
               The UK Budget Balance: Where the Money Comes From & Where It Goes
             </h3>
             <p className="text-xs text-slate-400 mt-0.5">
-              Comparison of total revenues (receipts + borrowing) versus functional public expenditure.
+              ONS public sector receipts and borrowing against ONS Total Managed Expenditure for 2024/25.
             </p>
           </div>
           <div className="flex items-center gap-4 text-xs font-medium">
@@ -191,14 +191,14 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
               className="h-full bg-gradient-to-r from-emerald-600 to-teal-500 rounded-lg flex items-center px-3 text-xs font-bold text-white shadow-inner truncate transition-all duration-300"
               title={`Taxation & Receipts: £${UK_FISCAL_TOTALS.totalReceipts}bn (${(UK_FISCAL_TOTALS.totalReceipts / UK_FISCAL_TOTALS.totalSpending * 100).toFixed(1)}%)`}
             >
-              Taxation & Receipts: £1,139.2bn (${(UK_FISCAL_TOTALS.totalReceipts / UK_FISCAL_TOTALS.totalSpending * 100).toFixed(1)}%)
+              Receipts: £{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn
             </div>
             <div
               style={{ width: `${(UK_FISCAL_TOTALS.netBorrowing / UK_FISCAL_TOTALS.totalSpending) * 100}%` }}
               className="h-full bg-rose-600 rounded-lg flex items-center justify-center px-2 text-xs font-bold text-white shadow-inner truncate transition-all duration-300"
               title={`Net Borrowing: £${UK_FISCAL_TOTALS.netBorrowing}bn (${(UK_FISCAL_TOTALS.netBorrowing / UK_FISCAL_TOTALS.totalSpending * 100).toFixed(1)}%)`}
             >
-              Borrowing: £87.2bn (${(UK_FISCAL_TOTALS.netBorrowing / UK_FISCAL_TOTALS.totalSpending * 100).toFixed(1)}%)
+              Borrowing: £{UK_FISCAL_TOTALS.netBorrowing.toFixed(1)}bn
             </div>
           </div>
         </div>
