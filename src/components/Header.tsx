@@ -29,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
     { id: 'yearly_splits', label: 'Yearly Splits', icon: BarChart3, badge: 'Interactive' },
     { id: 'per_person', label: 'Per Person Budget', icon: Users, badge: '£17.9k/ea' },
     { id: 'g20', label: 'G20 Comparison', icon: Globe2, badge: 'Debt & Spend' },
-    { id: 'spending', label: 'Public Spending', icon: PieChart, badge: '£1.23T' },
+    { id: 'spending', label: 'Public Spending', icon: PieChart, badge: '£1.29T' },
     { id: 'revenue', label: 'Tax Receipts', icon: Coins, badge: '£1.14T' },
     { id: 'calculator', label: 'Where My Tax Goes', icon: Receipt, badge: 'Personal' },
     { id: 'simulator', label: 'Chancellor Simulator', icon: Sliders, badge: 'Interactive' },
@@ -43,10 +43,10 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
         <div className="flex items-center gap-3">
           <span className="inline-flex items-center gap-1.5 font-medium text-amber-400">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            HM Treasury & OBR 2024/25 Dataset
+            ONS 2024/25 outturn · OBR 2026/27 interest
           </span>
           <span className="hidden sm:inline text-slate-600">|</span>
-          <span className="hidden sm:inline">Total Public Expenditure: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn (£17,982/person)</strong></span>
+          <span className="hidden sm:inline">Total Public Expenditure: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn (ONS, 2024/25)</strong></span>
           <span className="hidden md:inline text-slate-600">|</span>
           <span className="hidden md:inline">Receipts: <strong className="text-slate-200">£{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn</strong></span>
         </div>
