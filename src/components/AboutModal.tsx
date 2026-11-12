@@ -40,13 +40,13 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               Primary Official Data Sources
             </h4>
             <p className="text-xs text-slate-400 leading-relaxed mb-3">
-              This application is built using primary verified datasets published by the UK Government and sovereign fiscal watchdogs:
+              Core financial figures use dated official ONS, HM Treasury, HMRC and OBR publications. Some specialist modules are withheld while their original datasets are being verified:
             </p>
             <ul className="space-y-2">
               <li className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start justify-between gap-3">
                 <div>
                   <strong className="text-white block text-xs">Office for Budget Responsibility (OBR)</strong>
-                  <span className="text-[11px] text-slate-400">Economic and Fiscal Outlook (EFO), Public Finances Databank, and Fiscal Risks Report.</span>
+                  <span className="text-[11px] text-slate-400">October 2026 Economic and Fiscal Outlook: the £123.9bn 2026/27 central-government debt-interest forecast net of APF (a forecast, not cash paid each second).</span>
                 </div>
                 <a href="https://obr.uk" target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 shrink-0">
                   <ExternalLink className="w-4 h-4" />
@@ -55,7 +55,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <li className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start justify-between gap-3">
                 <div>
                   <strong className="text-white block text-xs">HM Treasury (HMT)</strong>
-                  <span className="text-[11px] text-slate-400">Autumn Budget Statement, Public Expenditure Statistical Analyses (PESA), and Main Supply Estimates.</span>
+                  <span className="text-[11px] text-slate-400">Public Spending Statistics, May 2026, Table 9: 2024/25 functional spending and annually reconciled 2010/11–2024/25 expenditure-on-services series.</span>
                 </div>
                 <a href="https://www.gov.uk/government/organisations/hm-treasury" target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 shrink-0">
                   <ExternalLink className="w-4 h-4" />
@@ -64,9 +64,18 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <li className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start justify-between gap-3">
                 <div>
                   <strong className="text-white block text-xs">Office for National Statistics (ONS)</strong>
-                  <span className="text-[11px] text-slate-400">Public Sector Finances Statistical Bulletins and Gross Domestic Product outturn.</span>
+                  <span className="text-[11px] text-slate-400">Public Sector Finances, October 2026 vintage: expenditure, current receipts, net borrowing, and net debt excluding public-sector banks.</span>
                 </div>
                 <a href="https://www.ons.gov.uk" target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 shrink-0">
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </li>
+              <li className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start justify-between gap-3">
+                <div>
+                  <strong className="text-white block text-xs">HM Revenue &amp; Customs (HMRC)</strong>
+                  <span className="text-[11px] text-slate-400">Annual Report 2024/25, figure 15: £875.9bn tax receipts; 2026/27 employee PAYE and NIC thresholds. HMRC receipts are distinct from ONS public-sector receipts.</span>
+                </div>
+                <a href="https://www.gov.uk/government/publications/hmrc-annual-report-and-accounts-2024-to-2025" target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 shrink-0">
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </li>
@@ -80,15 +89,13 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             </h4>
             <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs leading-relaxed text-slate-400">
               <p>
-                <strong>Income Tax & NICs:</strong> Calculations reflect standard rates for England, Wales & Northern Ireland for tax year 2024/25. 
-                Personal Allowance is £12,570, tapering by £1 for every £2 of income above £100,000. Employee National Insurance is charged at 8% on earnings between £12,570 and £50,270, and 2% thereafter.
+                <strong>Income Tax & NICs:</strong> Illustrative 2026/27 employment-income PAYE calculations for England, Wales and Northern Ireland or Scottish non-savings income. The standard Personal Allowance is £12,570 and is withdrawn above £100,000. Annualised employee Class 1 NI assumes category A and an employee below State Pension age. Pensions, loans and individual tax-code adjustments are excluded.
               </p>
               <p>
-                <strong>"Where My Tax Goes":</strong> Total direct personal tax is apportioned across public spending functions based on their share of Total Managed Expenditure (TME). 
-                Because taxes pool into the Consolidated Fund and National Insurance Fund, individual payments fund all public services proportionately.
+                <strong>"Where My Tax Goes":</strong> An educational, counterfactual allocation of calculated direct taxes across the ten HM Treasury expenditure-on-services functions, weighted by 2024/25 functional totals. This does NOT represent earmarking of your specific taxes, spending funded by an individual, or actual service consumption.
               </p>
               <p>
-                <strong>Policy Simulation Levers:</strong> Elasticity coefficients are derived from HMRC "Direct effects of illustrative tax changes" tables and OBR fiscal multipliers, accounting for behavioral drag.
+                <strong>Policy Simulation Levers:</strong> The original policy-yield coefficients are not sufficiently documented or independently validated. The simulator is therefore withheld pending calibration and source-by-source review. International comparisons are likewise withheld until common statistical definitions can be verified.
               </p>
             </div>
           </div>
