@@ -37,7 +37,9 @@ close(UK_REVENUE_DATA.find(x=>x.id === 'vat').amount,178.5);
 close(UK_REVENUE_DATA.find(x=>x.id === 'corporation-tax').amount,89.6);
 assert.ok(!UK_REVENUE_DATA.some(x=>x.id === 'borrowing-shortfall'),
   'Borrowing is NOT HMRC tax revenue');
-assert.equal(UK_HISTORICAL_DATA.length,5,'Historical chart must only show audited 2020/21–2024/25 rows');
+assert.equal(UK_HISTORICAL_DATA.length,13,'Historical chart must show 13 independently checked ONS fiscal periods');
+close(UK_HISTORICAL_DATA[0].borrowing,-16.305);
+close(UK_HISTORICAL_DATA[UK_HISTORICAL_DATA.length-1].debtAmount,2916.811);
 for(const row of UK_HISTORICAL_DATA){
   close(row.spending - row.receipts,row.borrowing);
 }
