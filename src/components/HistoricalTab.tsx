@@ -10,11 +10,11 @@ import {
 } from 'lucide-react';
 import { UK_HISTORICAL_DATA, HistoricalYearData } from '../data/ukBudgetData';
 import { DebtInterestTicker } from './DebtInterestTicker';
-import { YearlySplitGraphs } from './YearlySplitGraphs';
+import { FinancialVerificationNotice } from './FinancialVerificationNotice';
 
 export const HistoricalTab: React.FC = () => {
   const [selectedMetric, setSelectedMetric] = useState<'debt' | 'spending_vs_receipts' | 'borrowing' | 'macro'>('debt');
-  const [activeYear, setActiveYear] = useState<HistoricalYearData>(UK_HISTORICAL_DATA[UK_HISTORICAL_DATA.length - 2]); // 2024/25
+  const [activeYear, setActiveYear] = useState<HistoricalYearData>(UK_HISTORICAL_DATA[UK_HISTORICAL_DATA.length - 1]); // 2024/25
   const [showYearlySplits, setShowYearlySplits] = useState(true);
 
   return (
@@ -24,14 +24,13 @@ export const HistoricalTab: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20 mb-2">
             <Calendar className="w-3.5 h-3.5" />
-            Quarter-Century Fiscal History & Split Analysis (2000–2026)
+            ONS Verified Annual Fiscal Trends (2020/21–2024/25)
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            How UK Debt & Public Spending Surged from 30% to 98% of GDP
+            UK Borrowing, Debt and Public Finances — Verified Annual Data
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mt-1">
-            Recent 2020/21–2025/26 ONS spending, receipts, borrowing and debt have been updated; earlier fiscal figures and some macro-economic fields remain under source review. Tracking economic shocks: 
-            the Dot-com surplus, the 2008 Financial Crisis, Austerity, the COVID-19 pandemic, and recent inflation.
+            This chart uses source-checked ONS public sector finances from 2020/21 to 2024/25. Earlier years and unverified macroeconomic series are excluded until reconciled to official releases.
           </p>
         </div>
 
@@ -61,14 +60,7 @@ export const HistoricalTab: React.FC = () => {
           >
             Annual Deficit
           </button>
-          <button
-            onClick={() => setSelectedMetric('macro')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-              selectedMetric === 'macro' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            Inflation & Rate
-          </button>
+
         </div>
       </div>
 
@@ -80,7 +72,7 @@ export const HistoricalTab: React.FC = () => {
         <div className="flex items-center justify-between">
           <h3 className="text-base font-bold text-white flex items-center gap-2">
             <LineChart className="w-5 h-5 text-blue-400" />
-            {selectedMetric === 'debt' && 'Public Sector Net Debt as % of Gross Domestic Product (2000 - 2026)'}
+            {selectedMetric === 'debt' && 'Public Sector Net Debt as % of GDP (2020/21–2024/25)'}
             {selectedMetric === 'spending_vs_receipts' && 'Total Managed Expenditure vs Total Receipts (£ Billions)'}
             {selectedMetric === 'borrowing' && 'Annual Public Sector Net Borrowing / Deficit (£ Billions)'}
             {selectedMetric === 'macro' && 'CPI Inflation Rate vs Bank of England Base Interest Rate (%)'}
@@ -171,65 +163,22 @@ export const HistoricalTab: React.FC = () => {
           </div>
 
           <div className="text-xs text-slate-400 bg-slate-900 px-3 py-2 rounded-lg border border-slate-800 shrink-0">
-            <div>Inflation: <strong className="text-slate-200">{activeYear.inflation}%</strong></div>
-            <div>Bank Rate: <strong className="text-slate-200">{activeYear.bankRate}%</strong></div>
+            <div>ONS public sector finance outturn</div>
+            <div>Data vintage: October 2026</div>
           </div>
         </div>
       </div>
 
       {/* Embedded Yearly Splits Section */}
       <div className="pt-4 border-t border-slate-800/80">
-        <YearlySplitGraphs />
+        <FinancialVerificationNotice
+          title="Historical sector and tax breakdowns"
+          reason="Year-by-year subcategory figures are temporarily withheld until the historical HM Treasury and HMRC series are reconciled. The source-verified headline time series above remains available."
+          sources="HM Treasury Public Spending Statistics and HMRC annual receipts"
+        />
       </div>
 
-      {/* Historical Milestones Cards */}
-      <div className="space-y-4">
-        <h3 className="text-base font-bold text-white flex items-center gap-2">
-          <Clock className="w-4 h-4 text-amber-400" />
-          Key Turning Points in Modern British Public Finances
-        </h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Milestone 1: 2000 Dotcom Surplus */}
-          <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-            <div className="flex items-center justify-between text-xs font-semibold text-emerald-400">
-              <span>2000 - 2001</span>
-              <span>£16.6bn Surplus</span>
-            </div>
-            <h4 className="text-sm font-bold text-white">The Millennial Budget Surplus</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Buoyed by strong economic growth and 3G telecoms spectrum auction receipts (£22.5bn), 
-              the UK government ran a cash budget surplus. National debt was just 30.6% of GDP.
-            </p>
-          </div>
-
-          {/* Milestone 2: 2008 Crash */}
-          <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-            <div className="flex items-center justify-between text-xs font-semibold text-rose-400">
-              <span>2008 - 2010</span>
-              <span>10.1% GDP Deficit</span>
-            </div>
-            <h4 className="text-sm font-bold text-white">The Global Financial Crisis</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Catastrophic banking collapses led to massive taxpayer bailouts of RBS and HBOS. 
-              Tax receipts plunged while automatic welfare stabilizers triggered, pushing debt from 35% past 65% of GDP.
-            </p>
-          </div>
-
-          {/* Milestone 3: 2020 Pandemic & Today */}
-          <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-            <div className="flex items-center justify-between text-xs font-semibold text-amber-400">
-              <span>2020 - Present</span>
-              <span>£313bn Peak Borrowing</span>
-            </div>
-            <h4 className="text-sm font-bold text-white">COVID Shock & Inflation Surge</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Lockdown support (Coronavirus Job Retention Scheme, business loans, NHS PPE) caused borrowing to reach 
-              peacetime records. Subsequent global energy price shocks drove debt to 98.4% of GDP.
-            </p>
-          </div>
-        </div>
-      </div>
+      <p className="text-xs text-slate-400">Fiscal indicators shown are historical outturn statistics, not a continuous real-time measure of public debt. The separate debt-interest counter is an illustrative projection.</p>
     </div>
   );
 };
