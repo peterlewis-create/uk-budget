@@ -46,7 +46,7 @@ export const App: React.FC = () => {
           />
         )}
 
-        {activeTab === 'yearly_splits' && <FinancialVerificationNotice title="Yearly Splits" reason="The existing historical sector and tax composition charts contain unaudited estimates. Official HM Treasury spending-by-function and HMRC historical tax tables must replace every series before returning the charts." sources="HM Treasury Public Spending Statistics and HMRC Annual Report" />}
+        {activeTab === 'yearly_splits' && <YearlySplitGraphs />}
 
         {activeTab === 'per_person' && <PerPersonBudgetCalculator />}
 
