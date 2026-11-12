@@ -178,20 +178,14 @@ export const UK_REVENUE_DATA: RevenueItem[] = [
   { id: "other-hmrc", name: "Other HMRC Taxes and Duties", category: "Other", amount: 86.1, percentage: 9.82989, color: "#64748b", description: "Remaining HMRC receipts, including Capital Gains Tax, alcohol duties, Insurance Premium Tax and other taxes and duties. This is HMRC's published residual category, not non-tax public-sector income.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." }
 ];
 
+/** ONS October 2026 vintage, 2020/21-2024/25 PSF outturn. Historical GDP,
+ *  inflation and Bank Rate fields intentionally excluded until series are validated. */
 export const UK_HISTORICAL_DATA: HistoricalYearData[] = [
-  { year: '2000/01', spending: 371.2, receipts: 387.8, borrowing: -16.6, debtPercentGdp: 30.6, debtAmount: 312, gdp: 1020, inflation: 1.2, bankRate: 6.0, keyEvent: 'Dot-com boom; Treasury ran budget surplus' },
-  { year: '2004/05', spending: 489.5, receipts: 450.2, borrowing: 39.3, debtPercentGdp: 35.2, debtAmount: 448, gdp: 1273, inflation: 1.3, bankRate: 4.75, keyEvent: 'Major expansion in NHS and Education spending' },
-  { year: '2008/09', spending: 628.7, receipts: 531.4, borrowing: 97.3, debtPercentGdp: 50.1, debtAmount: 765, gdp: 1526, inflation: 3.6, bankRate: 0.5, keyEvent: 'Global Financial Crisis bank bailouts (RBS, HBOS)' },
-  { year: '2009/10', spending: 669.8, receipts: 512.4, borrowing: 157.4, debtPercentGdp: 64.7, debtAmount: 1007, gdp: 1556, inflation: 2.2, bankRate: 0.5, keyEvent: 'Peak post-crisis deficit (10.1% of GDP)' },
-  { year: '2012/13', spending: 709.2, receipts: 593.4, borrowing: 115.8, debtPercentGdp: 74.2, debtAmount: 1261, gdp: 1700, inflation: 2.8, bankRate: 0.5, keyEvent: 'Coalition Government austerity program underway' },
-  { year: '2015/16', spending: 753.1, receipts: 673.2, borrowing: 79.9, debtPercentGdp: 80.5, debtAmount: 1577, gdp: 1959, inflation: 0.0, bankRate: 0.5, keyEvent: 'Deficit halved; Triple Lock established' },
-  { year: '2018/19', spending: 824.5, receipts: 783.5, borrowing: 41.0, debtPercentGdp: 80.4, debtAmount: 1779, gdp: 2212, inflation: 2.5, bankRate: 0.75, keyEvent: 'Deficit reached decade low (1.9% of GDP)' },
-  { year: '2020/21', spending: 1103.793, receipts: 792.959, borrowing: 310.834, debtPercentGdp: 95.2, debtAmount: 2157.667, gdp: 2332, inflation: 0.9, bankRate: 0.1, keyEvent: 'COVID-19 Pandemic: Furlough, business grants, vaccine rollout' },
-  { year: '2021/22', spending: 1038.195, receipts: 922.217, borrowing: 115.978, debtPercentGdp: 93.9, debtAmount: 2379.717, gdp: 2518, inflation: 4.0, bankRate: 0.75, keyEvent: 'Economic reopening; post-pandemic bounce' },
-  { year: '2022/23', spending: 1158.392, receipts: 1034.576, borrowing: 123.816, debtPercentGdp: 92.7, debtAmount: 2542.731, gdp: 2640, inflation: 9.1, bankRate: 4.25, keyEvent: 'Energy crisis subsidies & 40-year high inflation' },
-  { year: '2023/24', spending: 1231.793, receipts: 1096.559, borrowing: 135.234, debtPercentGdp: 93.7, debtAmount: 2684.142, gdp: 2726, inflation: 6.8, bankRate: 5.25, keyEvent: 'High interest rates drive gilt servicing costs past £100bn' },
-  { year: '2024/25', spending: 1290.348, receipts: 1140.539, borrowing: 149.809, debtPercentGdp: 92.9, debtAmount: 2806.699, gdp: 2768, inflation: 2.6, bankRate: 4.75, keyEvent: 'New Government Autumn Budget & fiscal rules revision' },
-  { year: '2025/26 (ONS Outturn)', spending: 1365.598, receipts: 1231.387, borrowing: 134.211, debtPercentGdp: 93.2, debtAmount: 2916.811, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; macro indicators pending separate validation' }
+  { year: '2020/21', spending: 1103.793, receipts: 792.959, borrowing: 310.834, debtPercentGdp: 95.2, debtAmount: 2157.667, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; debt excludes public sector banks' },
+  { year: '2021/22', spending: 1038.195, receipts: 922.217, borrowing: 115.978, debtPercentGdp: 93.9, debtAmount: 2379.717, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; debt excludes public sector banks' },
+  { year: '2022/23', spending: 1158.392, receipts: 1034.576, borrowing: 123.816, debtPercentGdp: 92.7, debtAmount: 2542.731, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; debt excludes public sector banks' },
+  { year: '2023/24', spending: 1231.793, receipts: 1096.559, borrowing: 135.234, debtPercentGdp: 93.7, debtAmount: 2684.142, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; debt excludes public sector banks' },
+  { year: '2024/25', spending: 1290.348, receipts: 1140.539, borrowing: 149.809, debtPercentGdp: 92.9, debtAmount: 2806.699, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; debt excludes public sector banks' }
 ];
 
 export interface YearlySpendingSplit {
