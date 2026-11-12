@@ -250,19 +250,18 @@ export const TEN_YEAR_SECTOR_DATA = YEARLY_SPENDING_SPLITS.filter(item =>
   ['2014/15', '2015/16', '2016/17', '2017/18', '2018/19', '2019/20', '2020/21', '2021/22', '2022/23', '2023/24', '2024/25'].includes(item.year)
 );
 
+/** HMRC Annual Report and Accounts 2024/25, Financial Review figure 15. All £bn.
+ *  Legacy field totalReceiptsAndBorrowing means HMRC REVENUE ONLY for these rows.
+ *  Borrowing is NOT a tax receipt and is set to zero. Other taxes are the official
+ *  annual HMRC total less Income Tax, NIC, VAT and Corporation Tax; 0.1bn rounding
+ *  differences are absorbed in residual. The revenue chart remains withheld.
+ */
 export const YEARLY_REVENUE_SPLITS: YearlyRevenueSplit[] = [
-  { year: '2010/11', incomeTax: 153.2, nics: 99.4, vat: 85.3, corpTax: 43.1, otherTaxes: 162.2, borrowing: 154.0, totalReceiptsAndBorrowing: 697.2 },
-  { year: '2012/13', incomeTax: 155.6, nics: 101.5, vat: 101.8, corpTax: 40.5, otherTaxes: 194.0, borrowing: 115.8, totalReceiptsAndBorrowing: 709.2 },
-  { year: '2014/15', incomeTax: 163.1, nics: 107.2, vat: 111.4, corpTax: 43.0, otherTaxes: 219.5, borrowing: 91.1, totalReceiptsAndBorrowing: 735.3 },
-  { year: '2016/17', incomeTax: 175.8, nics: 126.1, vat: 120.3, corpTax: 56.0, otherTaxes: 247.9, borrowing: 46.0, totalReceiptsAndBorrowing: 772.1 },
-  { year: '2018/19', incomeTax: 191.2, nics: 137.5, vat: 132.0, corpTax: 55.1, otherTaxes: 267.7, borrowing: 41.0, totalReceiptsAndBorrowing: 824.5 },
-  { year: '2019/20', incomeTax: 193.4, nics: 142.6, vat: 130.1, corpTax: 49.3, otherTaxes: 300.9, borrowing: 57.8, totalReceiptsAndBorrowing: 874.1 },
-  { year: '2020/21', incomeTax: 196.4, nics: 144.2, vat: 130.5, corpTax: 52.4, otherTaxes: 273.3, borrowing: 313.0, totalReceiptsAndBorrowing: 1109.8 },
-  { year: '2021/22', incomeTax: 228.1, nics: 160.8, vat: 158.4, corpTax: 67.2, otherTaxes: 310.0, borrowing: 120.7, totalReceiptsAndBorrowing: 1045.2 },
-  { year: '2022/23', incomeTax: 251.2, nics: 177.3, vat: 160.0, corpTax: 84.8, otherTaxes: 353.1, borrowing: 128.2, totalReceiptsAndBorrowing: 1154.6 },
-  { year: '2023/24', incomeTax: 268.5, nics: 170.1, vat: 168.0, corpTax: 93.4, otherTaxes: 377.5, borrowing: 120.8, totalReceiptsAndBorrowing: 1198.3 },
-  { year: '2024/25', incomeTax: 276.4, nics: 168.2, vat: 172.5, corpTax: 96.8, otherTaxes: 425.3, borrowing: 87.2, totalReceiptsAndBorrowing: 1226.4 },
-  { year: '2025/26', incomeTax: 295.0, nics: 174.0, vat: 181.5, corpTax: 101.2, otherTaxes: 443.3, borrowing: 73.0, totalReceiptsAndBorrowing: 1268.0 }
+  { year: '2020/21', incomeTax: 192, nics: 141.5, vat: 122.1, corpTax: 53.7, otherTaxes: 99.5, borrowing: 0, totalReceiptsAndBorrowing: 608.8 },
+  { year: '2021/22', incomeTax: 233.4, nics: 158.3, vat: 148.7, corpTax: 68.3, otherTaxes: 122.4, borrowing: 0, totalReceiptsAndBorrowing: 731.1 },
+  { year: '2022/23', incomeTax: 258, nics: 175.8, vat: 166.9, corpTax: 80.5, otherTaxes: 132.8, borrowing: 0, totalReceiptsAndBorrowing: 814 },
+  { year: '2023/24', incomeTax: 286.2, nics: 177, vat: 165.5, corpTax: 89.6, otherTaxes: 125.1, borrowing: 0, totalReceiptsAndBorrowing: 843.4 },
+  { year: '2024/25', incomeTax: 309.4, nics: 168.8, vat: 178.5, corpTax: 89.6, otherTaxes: 129.6, borrowing: 0, totalReceiptsAndBorrowing: 875.9 },
 ];
 
 // Debt Interest Real-Time Rate Constants
