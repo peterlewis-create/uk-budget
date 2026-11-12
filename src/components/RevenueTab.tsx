@@ -10,7 +10,7 @@ import {
   Building,
   Zap
 } from 'lucide-react';
-import { UK_REVENUE_DATA, UK_FISCAL_TOTALS, RevenueItem } from '../data/ukBudgetData';
+import { UK_REVENUE_DATA, UK_FISCAL_TOTALS, HMRC_REVENUE_TOTAL_2024_25, RevenueItem } from '../data/ukBudgetData';
 
 export const RevenueTab: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -36,22 +36,21 @@ export const RevenueTab: React.FC = () => {
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-semibold border border-emerald-500/20">
             <Coins className="w-3.5 h-3.5" />
-            HM Treasury Receipts & Taxation
+            HMRC Tax Revenues · 2024/25 Outturn
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            How the UK Raises £{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn in Revenue
+            How HMRC Collected £{HMRC_REVENUE_TOTAL_2024_25.toFixed(1)}bn in 2024/25
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-            Illustrative breakdown of taxes on work, consumption, corporate profits, assets and environmental duties; detailed tax category amounts are pending source verification. 
-            Figures in the category cards below are legacy estimates, not reconciled to the ONS total.
+            These seven tax groups reproduce HMRC's published 2024/25 revenue receipts (£875.9bn). Separately, ONS reports £{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn of public-sector current receipts, a broader and differently measured aggregate. The two totals must not be combined or forced into a cash reconciliation.
           </p>
         </div>
 
         {/* Total Receipts Pill */}
         <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-left md:text-right shrink-0">
-          <div className="text-xs text-slate-400 font-medium">Total UK Receipts</div>
-          <div className="text-2xl font-black text-emerald-400">£{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn</div>
-          <div className="text-[11px] text-slate-500">ONS 2024/25 outturn · current receipts</div>
+          <div className="text-xs text-slate-400 font-medium">Total HMRC Revenue</div>
+          <div className="text-2xl font-black text-emerald-400">£{HMRC_REVENUE_TOTAL_2024_25.toFixed(1)}bn</div>
+          <div className="text-[11px] text-slate-500">HMRC 2024/25 annual report, figure 15</div>
         </div>
       </div>
 
@@ -65,7 +64,7 @@ export const RevenueTab: React.FC = () => {
           <p className="text-xs text-slate-300 leading-relaxed">
             Personal tax allowances (the £12,570 tax-free allowance and £50,270 higher rate band) have remained frozen in cash terms 
             since 2021. As nominal wages rise to meet inflation, millions of workers are dragged into higher tax brackets. 
-            The OBR calculates this policy generates over <strong className="text-white">£40bn annually</strong> in additional revenue without statutory tax rate increases.
+            The OBR regularly quantifies the effect of frozen thresholds in its forecasts. The revenue effect depends on the forecast period and baseline; no fixed annual figure is asserted here.
           </p>
         </div>
       </div>
@@ -127,7 +126,7 @@ export const RevenueTab: React.FC = () => {
                     £{item.amount.toFixed(1)}bn
                   </div>
                   <div className="text-xs text-slate-400">
-                    {item.percentage}% {item.id === 'borrowing-shortfall' ? 'of spending' : 'of receipts'}
+                    {item.percentage}% {item.id === 'borrowing-shortfall' ? 'of spending' : 'of HMRC receipts'}
                   </div>
                 </div>
               </div>
