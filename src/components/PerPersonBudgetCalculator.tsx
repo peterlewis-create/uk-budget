@@ -80,7 +80,7 @@ export const PerPersonBudgetCalculator: React.FC = () => {
             UK National Budget Split Per Person
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-            If the £1.23 Trillion UK government budget is divided equally among all <strong>68.2 million residents</strong>, 
+            If the ONS 2024/25 expenditure of £{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn is illustratively divided among <strong>{UK_FISCAL_TOTALS.population.toFixed(1)} million assumed residents</strong>, 
             see exactly how many pounds and pence are spent on your healthcare, pensions, schools, defence, and debt interest.
           </p>
         </div>
@@ -215,7 +215,7 @@ export const PerPersonBudgetCalculator: React.FC = () => {
         <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <strong className="text-white">UK Public Finance Reality:</strong> The state deploys{' '}
-            <strong className="text-emerald-400">£17,982.40</strong> per man, woman, and child every year. 
+            <strong className="text-emerald-400">£{(UK_FISCAL_TOTALS.totalSpending * 1000 / UK_FISCAL_TOTALS.population).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2})}</strong> per assumed resident annually (demographic divisor and detailed allocation await verification). 
             For a family of four, this equals <strong className="text-white">£71,929.60</strong> in annual public expenditure.
           </div>
           <div className="text-[11px] text-slate-400 font-mono shrink-0">
