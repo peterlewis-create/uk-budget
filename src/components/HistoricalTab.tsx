@@ -30,7 +30,7 @@ export const HistoricalTab: React.FC = () => {
             How UK Debt & Public Spending Surged from 30% to 98% of GDP
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mt-1">
-            Tracking twenty-five years of British public finances across major economic shocks: 
+            Recent 2020/21–2025/26 ONS spending, receipts, borrowing and debt have been updated; earlier fiscal figures and some macro-economic fields remain under source review. Tracking economic shocks: 
             the Dot-com surplus, the 2008 Financial Crisis, Austerity, the COVID-19 pandemic, and recent inflation.
           </p>
         </div>
