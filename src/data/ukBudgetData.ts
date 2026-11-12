@@ -55,16 +55,18 @@ export interface FiscalTotals {
 }
 
 export const UK_FISCAL_TOTALS: FiscalTotals = {
-  fiscalYear: '2024/25 (Outturn & OBR Baseline)',
-  totalSpending: 1226.4,
-  totalReceipts: 1139.2,
-  netBorrowing: 87.2,
-  borrowingPercentGdp: 3.15,
-  netDebt: 2724.8,
-  debtPercentGdp: 98.4,
-  gdp: 2768.0,
-  population: 68.2,
-  taxPayingAdults: 33.6,
+  // ONS Public Sector Finances (October 2026 vintage), April 2024-March 2025.
+  // All monetary figures £bn. ONS definition chosen so spending - receipts = borrowing.
+  fiscalYear: '2024/25 (ONS outturn, Oct 2026 vintage)',
+  totalSpending: 1290.348,
+  totalReceipts: 1140.539,
+  netBorrowing: 149.809,
+  borrowingPercentGdp: 5.0, // rounded indicative ratio; exact GDP denominator not supplied in this extract
+  netDebt: 2806.699, // March 2025 PSND ex banks
+  debtPercentGdp: 92.9, // ONS March 2025 PSND / GDP
+  gdp: 3021.2, // indicative ratio-implied denominator; do not label as official annual GDP
+  population: 68.2, // legacy demographic assumption: NOT YET VERIFIED
+  taxPayingAdults: 33.6, // legacy demographic assumption: NOT YET VERIFIED
 };
 
 export const UK_SPENDING_DATA: SpendingItem[] = [
@@ -513,12 +515,12 @@ export const UK_HISTORICAL_DATA: HistoricalYearData[] = [
   { year: '2012/13', spending: 709.2, receipts: 593.4, borrowing: 115.8, debtPercentGdp: 74.2, debtAmount: 1261, gdp: 1700, inflation: 2.8, bankRate: 0.5, keyEvent: 'Coalition Government austerity program underway' },
   { year: '2015/16', spending: 753.1, receipts: 673.2, borrowing: 79.9, debtPercentGdp: 80.5, debtAmount: 1577, gdp: 1959, inflation: 0.0, bankRate: 0.5, keyEvent: 'Deficit halved; Triple Lock established' },
   { year: '2018/19', spending: 824.5, receipts: 783.5, borrowing: 41.0, debtPercentGdp: 80.4, debtAmount: 1779, gdp: 2212, inflation: 2.5, bankRate: 0.75, keyEvent: 'Deficit reached decade low (1.9% of GDP)' },
-  { year: '2020/21', spending: 1109.8, receipts: 796.8, borrowing: 313.0, debtPercentGdp: 95.3, debtAmount: 2223, gdp: 2332, inflation: 0.9, bankRate: 0.1, keyEvent: 'COVID-19 Pandemic: Furlough, business grants, vaccine rollout' },
-  { year: '2021/22', spending: 1045.2, receipts: 924.5, borrowing: 120.7, debtPercentGdp: 94.6, debtAmount: 2382, gdp: 2518, inflation: 4.0, bankRate: 0.75, keyEvent: 'Economic reopening; post-pandemic bounce' },
-  { year: '2022/23', spending: 1154.6, receipts: 1026.4, borrowing: 128.2, debtPercentGdp: 96.1, debtAmount: 2537, gdp: 2640, inflation: 9.1, bankRate: 4.25, keyEvent: 'Energy crisis subsidies & 40-year high inflation' },
-  { year: '2023/24', spending: 1198.3, receipts: 1077.5, borrowing: 120.8, debtPercentGdp: 97.2, debtAmount: 2650, gdp: 2726, inflation: 6.8, bankRate: 5.25, keyEvent: 'High interest rates drive gilt servicing costs past £100bn' },
-  { year: '2024/25', spending: 1226.4, receipts: 1139.2, borrowing: 87.2, debtPercentGdp: 98.4, debtAmount: 2724, gdp: 2768, inflation: 2.6, bankRate: 4.75, keyEvent: 'New Government Autumn Budget & fiscal rules revision' },
-  { year: '2025/26 (OBR Forecast)', spending: 1268.0, receipts: 1195.0, borrowing: 73.0, debtPercentGdp: 97.9, debtAmount: 2795, gdp: 2855, inflation: 2.1, bankRate: 4.0, keyEvent: 'Projected stabilizing of net debt path' }
+  { year: '2020/21', spending: 1103.793, receipts: 792.959, borrowing: 310.834, debtPercentGdp: 95.2, debtAmount: 2157.667, gdp: 2332, inflation: 0.9, bankRate: 0.1, keyEvent: 'COVID-19 Pandemic: Furlough, business grants, vaccine rollout' },
+  { year: '2021/22', spending: 1038.195, receipts: 922.217, borrowing: 115.978, debtPercentGdp: 93.9, debtAmount: 2379.717, gdp: 2518, inflation: 4.0, bankRate: 0.75, keyEvent: 'Economic reopening; post-pandemic bounce' },
+  { year: '2022/23', spending: 1158.392, receipts: 1034.576, borrowing: 123.816, debtPercentGdp: 92.7, debtAmount: 2542.731, gdp: 2640, inflation: 9.1, bankRate: 4.25, keyEvent: 'Energy crisis subsidies & 40-year high inflation' },
+  { year: '2023/24', spending: 1231.793, receipts: 1096.559, borrowing: 135.234, debtPercentGdp: 93.7, debtAmount: 2684.142, gdp: 2726, inflation: 6.8, bankRate: 5.25, keyEvent: 'High interest rates drive gilt servicing costs past £100bn' },
+  { year: '2024/25', spending: 1290.348, receipts: 1140.539, borrowing: 149.809, debtPercentGdp: 92.9, debtAmount: 2806.699, gdp: 2768, inflation: 2.6, bankRate: 4.75, keyEvent: 'New Government Autumn Budget & fiscal rules revision' },
+  { year: '2025/26 (ONS Outturn)', spending: 1365.598, receipts: 1231.387, borrowing: 134.211, debtPercentGdp: 93.2, debtAmount: 2916.811, gdp: 0, inflation: 0, bankRate: 0, keyEvent: 'ONS public sector finance outturn; macro indicators pending separate validation' }
 ];
 
 export interface YearlySpendingSplit {
@@ -582,17 +584,17 @@ export const YEARLY_REVENUE_SPLITS: YearlyRevenueSplit[] = [
 
 // Debt Interest Real-Time Rate Constants
 export const DEBT_INTEREST_METRICS = {
-  annualAmount: 102300000000, // £102.3bn
-  perSecond: 3241.65, // £3,241.65 every second
-  perMinute: 194499.0, // ~£194,500 every minute
-  perHour: 11669940.0, // ~£11.67 Million every hour
-  perDay: 280078576.0, // ~£280.1 Million every day
-  // Comparative benchmarks
-  medianWorkerAnnualSalary: 37500, // Seconds to earn: 11.56 seconds
-  nhsNurseAnnualSalary: 38000, // Seconds to earn: 11.72 seconds
-  nhsHipReplacementCost: 8000, // Seconds to fund: 2.47 seconds
-  newAmbulanceCost: 240000, // Seconds to fund: 74.0 seconds
-  primarySchoolPupilPerYear: 7690, // Seconds to fund: 2.37 seconds
+  // OBR October 2026 EFO, table 6.17, 2026/27, central government interest net of APF.
+  annualAmount: 123853926000,
+  perSecond: 123853926000 / (365 * 24 * 60 * 60),
+  perMinute: 123853926000 / (365 * 24 * 60),
+  perHour: 123853926000 / (365 * 24),
+  perDay: 123853926000 / 365,
+  medianWorkerAnnualSalary: 37500, // legacy illustrative comparison, not independently verified
+  nhsNurseAnnualSalary: 38000, // legacy illustrative comparison, not independently verified
+  nhsHipReplacementCost: 8000, // legacy illustrative comparison, not independently verified
+  newAmbulanceCost: 240000,
+  primarySchoolPupilPerYear: 7690,
 };
 
 export interface G20CountryFiscalData {
