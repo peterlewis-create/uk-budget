@@ -14,6 +14,7 @@ import {
 import {
   UK_FISCAL_TOTALS,
   UK_SPENDING_DATA,
+  DEBT_INTEREST_METRICS,
   SpendingItem
 } from '../data/ukBudgetData';
 import { IconHelper } from './IconHelper';
@@ -39,10 +40,10 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
             Official UK Fiscal Year 2024/25 Overview
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            How the United Kingdom Government Spends & Taxes £1.23 Trillion
+            How the United Kingdom Raises and Spends Public Money
           </h2>
           <p className="mt-2 text-sm sm:text-base text-slate-300 leading-relaxed">
-            Every year, HM Treasury collects taxes from 33.6 million workers and businesses to fund
+            The UK raises public revenue to help fund
             the National Health Service, State Pensions, Defence, Schools, and infrastructure.
             Explore the public balance sheet, simulate budget policies, or see your personal tax contribution.
           </p>
@@ -52,14 +53,14 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
               onClick={() => setActiveTab('per_person')}
               className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs sm:text-sm transition-all shadow-md shadow-emerald-600/30 flex items-center gap-2"
             >
-              <span>👥 Per Person Budget (£17,982/person)</span>
+              <span>👥 Per Person Budget</span>
               <ArrowRight className="w-4 h-4" />
             </button>
             <button
               onClick={() => setActiveTab('g20')}
               className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs sm:text-sm transition-all shadow-md shadow-indigo-600/30 flex items-center gap-2"
             >
-              <span>🇬🇧 G20 Comparison (44.3% GDP)</span>
+              <span>🇬🇧 G20 Comparison</span>
             </button>
             <button
               onClick={() => setActiveTab('yearly_splits')}
@@ -89,9 +90,9 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
             £{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn
           </div>
           <div className="mt-2 flex items-center justify-between text-xs text-slate-400">
-            <span><strong className="text-blue-400">44.3%</strong> of UK GDP</span>
+            <span><strong className="text-blue-400">2024/25 ONS</strong></span>
             <span className="text-slate-500">•</span>
-            <span><strong className="text-slate-200">£17,980</strong> / resident</span>
+            <span><strong className="text-slate-200">Assumed population</strong></span>
           </div>
           <div className="mt-2 text-[11px] text-slate-500 leading-tight">
             Total Managed Expenditure (TME) including public services & capital investments.
@@ -110,7 +111,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
             £{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn
           </div>
           <div className="mt-2 flex items-center gap-2 text-xs text-slate-400">
-            <span className="font-semibold text-emerald-400">41.2%</span> of UK GDP
+            <span className="font-semibold text-emerald-400">ONS current receipts</span>
           </div>
           <div className="mt-2 text-[11px] text-slate-500 leading-tight">
             Taxes, National Insurance, VAT, Corporation tax and statutory commercial fees.
@@ -170,10 +171,10 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           </div>
           <div className="flex items-center gap-4 text-xs font-medium">
             <span className="flex items-center gap-1.5 text-emerald-400">
-              <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span> Receipts (£1,139.2bn)
+              <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span> Receipts (£{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn)
             </span>
             <span className="flex items-center gap-1.5 text-rose-400">
-              <span className="w-2.5 h-2.5 rounded-sm bg-rose-500"></span> Borrowing (£87.2bn)
+              <span className="w-2.5 h-2.5 rounded-sm bg-rose-500"></span> Borrowing (£{UK_FISCAL_TOTALS.netBorrowing.toFixed(1)}bn)
             </span>
           </div>
         </div>
@@ -181,23 +182,23 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
         {/* Proportional Stacked Balance Bar */}
         <div className="space-y-2">
           <div className="flex justify-between text-xs text-slate-400">
-            <span><strong>Funding Sources</strong> (£1,226.4bn total)</span>
-            <span>Taxation covers <strong>92.9%</strong> | Borrowing covers <strong>7.1%</strong></span>
+            <span><strong>Funding Sources</strong> (£{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn total)</span>
+            <span>Receipts cover <strong>{(UK_FISCAL_TOTALS.totalReceipts / UK_FISCAL_TOTALS.totalSpending * 100).toFixed(1)}%</strong> | Borrowing <strong>{(UK_FISCAL_TOTALS.netBorrowing / UK_FISCAL_TOTALS.totalSpending * 100).toFixed(1)}%</strong></span>
           </div>
           <div className="h-9 w-full bg-slate-950 rounded-xl overflow-hidden flex border border-slate-800 p-1 gap-1">
             <div
               style={{ width: `${(UK_FISCAL_TOTALS.totalReceipts / UK_FISCAL_TOTALS.totalSpending) * 100}%` }}
               className="h-full bg-gradient-to-r from-emerald-600 to-teal-500 rounded-lg flex items-center px-3 text-xs font-bold text-white shadow-inner truncate transition-all duration-300"
-              title={`Taxation & Receipts: £${UK_FISCAL_TOTALS.totalReceipts}bn (92.9%)`}
+              title={`Taxation & Receipts: £${UK_FISCAL_TOTALS.totalReceipts}bn (${(UK_FISCAL_TOTALS.totalReceipts / UK_FISCAL_TOTALS.totalSpending * 100).toFixed(1)}%)`}
             >
-              Taxation & Receipts: £1,139.2bn (92.9%)
+              Taxation & Receipts: £1,139.2bn (${(UK_FISCAL_TOTALS.totalReceipts / UK_FISCAL_TOTALS.totalSpending * 100).toFixed(1)}%)
             </div>
             <div
               style={{ width: `${(UK_FISCAL_TOTALS.netBorrowing / UK_FISCAL_TOTALS.totalSpending) * 100}%` }}
               className="h-full bg-rose-600 rounded-lg flex items-center justify-center px-2 text-xs font-bold text-white shadow-inner truncate transition-all duration-300"
-              title={`Net Borrowing: £${UK_FISCAL_TOTALS.netBorrowing}bn (7.1%)`}
+              title={`Net Borrowing: £${UK_FISCAL_TOTALS.netBorrowing}bn (${(UK_FISCAL_TOTALS.netBorrowing / UK_FISCAL_TOTALS.totalSpending * 100).toFixed(1)}%)`}
             >
-              Borrowing: £87.2bn (7.1%)
+              Borrowing: £87.2bn (${(UK_FISCAL_TOTALS.netBorrowing / UK_FISCAL_TOTALS.totalSpending * 100).toFixed(1)}%)
             </div>
           </div>
         </div>
@@ -254,7 +255,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-bold text-white">Major Public Spending Categories</h3>
-            <p className="text-xs text-slate-400">Where the £1.23 Trillion budget goes every day</p>
+            <p className="text-xs text-slate-400">Illustrative sector cards: detailed categories still being reconciled</p>
           </div>
           <button
             onClick={() => setActiveTab('spending')}
@@ -326,9 +327,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-white">Debt Interest Exceeds Defence & Police Combined</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              At <strong className="text-rose-400">£102.3bn</strong> annually, the UK spends more on servicing sovereign gilts
-              than the entire defence budget (£54.2bn) and police/justice system (£42.1bn) combined. Around 25% of UK debt is
-              inflation-linked, creating high vulnerability to price rises.
+              The OBR forecasts <strong className="text-rose-400">£{(DEBT_INTEREST_METRICS.annualAmount / 1e9).toFixed(1)}bn</strong> in central-government debt interest net of APF for 2026/27. This is a forecast from a different period and classification from the historical spending categories below.
             </p>
           </div>
         </div>
