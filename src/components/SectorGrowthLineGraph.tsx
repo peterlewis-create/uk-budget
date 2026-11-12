@@ -40,7 +40,7 @@ export const SectorGrowthLineGraph: React.FC = () => {
     { key: 'debtInterest', label: 'Debt Interest Servicing', color: '#ef4444', desc: 'Government gilt coupons & index bonds' },
     { key: 'education', label: 'Education & Skills', color: '#8b5cf6', desc: 'Primary, secondary, nursery & colleges' },
     { key: 'defence', label: 'Defence & Security', color: '#10b981', desc: 'Armed forces, equipment & NATO operations' },
-    { key: 'otherServices', label: 'Other Services & Capital', color: '#94a3b8', desc: 'Transport, police, science, housing & aid' },
+    { key: 'otherServices', label: 'Other Treasury services', color: '#94a3b8', desc: 'Residual expenditure-on-services functions including EU transactions' },
   ];
 
   const dataPoints = TEN_YEAR_SECTOR_DATA;
@@ -59,7 +59,7 @@ export const SectorGrowthLineGraph: React.FC = () => {
   const plotHeight = svgHeight - marginTop - marginBottom;
 
   // Max values for scaling
-  const maxAbsoluteVal = 350; // max £350bn
+  const maxAbsoluteVal = 450; // official COFOG social protection reaches £387.2bn
   const maxIndexedVal = 250;  // max 250% (indexed base 100%)
   const minIndexedVal = 80;
 
@@ -111,7 +111,7 @@ export const SectorGrowthLineGraph: React.FC = () => {
             Growth of UK Public Expenditure by Sector
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-            Trace the exact ten-year expenditure trajectory for each major public service. 
+            Trace HM Treasury's official 2014/15 to 2024/25 functional expenditure trajectories (Table 9). 
             Compare actual spending in £ Billions or switch to Indexed Growth (%) to see which departments grew fastest.
           </p>
         </div>
