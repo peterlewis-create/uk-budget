@@ -53,14 +53,14 @@ export const SpendingTab: React.FC<SpendingTabProps> = ({ selectedItem, setSelec
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20">
             <PieChart className="w-3.5 h-3.5" />
-            Total Managed Expenditure (TME)
+            Total Managed Expenditure (ONS headline; categories under review)
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
             UK Public Spending Breakdown (£{UK_FISCAL_TOTALS.totalSpending.toFixed(1)} Billion)
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
             Detailed breakdown of departmental budgets, public services, welfare, and debt servicing.
-            Every pound accounted for based on HM Treasury and OBR fiscal data.
+            Detailed sector and sub-programme allocations are legacy estimates currently undergoing reconciliation to HM Treasury's published functional-spending tables. The ONS headline total is verified; these category cards must not be treated as audited.
           </p>
         </div>
 
