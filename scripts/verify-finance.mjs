@@ -11,7 +11,7 @@ const sandbox = { exports: {}, console };
 vm.runInNewContext(output, sandbox, { timeout: 5000 });
 const {
   UK_FISCAL_TOTALS, UK_SPENDING_DATA, UK_REVENUE_DATA, HMRC_REVENUE_TOTAL_2024_25, DEBT_INTEREST_METRICS,
-  UK_HISTORICAL_DATA, calculatePersonalTax
+  UK_HISTORICAL_DATA, YEARLY_SPENDING_SPLITS, calculatePersonalTax
 } = sandbox.exports;
 
 const close = (actual, expected, tolerance=0.001) =>
@@ -44,6 +44,15 @@ for(const row of UK_HISTORICAL_DATA){
   close(row.spending - row.receipts,row.borrowing);
 }
 assert.ok(UK_SPENDING_DATA.some(x=>x.name==='Social protection'),'Official spending category exists');
+assert.equal(YEARLY_SPENDING_SPLITS.length,15,'Treasury Table 9 covers every year 2010/11–2024/25');
+for(const row of YEARLY_SPENDING_SPLITS){
+  close(row.welfare+row.health+row.debtInterest+row.education+row.defence+row.otherServices,row.totalSpending,0.00001);
+}
+close(YEARLY_SPENDING_SPLITS[0].totalSpending,675.3);
+close(YEARLY_SPENDING_SPLITS[YEARLY_SPENDING_SPLITS.length-1].totalSpending,1166.3);
+close(YEARLY_SPENDING_SPLITS[YEARLY_SPENDING_SPLITS.length-1].welfare,387.2);
+close(YEARLY_SPENDING_SPLITS[YEARLY_SPENDING_SPLITS.length-1].health,242.4);
+close(YEARLY_SPENDING_SPLITS[YEARLY_SPENDING_SPLITS.length-1].debtInterest,126.5);
 assert.equal(UK_SPENDING_DATA.length, 10, 'Exactly ten official COFOG functional categories');
 close(UK_SPENDING_DATA.reduce((a,b)=>a+b.amount,0),1167.6);
 assert.ok(UK_SPENDING_DATA.every(x=>x.delVsAme==='Mixed'),
@@ -72,4 +81,4 @@ for (const [income,tax,ni] of cases){
 const scottish=calculatePersonalTax(50000,'scotland');
 close(scottish.incomeTax, 8982.05);
 assert.ok(scottish.incomeTax > calculatePersonalTax(50000).incomeTax);
-console.log('PASS: ONS/OBR/HMT/HMRC headline identities, reconciled tax groups, verified history, population and PAYE/NI scenarios.');
+console.log('PASS: ONS/OBR/HMT/HMRC reconciliations, 15 annual Treasury category splits, historical outturns, demographics and PAYE/NI tests.');
