@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { UK_HISTORICAL_DATA, HistoricalYearData } from '../data/ukBudgetData';
 import { DebtInterestTicker } from './DebtInterestTicker';
-import { FinancialVerificationNotice } from './FinancialVerificationNotice';
+import { YearlySplitGraphs } from './YearlySplitGraphs';
 
 export const HistoricalTab: React.FC = () => {
   const [selectedMetric, setSelectedMetric] = useState<'debt' | 'spending_vs_receipts' | 'borrowing' | 'macro'>('debt');
@@ -171,11 +171,7 @@ export const HistoricalTab: React.FC = () => {
 
       {/* Embedded Yearly Splits Section */}
       <div className="pt-4 border-t border-slate-800/80">
-        <FinancialVerificationNotice
-          title="Historical sector and tax breakdowns"
-          reason="Year-by-year subcategory figures are temporarily withheld until the historical HM Treasury and HMRC series are reconciled. The source-verified headline time series above remains available."
-          sources="HM Treasury Public Spending Statistics and HMRC annual receipts"
-        />
+        <YearlySplitGraphs />
       </div>
 
       <p className="text-xs text-slate-400">Fiscal indicators shown are historical outturn statistics, not a continuous real-time measure of public debt. The separate debt-interest counter is an illustrative projection.</p>
