@@ -92,7 +92,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <div className="mt-2 flex items-center justify-between text-xs text-slate-400">
             <span><strong className="text-blue-400">2024/25 ONS</strong></span>
             <span className="text-slate-500">•</span>
-            <span><strong className="text-slate-200">Assumed population</strong></span>
+            <span><strong className="text-slate-200">2024 ONS population: 69.256m</strong></span>
           </div>
           <div className="mt-2 text-[11px] text-slate-500 leading-tight">
             ONS Total Managed Expenditure (TME), 2024/25; HM Treasury PSS reports £1,290.6bn using its publication basis.
@@ -325,7 +325,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
             <AlertCircle className="w-5 h-5" />
           </div>
           <div className="space-y-1">
-            <h4 className="text-sm font-bold text-white">Debt Interest Exceeds Defence & Police Combined</h4>
+            <h4 className="text-sm font-bold text-white">OBR Forecast Debt Interest — Distinct Measure</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
               The OBR forecasts <strong className="text-rose-400">£{(DEBT_INTEREST_METRICS.annualAmount / 1e9).toFixed(1)}bn</strong> in central-government debt interest net of APF for 2026/27. This is a forecast from a different period and classification from the historical spending categories below.
             </p>
@@ -338,10 +338,9 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
             <Landmark className="w-5 h-5" />
           </div>
           <div className="space-y-1">
-            <h4 className="text-sm font-bold text-white">Direct Taxes Pay For Over Half the State</h4>
+            <h4 className="text-sm font-bold text-white">Income Tax and NICs — HMRC's Largest Revenue Sources</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Income Tax (<strong className="text-blue-400">£276.4bn</strong>) and National Insurance Contributions (<strong className="text-indigo-400">£168.2bn</strong>)
-              make up 39.1% of all revenue. The top 10% of income earners contribute over 60% of all UK income tax collected.
+              HMRC received <strong className="text-blue-400">£309.4bn Income Tax</strong> and <strong className="text-indigo-400">£168.8bn NICs</strong> in 2024/25. Together these are 54.6% of HMRC's £875.9bn revenue total. This differs from the broader ONS current-receipts measure.
             </p>
           </div>
         </div>
@@ -354,9 +353,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-white">The State Pension & Demographic Aging</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              State Pensions cost <strong className="text-emerald-400">£138.2bn</strong> this fiscal year across 12.7 million pensioners.
-              Under the Triple Lock formula, pensions increase by the highest of average wage growth, CPI inflation, or 2.5%,
-              adding ~£10bn in new baseline spending every 2 years.
+              The State Pension sits within the Treasury's <strong className="text-emerald-400">£387.2bn social protection</strong> function for 2024/25. The function also includes a range of working-age and other benefits; it is not identical to State Pension expenditure.
             </p>
           </div>
         </div>
@@ -369,8 +366,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-white">HM Treasury Fiscal Rules & Headroom</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              The Chancellor is legally bound by two primary fiscal targets: balancing day-to-day spending with revenues
-              by the 5th year of the forecast, and ensuring public sector net financial liabilities (PSNFL) are falling as a share of GDP.
+              The fiscal mandate and debt objectives are defined in the current Charter for Budget Responsibility and assessed by the OBR. These targets concern forecasts rather than guarantees of realised budget outcomes.
             </p>
           </div>
         </div>
