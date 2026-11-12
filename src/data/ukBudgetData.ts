@@ -162,157 +162,20 @@ export const UK_SPENDING_DATA: SpendingItem[] = [
   }
 ];
 
+/** HMRC Annual Report and Accounts 2024/25, Financial Review figure 15.
+ *  HMRC receipts total £875.9bn on the report's basis; this breakdown MUST NOT
+ *  be added to ONS public-sector current receipts (£1,140.539bn), a different
+ *  accounting and coverage definition. Rounded tax-group amounts sum to £875.9bn.
+ */
+export const HMRC_REVENUE_TOTAL_2024_25 = 875.9;
 export const UK_REVENUE_DATA: RevenueItem[] = [
-  {
-    id: 'income-tax',
-    name: 'Income Tax',
-    category: 'Direct Taxes',
-    amount: 276.4,
-    percentage: 24.3,
-    color: '#3b82f6',
-    description: 'Direct tax on earned employment income, pensions, rental profits, and investment earnings above the Personal Allowance.',
-    details: 'Standard Personal Allowance is £12,570 (frozen). Basic Rate 20% (£12,571–£50,270), Higher Rate 40% (£50,271–£125,140), Additional Rate 45% (>£125,140).'
-  },
-  {
-    id: 'nics',
-    name: 'National Insurance Contributions (NICs)',
-    category: 'Direct Taxes',
-    amount: 168.2,
-    percentage: 14.8,
-    color: '#6366f1',
-    description: 'Contributions paid by employees, employers, and self-employed individuals, hypothecated towards the National Insurance Fund and NHS.',
-    details: 'Employee main rate is 8% (lowered from 12%), while Employer NICs are 15% on earnings above the secondary threshold (£5,000).'
-  },
-  {
-    id: 'vat',
-    name: 'Value Added Tax (VAT)',
-    category: 'Indirect Taxes',
-    amount: 172.5,
-    percentage: 15.1,
-    color: '#06b6d4',
-    description: 'Consumption tax levied on most goods and services sold by businesses within the United Kingdom.',
-    details: 'Standard rate 20%, reduced rate 5% (domestic energy), and zero rate (most staple food items, books, children’s clothing, prescriptions).'
-  },
-  {
-    id: 'corporation-tax',
-    name: 'Corporation Tax',
-    category: 'Capital & Business Taxes',
-    amount: 96.8,
-    percentage: 8.5,
-    color: '#8b5cf6',
-    description: 'Tax on taxable profits made by UK resident companies and multinational branch offices.',
-    details: 'Main rate is 25% on profits exceeding £250,000, with a 19% small profits rate for companies earning under £50,000 (marginal relief in between).'
-  },
-  {
-    id: 'council-tax',
-    name: 'Council Tax (Local Authorities)',
-    category: 'Direct Taxes',
-    amount: 44.2,
-    percentage: 3.9,
-    color: '#10b981',
-    description: 'Local tax on domestic properties collected by local authorities to fund social care, policing, waste collection, and local services.',
-    details: 'Banded based on 1991 property valuations (Bands A through H in England). Average Band D council tax exceeds £2,100 per annum.'
-  },
-  {
-    id: 'business-rates',
-    name: 'Business Rates (Non-Domestic)',
-    category: 'Capital & Business Taxes',
-    amount: 28.6,
-    percentage: 2.5,
-    color: '#d97706',
-    description: 'Tax on commercial and non-domestic properties (shops, offices, warehouses, factories) based on rateable value.',
-    details: 'Multipliers set centrally by national government, with relief for small businesses and high street retail/hospitality.'
-  },
-  {
-    id: 'fuel-duty',
-    name: 'Fuel Duties',
-    category: 'Duties & Levies',
-    amount: 24.7,
-    percentage: 2.2,
-    color: '#f97316',
-    description: 'Excise duty on petrol, diesel, and other road vehicle fuels.',
-    details: 'Frozen at 52.95p per litre since 2011 (including the temporary 5p cut). Contributes ~£25bn but projected to decline as electric vehicles adopt.'
-  },
-  {
-    id: 'tobacco-alcohol',
-    name: 'Tobacco & Alcohol Duties',
-    category: 'Duties & Levies',
-    amount: 21.2,
-    percentage: 1.9,
-    color: '#ec4899',
-    description: 'Sin taxes levied on cigarettes, vaping, beer, cider, wine, and spirits to discourage consumption and cover health externalities.',
-    details: 'Reformed in 2023 so alcoholic drinks are taxed according to alcohol-by-volume (ABV) strength.'
-  },
-  {
-    id: 'cgt',
-    name: 'Capital Gains Tax (CGT)',
-    category: 'Capital & Business Taxes',
-    amount: 16.5,
-    percentage: 1.4,
-    color: '#14b8a6',
-    description: 'Tax paid on the gain/profit made when disposing of an asset (second homes, shares, artwork, business stakes).',
-    details: 'Annual tax-free allowance is £3,000. Basic rate 18%, higher rate 24% for assets and residential property.'
-  },
-  {
-    id: 'stamp-duty',
-    name: 'Stamp Duty Land Tax (SDLT)',
-    category: 'Capital & Business Taxes',
-    amount: 13.8,
-    percentage: 1.2,
-    color: '#84cc16',
-    description: 'Transaction tax paid by purchasers of residential and non-residential land and property in England & Northern Ireland.',
-    details: 'Progressive tiers starting above £250,000 (first-time buyers enjoy relief up to £425,000).'
-  },
-  {
-    id: 'iht',
-    name: 'Inheritance Tax (IHT)',
-    category: 'Capital & Business Taxes',
-    amount: 7.8,
-    percentage: 0.7,
-    color: '#a855f7',
-    description: 'Tax paid on the net value of an estate (property, money, possessions) passed on upon death.',
-    details: 'Nil-rate band of £325,000 plus £175,000 residence nil-rate band (transferable to spouses). Charged at 40% on amount above threshold.'
-  },
-  {
-    id: 'vehicle-excise',
-    name: 'Vehicle Excise Duty (VED)',
-    category: 'Duties & Levies',
-    amount: 7.9,
-    percentage: 0.7,
-    color: '#0ea5e9',
-    description: 'Annual road tax for motor vehicles registered in the UK, based on CO2 emissions or flat standard rate.',
-    details: 'Standard annual rate £190 for petrol/diesel vehicles, with electric vehicles scheduled to begin paying VED from 2025 onwards.'
-  },
-  {
-    id: 'other-taxes',
-    name: 'Environmental Levies, Customs & Air Passenger Duty',
-    category: 'Duties & Levies',
-    amount: 22.2,
-    percentage: 1.9,
-    color: '#22c55e',
-    description: 'Air Passenger Duty (flights departing UK), Climate Change Levy, Landfill Tax, Plastic Packaging Tax, and Import Tariffs.',
-    details: 'Designed to incentivize decarbonization and fund airport/customs border surveillance.'
-  },
-  {
-    id: 'non-tax-revenue',
-    name: 'Non-Tax Receipts & Public Corporation Trading',
-    category: 'Other',
-    amount: 65.0,
-    percentage: 5.7,
-    color: '#64748b',
-    description: 'Interest and dividends earned on government assets, student loan interest, central bank operations, and fees for statutory services.',
-    details: 'Includes DVLA fees, Passport Office fees, Land Registry fees, and Crown Estate net revenues surrendered to the Treasury.'
-  },
-  {
-    id: 'borrowing-shortfall',
-    name: 'Net Borrowing (Deficit Financing)',
-    category: 'Other',
-    amount: 87.2,
-    percentage: 7.1, // of spending
-    color: '#ef4444',
-    description: 'The gap between government revenue and expenditure, financed by issuing new HM Treasury gilts in financial markets.',
-    details: 'Represents Public Sector Net Borrowing (PSNB). Added to the cumulative national debt stock every year.'
-  }
+  { id: "income-tax", name: "Income Tax", category: "Direct Taxes", amount: 309.4, percentage: 35.32367, color: "#3b82f6", description: "Income Tax received by HMRC, covering PAYE, self-assessment and other Income Tax liabilities.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
+  { id: "nics", name: "National Insurance Contributions", category: "Direct Taxes", amount: 168.8, percentage: 19.27161, color: "#6366f1", description: "National Insurance contributions collected by HMRC (employees, employers and other contributors).", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
+  { id: "vat", name: "Value Added Tax (VAT)", category: "Indirect Taxes", amount: 178.5, percentage: 20.37904, color: "#06b6d4", description: "Value Added Tax collected by HMRC on taxable supplies and imports.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
+  { id: "corporation-tax", name: "Corporation Tax", category: "Capital & Business Taxes", amount: 89.6, percentage: 10.22948, color: "#8b5cf6", description: "Corporation Tax revenue collected by HMRC.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
+  { id: "fuel-duty", name: "Hydrocarbon Oils Duties", category: "Duties & Levies", amount: 24.7, percentage: 2.81996, color: "#f97316", description: "Hydrocarbon oils duties collected by HMRC, including fuel duties.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
+  { id: "stamp-taxes", name: "Stamp Taxes", category: "Capital & Business Taxes", amount: 18.8, percentage: 2.14636, color: "#84cc16", description: "HMRC stamp taxes, including SDLT, SDRT and related duties; not solely SDLT.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
+  { id: "other-hmrc", name: "Other HMRC Taxes and Duties", category: "Other", amount: 86.1, percentage: 9.82989, color: "#64748b", description: "Remaining HMRC receipts, including Capital Gains Tax, alcohol duties, Insurance Premium Tax and other taxes and duties. This is HMRC's published residual category, not non-tax public-sector income.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." }
 ];
 
 export const UK_HISTORICAL_DATA: HistoricalYearData[] = [
