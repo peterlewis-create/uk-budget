@@ -10,7 +10,7 @@ const output = ts.transpileModule(source, {
 const sandbox = { exports: {}, console };
 vm.runInNewContext(output, sandbox, { timeout: 5000 });
 const {
-  UK_FISCAL_TOTALS, UK_SPENDING_DATA, DEBT_INTEREST_METRICS,
+  UK_FISCAL_TOTALS, UK_SPENDING_DATA, UK_REVENUE_DATA, HMRC_REVENUE_TOTAL_2024_25, DEBT_INTEREST_METRICS,
   UK_HISTORICAL_DATA, calculatePersonalTax
 } = sandbox.exports;
 
@@ -28,6 +28,20 @@ close(UK_FISCAL_TOTALS.taxPayingAdults, 38.6);
 close(DEBT_INTEREST_METRICS.annualAmount, 123853926000);
 close(DEBT_INTEREST_METRICS.perSecond, DEBT_INTEREST_METRICS.annualAmount / 31536000, 0.00001);
 
+assert.equal(UK_REVENUE_DATA.length, 7, 'Exactly seven HMRC tax groups');
+close(HMRC_REVENUE_TOTAL_2024_25, 875.9);
+close(UK_REVENUE_DATA.reduce((a,b)=>a+b.amount,0),HMRC_REVENUE_TOTAL_2024_25);
+close(UK_REVENUE_DATA.find(x=>x.id === 'income-tax').amount,309.4);
+close(UK_REVENUE_DATA.find(x=>x.id === 'nics').amount,168.8);
+close(UK_REVENUE_DATA.find(x=>x.id === 'vat').amount,178.5);
+close(UK_REVENUE_DATA.find(x=>x.id === 'corporation-tax').amount,89.6);
+assert.ok(!UK_REVENUE_DATA.some(x=>x.id === 'borrowing-shortfall'),
+  'Borrowing is NOT HMRC tax revenue');
+assert.equal(UK_HISTORICAL_DATA.length,5,'Historical chart must only show audited 2020/21–2024/25 rows');
+for(const row of UK_HISTORICAL_DATA){
+  close(row.spending - row.receipts,row.borrowing);
+}
+assert.ok(UK_SPENDING_DATA.some(x=>x.name==='Social protection'),'Official spending category exists');
 assert.equal(UK_SPENDING_DATA.length, 10, 'Exactly ten official COFOG functional categories');
 close(UK_SPENDING_DATA.reduce((a,b)=>a+b.amount,0),1167.6);
 assert.ok(UK_SPENDING_DATA.every(x=>x.delVsAme==='Mixed'),
@@ -56,4 +70,4 @@ for (const [income,tax,ni] of cases){
 const scottish=calculatePersonalTax(50000,'scotland');
 close(scottish.incomeTax, 8982.05);
 assert.ok(scottish.incomeTax > calculatePersonalTax(50000).incomeTax);
-console.log('PASS: ONS/OBR/HMT headline identities, COFOG, population and PAYE/NI scenarios.');
+console.log('PASS: ONS/OBR/HMT/HMRC headline identities, reconciled tax groups, verified history, population and PAYE/NI scenarios.');
