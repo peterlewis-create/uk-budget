@@ -161,7 +161,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
           </div>
           <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
             <span>Paces to</span>
-            <strong className="text-slate-200">£339.3m</strong>
+            <strong className="text-slate-200">£{(DEBT_INTEREST_METRICS.perDay / 1e6).toFixed(1)}m</strong>
             <span>by 23:59:59 tonight</span>
           </div>
         </div>
@@ -226,7 +226,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
         <div className="flex items-center justify-between text-xs">
           <span className="font-bold text-red-300 uppercase tracking-wide flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            What Today's Estimated Interest Could Illustratively Fund:
+            What the Estimated Amount Represents — Example Costs Only:
           </span>
           <span className="text-[11px] text-slate-400">Indicative comparison</span>
         </div>
@@ -242,7 +242,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
                 {Math.floor(nursesToday).toLocaleString()}
               </div>
               <div className="text-[11px] text-slate-400 leading-tight">
-                NHS Nurse Annual Salaries (£38,000/yr)
+                Illustrative annual salary at £38,000
               </div>
             </div>
           </div>
@@ -257,7 +257,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
                 {Math.floor(medianSalariesToday).toLocaleString()}
               </div>
               <div className="text-[11px] text-slate-400 leading-tight">
-                Median UK Worker Yearly Wages (£37.5k)
+                Illustrative annual pay at £37,500
               </div>
             </div>
           </div>
@@ -272,7 +272,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
                 {Math.floor(hipOpsToday).toLocaleString()}
               </div>
               <div className="text-[11px] text-slate-400 leading-tight">
-                NHS Hip Replacement Operations (£8,000)
+                Illustrative procedure cost at £8,000
               </div>
             </div>
           </div>
@@ -281,7 +281,7 @@ export const DebtInterestTicker: React.FC<DebtInterestTickerProps> = ({ variant 
         <p className="text-[11px] text-slate-400 leading-relaxed pt-1">
           <strong className="text-slate-300">Why is this so high?</strong> Part of the UK's outstanding public debt 
           is index-linked to Retail Price Index (RPI) inflation. When inflation surged between 2022 and 2024, sovereign interest payouts 
-          spiked past £100bn per year, where they remain elevated due to higher global interest rates.
+          spiked past £100bn per year, with costs remaining sensitive to gilt yields and inflation. The three comparisons above are mathematical examples, not current audited prices, salaries or actual reallocated government expenditure.
         </p>
       </div>
     </div>
