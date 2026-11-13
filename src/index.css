@@ -25,3 +25,46 @@
   background: #475569;
 }
 
+
+@media print {
+  body:has(.tax-estimate) {
+    background: white;
+  }
+
+  body:has(.tax-estimate) *:not(.tax-estimate):not(.tax-estimate *):not(:has(.tax-estimate)) {
+    display: none !important;
+  }
+
+  body:has(.tax-estimate) :has(.tax-estimate) {
+    display: block;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tax-estimate,
+  .tax-estimate * {
+    color: black !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .tax-estimate {
+    max-width: none;
+    overflow: visible;
+  }
+
+  .tax-estimate > div {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .tax-estimate .group {
+    padding-top: 0.25rem;
+    margin-top: 0.25rem;
+    break-inside: avoid;
+  }
+
+  .tax-estimate button {
+    display: none;
+  }
+}

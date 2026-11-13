@@ -211,7 +211,7 @@ export const TaxCalculatorTab: React.FC = () => {
       </div>
 
       {/* Itemised tax estimate */}
-      <div className="max-w-3xl mx-auto rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden font-sans">
+      <div className="tax-estimate max-w-3xl mx-auto rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden font-sans">
         {/* Receipt Header */}
         <div className="bg-slate-950 p-6 border-b border-slate-800 text-center space-y-1 relative">
           <div className="inline-block p-2 rounded-xl bg-slate-900 border border-slate-800 mb-2">
@@ -224,12 +224,17 @@ export const TaxCalculatorTab: React.FC = () => {
             Tax and National Insurance rates for 2026/27 · Spending allocation based on 2024/25 Treasury figures
           </p>
           <div className="pt-2 flex justify-center items-center gap-3 text-xs text-slate-300 font-mono">
-            <span>Gross: £{salary.toLocaleString()}</span>
+            <span>Annual gross pay: £{salary.toLocaleString()}</span>
             <span>•</span>
-            <span className="text-emerald-400">Total Tax: {formatCurrency(taxDetails.totalDirectTax)}</span>
+            <span className="text-emerald-400">Income Tax and employee NI: {formatCurrency(taxDetails.totalDirectTax)}</span>
             <span>•</span>
             <span className="text-amber-400">{getSubTitle()}</span>
           </div>
+        </div>
+
+        <div className="hidden print:block px-6 py-2 text-xs">
+          <p>{nation === 'scotland' ? 'Scotland' : 'England, Wales and Northern Ireland'}</p>
+          <p>Income Tax: {formatCurrency(taxDetails.incomeTax)} · Employee NI: {formatCurrency(taxDetails.nic)} · Estimated take-home pay: {formatCurrency(taxDetails.netTakeHome)}</p>
         </div>
 
         {/* Itemized Line Items */}
@@ -276,12 +281,11 @@ export const TaxCalculatorTab: React.FC = () => {
         {/* Receipt Footer */}
         <div className="bg-slate-950 p-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-xs text-slate-400 text-center sm:text-left">
-            <span className="font-semibold text-slate-200">This estimate uses annualised employee National Insurance. The spending allocation illustrates each function’s share of Treasury expenditure.</span><br />
-            Calculated proportionally using HM Treasury Autumn Budget & OBR outturn data.
+            <strong>Disclaimer.</strong> This calculator provides an illustrative estimate for general information only. It does not provide tax advice or an official tax calculation. Actual deductions may vary with your tax code, pension contributions, student loan repayments and other circumstances. Employee National Insurance is estimated on an annual basis. The spending breakdown uses HM Treasury’s 2024/25 expenditure on services to illustrate proportions. Your taxes are not earmarked for those services.
           </div>
           <button
             onClick={() => window.print()}
-            className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs flex items-center gap-2 border border-slate-700 transition-colors"
+            className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs flex items-center gap-2 border border-slate-700 transition-colors print:hidden"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Print / Save Estimate</span>
