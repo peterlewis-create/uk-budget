@@ -18,7 +18,6 @@
 | OBR | 2026/27 central government debt interest **net of APF** £123.9bn at published precision | October 2026 Economic and Fiscal Outlook, central government debt interest forecast. The per-second indicator divides forecast annual amount by 365 days; it is **not** real-time debt servicing cash outflow. |
 | ONS | UK population revised mid-2024 69,256,300 and 2024 households 28.6m | ONS population estimates, October 2026 revisions; ONS Families and Households 2024. |
 | HMRC | Estimated 2024/25 income tax payers 38.6m | HMRC Income Tax Liabilities Statistics, published 15 July 2026. Estimated tax payers are not equivalent to all workers or residents. |
-| HMRC | 2026/27 employee PAYE and Class 1 NIC illustration, standard and Scottish non-savings income | Official HMRC 2026/27 rate tables and Scottish Income Tax guidance; limited to gross salary = adjusted net income, standard Personal Allowance and annualised category A employee NI. Taper above £100k is implemented. |
 
 ## Authoritative public source links
 
@@ -29,8 +28,6 @@
 - ONS population mid-2025, with revised mid-2024 estimate: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/bulletins/annualmidyearpopulationestimates/mid2025
 - ONS families and households 2024: https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/families/bulletins/familiesandhouseholds/2024
 - HMRC Income Tax payers: https://www.gov.uk/government/statistics/income-tax-liabilities-statistics-tax-year-2023-to-2024-to-tax-year-2026-to-2027/summary-statistics
-- HMRC tax rates: https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past
-- Scottish income tax: https://www.gov.uk/scottish-income-tax
 
 ## Modules under review
 
@@ -44,7 +41,7 @@
 ## Build and release requirements
 
 - GitHub Actions runs `npm ci`, `npm run build` and `node scripts/verify-finance.mjs` on the audit branch and on a pull request to main.
-- Source-based numerical tests must pass; tax examples for 2026/27, Treasury annual spending splits, HMRC 2024/25 tax groups, ONS annual accounts identity and OBR interest denominators are checked.
+- Source-based numerical tests must pass; Treasury annual spending splits, HMRC 2024/25 tax groups, ONS annual accounts identity and OBR interest denominators are checked.
 - **The CI test suite does not prove that every qualitative statement or external source is correct.** A separate editorial review, accessibility and responsive-layout/browser QA, privacy and analytics consent review and broken-link check are still required.
 - Only merge to main after the withheld G20 and Chancellor modules are either verified and restored or explicitly agreed as unavailable; perform full customer review first. Never describe the present audit branch as a complete marketing release.
 

@@ -51,6 +51,14 @@ export const RevenueTab: React.FC = () => {
           <div className="text-xs text-slate-400 font-medium">Total HMRC Revenue</div>
           <div className="text-2xl font-black text-emerald-400">£{HMRC_REVENUE_TOTAL_2024_25.toFixed(1)}bn</div>
           <div className="text-[11px] text-slate-500">HMRC 2025/26 Trust Statement · restated 2024/25</div>
+          <div className="mt-3 border-t border-slate-800 pt-3">
+            <div className="text-sm font-semibold text-slate-200">
+              £{(HMRC_REVENUE_TOTAL_2024_25 * 1000 / UK_FISCAL_TOTALS.population).toLocaleString('en-GB', { maximumFractionDigits: 0 })} per UK resident
+            </div>
+            <p className="mt-1 text-[11px] text-slate-400">
+              Restated 2024/25 HMRC revenue divided by the revised ONS mid-2024 UK population of {UK_FISCAL_TOTALS.population.toFixed(2)} million. This average includes revenue from businesses and divides it across all residents, including children.
+            </p>
+          </div>
         </div>
       </div>
 

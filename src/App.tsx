@@ -6,7 +6,6 @@ import { G20ComparisonTab } from './components/G20ComparisonTab';
 import { PerPersonBudgetCalculator } from './components/PerPersonBudgetCalculator';
 import { SpendingTab } from './components/SpendingTab';
 import { RevenueTab } from './components/RevenueTab';
-import { TaxCalculatorTab } from './components/TaxCalculatorTab';
 import { ChancellorSimulatorTab } from './components/ChancellorSimulatorTab';
 import { HistoricalTab } from './components/HistoricalTab';
 import { SpendingDetailModal } from './components/SpendingDetailModal';
@@ -61,7 +60,6 @@ export const App: React.FC = () => {
 
         {activeTab === 'revenue' && <RevenueTab />}
 
-        {activeTab === 'calculator' && <TaxCalculatorTab />}
 
         {activeTab === 'simulator' && <FinancialVerificationNotice title="Chancellor Simulator" reason="Existing sensitivity coefficients, behavioural responses and the claimed fiscal-rule test have not been substantiated against OBR or HM Treasury material. Until independently calibrated, numerical policy forecasts cannot be presented responsibly." sources="OBR Policy Costings and Economic and Fiscal Outlook" />}
 

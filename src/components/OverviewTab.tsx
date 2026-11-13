@@ -50,7 +50,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <p className="mt-2 text-sm sm:text-base text-slate-300 leading-relaxed">
             The UK raises public revenue to help fund
             the National Health Service, State Pensions, Defence, Schools, and infrastructure.
-            Explore the public balance sheet, simulate budget policies, or see your personal tax contribution.
+            Explore public debt, borrowing, revenue and spending by function.
           </p>
 
           <div className="mt-5 flex flex-wrap gap-3">

@@ -73,7 +73,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <li className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start justify-between gap-3">
                 <div>
                   <strong className="text-white block text-xs">HM Revenue &amp; Customs (HMRC)</strong>
-                  <span className="text-[11px] text-slate-400">2025/26 Trust Statement, including restated 2024/25 accrual-based HMRC revenue. Employee PAYE and NIC estimates use 2026/27 thresholds.</span>
+                  <span className="text-[11px] text-slate-400">2025/26 Trust Statement, including restated 2024/25 accrual-based HMRC revenue.</span>
                 </div>
                 <a href="https://www.gov.uk/government/publications/hmrc-annual-report-and-accounts-2025-to-2026/hmrcs-annual-report-and-accounts-2025-to-2026-our-accounts-and-annexes" target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 shrink-0">
                   <ExternalLink className="w-4 h-4" />
@@ -85,15 +85,9 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
               <Scale className="w-4 h-4 text-amber-400" />
-              Tax Calculation & Allocation Methodology
+              Policy and International Comparisons
             </h4>
             <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs leading-relaxed text-slate-400">
-              <p>
-                <strong>Income Tax & NICs:</strong> Illustrative 2026/27 employment-income PAYE calculations for England, Wales and Northern Ireland or Scottish non-savings income. The standard Personal Allowance is £12,570 and is withdrawn above £100,000. Annualised employee Class 1 NI assumes category A and an employee below State Pension age. Pensions, loans and individual tax-code adjustments are excluded.
-              </p>
-              <p>
-                <strong>"Where My Tax Goes":</strong> An educational, counterfactual allocation of calculated direct taxes across the ten HM Treasury expenditure-on-services functions, weighted by 2024/25 functional totals. This does NOT represent earmarking of your specific taxes, spending funded by an individual, or actual service consumption.
-              </p>
               <p>
                 <strong>Policy Simulation Levers:</strong> The original policy-yield coefficients are not sufficiently documented or independently validated. The simulator is therefore withheld pending calibration and source-by-source review. International comparisons are likewise withheld until common statistical definitions can be verified.
               </p>

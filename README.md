@@ -34,14 +34,7 @@ An interactive, high-fidelity public finances dashboard and policy simulator for
 - Breakdown of every major UK tax: Income Tax, Employee & Employer NICs, VAT, Corporation Tax, Business Rates, Fuel Duty, Council Tax, CGT, SDLT, and IHT.
 - **Fiscal Drag Spotlight**: Analysis of frozen personal allowances (£12,570 and £50,270) raising stealth revenues via inflation.
 
-### 4. 🧾 "Where Does My Tax Go?" Personal Calculator
-- Enter your exact annual salary or select benchmarks (National Living Wage, UK Median £37.5k, NHS Nurse £43k, Higher Rate £50.2k, £100k Club).
-- Calculates your exact **Income Tax**, **Employee National Insurance**, **Take-Home Pay**, and **Effective Tax Rate**.
-- Generates an **Official UK Tax Contribution Receipt** breaking down your personal tax bill down to the exact penny across the NHS, State Pensions, Schools, Defence, Police, and Debt Interest.
-- Switch between **Annual**, **Monthly**, and **Daily** contributions.
-- Printable / exportable receipt card.
-
-### 5. 💼 "Chancellor for a Day" Policy Simulator
+### 4. 💼 "Chancellor for a Day" Policy Simulator
 - Step into 11 Downing Street with the Chancellor's Budget Box.
 - **10 Interactive Policy Levers**:
   - Basic Rate Income Tax (17% to 25%)
@@ -63,7 +56,7 @@ An interactive, high-fidelity public finances dashboard and policy simulator for
   - *Balanced Budget (Eliminate £87bn Deficit)*
   - *Baseline Reset*
 
-### 6. 📈 25-Year Historical Fiscal Trends (2000–2026)
+### 5. 📈 25-Year Historical Fiscal Trends (2000–2026)
 - Interactive time-series tracking how UK Debt surged from **30.6% to 98.4% of GDP**.
 - View Historical Debt (% of GDP), Total Spending vs Receipts (£bn), Annual Borrowing, and Inflation/Bank Rate.
 - Milestone historical breakdowns:

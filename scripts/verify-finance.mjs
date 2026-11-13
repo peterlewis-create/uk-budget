@@ -12,7 +12,7 @@ vm.runInNewContext(output, sandbox, { timeout: 5000 });
 const {
   UK_FISCAL_TOTALS, UK_SPENDING_DATA, UK_REVENUE_DATA, HMRC_REVENUE_TOTAL_2024_25, HMRC_REVENUE_TOTAL_2025_26,
   LATEST_ONS_NET_DEBT, DEBT_INTEREST_METRICS,
-  UK_HISTORICAL_DATA, YEARLY_SPENDING_SPLITS, YEARLY_REVENUE_SPLITS, calculatePersonalTax
+  UK_HISTORICAL_DATA, YEARLY_SPENDING_SPLITS, YEARLY_REVENUE_SPLITS
 } = sandbox.exports;
 
 const close = (actual, expected, tolerance=0.001) =>
@@ -76,22 +76,4 @@ const history = UK_HISTORICAL_DATA.find(x=>x.year==='2024/25');
 close(history.borrowing, 149.809);
 close(history.debtAmount, 2806.699);
 
-const cases = [
-  [0,0,0],
-  [12570,0,0],
-  [50000,7486,2994.4],
-  [60000,11432,3210.6],
-  [110000,33432,4210.6],
-  [150000,53703,5010.6],
-];
-for (const [income,tax,ni] of cases){
-  const r=calculatePersonalTax(income,'england-wales-ni');
-  close(r.incomeTax,tax);
-  close(r.nic,ni);
-  close(r.totalDirectTax,r.incomeTax+r.nic);
-  close(r.taxDistribution.reduce((a,x)=>a+x.amount,0),r.totalDirectTax);
-}
-const scottish=calculatePersonalTax(50000,'scotland');
-close(scottish.incomeTax, 8982.05);
-assert.ok(scottish.incomeTax > calculatePersonalTax(50000).incomeTax);
-console.log('PASS: ONS/OBR/HMT/HMRC reconciliations, 15 annual Treasury category splits, historical outturns, demographics and PAYE/NI tests.');
+console.log('PASS: ONS/OBR/HMT/HMRC reconciliations, 15 annual Treasury category splits, historical outturns and demographics.');

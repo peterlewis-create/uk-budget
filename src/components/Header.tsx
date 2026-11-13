@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Landmark,
   PieChart,
-  Receipt,
   Sliders,
   LineChart,
   Coins,
@@ -15,7 +14,7 @@ import {
 import { UK_FISCAL_TOTALS } from '../data/ukBudgetData';
 import { DebtInterestTicker } from './DebtInterestTicker';
 
-export type TabType = 'overview' | 'yearly_splits' | 'g20' | 'per_person' | 'spending' | 'revenue' | 'calculator' | 'simulator' | 'historical';
+export type TabType = 'overview' | 'yearly_splits' | 'g20' | 'per_person' | 'spending' | 'revenue' | 'simulator' | 'historical';
 
 interface HeaderProps {
   activeTab: TabType;
@@ -31,7 +30,6 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
     { id: 'g20', label: 'G20 Comparison', icon: Globe2, badge: 'Debt & Spend' },
     { id: 'spending', label: 'Public Spending', icon: PieChart, badge: '£1.29T' },
     { id: 'revenue', label: 'Tax Receipts', icon: Coins, badge: '£1.14T' },
-    { id: 'calculator', label: 'Where My Tax Goes', icon: Receipt, badge: 'Personal' },
     { id: 'simulator', label: 'Chancellor Simulator', icon: Sliders, badge: 'Interactive' },
     { id: 'historical', label: 'Historical Trends', icon: LineChart, badge: '2000–2026' },
   ];
@@ -85,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
                 </span>
               </div>
               <p className="text-xs text-slate-400 hidden sm:block">
-                Interactive HM Treasury Public Finances, Tax Allocation & Policy Simulator
+                Interactive HM Treasury Public Finances, Public Spending & Policy Simulator
               </p>
             </div>
           </div>
