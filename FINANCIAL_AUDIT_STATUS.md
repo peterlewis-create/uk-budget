@@ -31,8 +31,8 @@
 
 ## Modules under review
 
-1. **G20 comparisons: WITHHELD.** The original figures mixed statistical definitions and source years. Require one consistent IMF fiscal-monitor or WEO vintage for all countries, common public-sector boundary and clear gross/net debt comparability. Not made available merely because its code compiles.
-2. **Chancellor Simulator: WITHHELD.** Legacy policy-yield elasticities and claimed rules assessment do not constitute OBR-validated policy costings. Requires sourced static costings, behavioural uncertainty and explicit scenario status.
+1. **G20 comparison.** The October 2026 IMF World Economic Outlook workbook supplies 2026 projections for gross debt, expenditure, revenue and net lending or borrowing as shares of GDP for the 19 national members. The EU and AU are identified separately from the country ranking.
+2. **Chancellor Simulator.** The three examples use the published 2026/27 direct effects on borrowing from HM Treasury Budget 2026 Table 6.1, measures 1–3. Treasury records these costs as negative amounts; the site shows the corresponding increases in borrowing.
 3. **Yearly revenue composition: WITHHELD.** An older revenue-versus-borrowing chart conflates HMRC receipts and ONS public borrowing. Revenue tax cards are now based on separately reconciled HMRC 2024/25 figures, and Treasury expenditure-history split charts are restored using Table 9.
 4. **Macroeconomic history: WITHHELD.** Inflation, Bank Rate and nominal GDP need an independently checked harmonised source series. Fields in legacy data are not presented to visitors.
 5. **Subprogramme allocations: WITHHELD.** No invented split amounts. The official ten Treasury COFOG functions remain available.
@@ -43,7 +43,7 @@
 - GitHub Actions runs `npm ci`, `npm run build` and `node scripts/verify-finance.mjs` on the audit branch and on a pull request to main.
 - Source-based numerical tests must pass; Treasury annual spending splits, HMRC 2024/25 tax groups, ONS annual accounts identity and OBR interest denominators are checked.
 - **The CI test suite does not prove that every qualitative statement or external source is correct.** A separate editorial review, accessibility and responsive-layout/browser QA, privacy and analytics consent review and broken-link check are still required.
-- Only merge to main after the withheld G20 and Chancellor modules are either verified and restored or explicitly agreed as unavailable; perform full customer review first. Never describe the present audit branch as a complete marketing release.
+- Check source definitions, dates, units and signs before publishing changes to fiscal figures.
 
 ## Review decisions
 

@@ -40,7 +40,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               Primary Official Data Sources
             </h4>
             <p className="text-xs text-slate-400 leading-relaxed mb-3">
-              Core financial figures use dated official ONS, HM Treasury, HMRC and OBR publications. Some specialist modules are withheld while their original datasets are being verified:
+              Core figures use dated releases from the ONS, HM Treasury, HMRC and OBR. The G20 comparison uses the IMF World Economic Outlook.
             </p>
             <ul className="space-y-2">
               <li className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start justify-between gap-3">
@@ -89,7 +89,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             </h4>
             <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs leading-relaxed text-slate-400">
               <p>
-                <strong>Policy Simulation Levers:</strong> The original policy-yield coefficients are not sufficiently documented or independently validated. The simulator is therefore withheld pending calibration and source-by-source review. International comparisons are likewise withheld until common statistical definitions can be verified.
+                <strong>Policy and international comparisons:</strong> The Chancellor Simulator shows selected HM Treasury Budget 2026 costings for UK public sector net borrowing. The G20 table uses the IMF’s October 2026 World Economic Outlook projections for the 19 national members.
               </p>
             </div>
           </div>
