@@ -27,13 +27,13 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenA
   const tabs = [
     { id: 'overview', label: 'Overview & Flow', icon: Landmark, badge: 'Summary' },
     { id: 'yearly_splits', label: 'Yearly Splits', icon: BarChart3, badge: 'Interactive' },
-    { id: 'per_person', label: 'Per Person Budget', icon: Users, badge: '£17.9k/ea' },
+    { id: 'per_person', label: 'Per Person Budget', icon: Users, badge: `£${(UK_FISCAL_TOTALS.totalSpending * 1000 / UK_FISCAL_TOTALS.population / 1000).toFixed(1)}k/ea` },
     { id: 'g20', label: 'G20 Comparison', icon: Globe2, badge: 'Debt & Spend' },
     { id: 'spending', label: 'Public Spending', icon: PieChart, badge: '£1.29T' },
     { id: 'revenue', label: 'Tax Receipts', icon: Coins, badge: '£1.14T' },
     { id: 'calculator', label: 'Where My Tax Goes', icon: Receipt, badge: 'Personal' },
     { id: 'simulator', label: 'Chancellor Simulator', icon: Sliders, badge: 'Interactive' },
-    { id: 'historical', label: 'Historical Trends', icon: LineChart, badge: '2000-2026' },
+    { id: 'historical', label: 'Historical Trends', icon: LineChart, badge: '2000–2026' },
   ];
 
   return (

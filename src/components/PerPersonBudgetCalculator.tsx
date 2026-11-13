@@ -26,18 +26,18 @@ export const PerPersonBudgetCalculator: React.FC = () => {
   const [expandedSectorId, setExpandedSectorId] = useState<string | null>(null);
 
   // Demographic divisor:
-  // - resident: 68.2 Million UK population
-  // - taxpayer: 33.6 Million working income taxpayers
-  // - household: 28.4 Million UK households
+  // - resident: 69.2563 Million UK population
+  // - taxpayer: 38.6 million estimated Income Tax payers
+  // - household: 28.6 Million UK households
   const totalSpending = UK_FISCAL_TOTALS.totalSpending * 1_000_000_000; // in £
 
-  let divisor = UK_FISCAL_TOTALS.population * 1_000_000; // 68.2m
-  let perspectiveLabel = 'Per UK Resident (Citizen)';
+  let divisor = UK_FISCAL_TOTALS.population * 1_000_000; // 69.3m
+  let perspectiveLabel = 'Per UK Resident';
   if (perspective === 'taxpayer') {
-    divisor = UK_FISCAL_TOTALS.taxPayingAdults * 1_000_000; // 33.6m
-    perspectiveLabel = 'Per Income Taxpayer';
+    divisor = UK_FISCAL_TOTALS.taxPayingAdults * 1_000_000; // 38.6m
+    perspectiveLabel = 'Per Income Tax Payer';
   } else if (perspective === 'household') {
-    divisor = 28_400_000; // 28.4m households
+    divisor = 28_600_000; // 28.6m households
     perspectiveLabel = 'Per UK Household';
   }
 
@@ -74,14 +74,14 @@ export const PerPersonBudgetCalculator: React.FC = () => {
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-semibold border border-emerald-500/20">
             <Users className="w-3.5 h-3.5" />
-            Citizen Public Expenditure Allocation (2024/25)
+            Illustrative Public Expenditure Per Person · 2024/25
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
             UK National Budget Split Per Person
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-            If the ONS 2024/25 expenditure of £{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn is illustratively divided among <strong>{UK_FISCAL_TOTALS.population.toFixed(1)} million assumed residents</strong>, 
-            see exactly how many pounds and pence are spent on your healthcare, pensions, schools, defence, and debt interest.
+            If ONS 2024/25 expenditure of £{UK_FISCAL_TOTALS.totalSpending.toFixed(1)}bn is illustratively divided by the <strong>ONS revised mid-2024 population of {UK_FISCAL_TOTALS.population.toFixed(2)} million</strong>, 
+            see an illustrative equal-share cost of public services. Treasury functional spending totals are independently sourced; spending is not distributed equally in reality.
           </p>
         </div>
 
@@ -115,7 +115,7 @@ export const PerPersonBudgetCalculator: React.FC = () => {
                 }`}
               >
                 <span>Per Citizen / Resident</span>
-                <span className="font-mono text-[11px] opacity-80">68.2m people</span>
+                <span className="font-mono text-[11px] opacity-80">69.3m people</span>
               </button>
               <button
                 onClick={() => setPerspective('taxpayer')}
@@ -123,8 +123,8 @@ export const PerPersonBudgetCalculator: React.FC = () => {
                   perspective === 'taxpayer' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'
                 }`}
               >
-                <span>Per Working Taxpayer</span>
-                <span className="font-mono text-[11px] opacity-80">33.6m workers</span>
+                <span>Per Income Tax Payer</span>
+                <span className="font-mono text-[11px] opacity-80">38.6m Income Tax payers</span>
               </button>
               <button
                 onClick={() => setPerspective('household')}
@@ -133,7 +133,7 @@ export const PerPersonBudgetCalculator: React.FC = () => {
                 }`}
               >
                 <span>Per UK Household</span>
-                <span className="font-mono text-[11px] opacity-80">28.4m homes</span>
+                <span className="font-mono text-[11px] opacity-80">28.6m homes</span>
               </button>
             </div>
           </div>
@@ -215,8 +215,8 @@ export const PerPersonBudgetCalculator: React.FC = () => {
         <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <strong className="text-white">UK Public Finance Reality:</strong> The state deploys{' '}
-            <strong className="text-emerald-400">£{(UK_FISCAL_TOTALS.totalSpending * 1000 / UK_FISCAL_TOTALS.population).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2})}</strong> per assumed resident annually (demographic divisor and detailed allocation await verification). 
-            For a family of four, this equals <strong className="text-white">£71,929.60</strong> in annual public expenditure.
+            <strong className="text-emerald-400">£{(UK_FISCAL_TOTALS.totalSpending * 1000 / UK_FISCAL_TOTALS.population).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2})}</strong> per resident annually using the revised ONS mid-2024 population. 
+            For a family of four, an equal-share illustration equals <strong className="text-white">£{(UK_FISCAL_TOTALS.totalSpending * 4000 / UK_FISCAL_TOTALS.population).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2})}</strong> in annual expenditure.
           </div>
           <div className="text-[11px] text-slate-400 font-mono shrink-0">
             = £{formatCurrency(effectiveCost)} ({getTimeframeLabel()})
@@ -224,15 +224,22 @@ export const PerPersonBudgetCalculator: React.FC = () => {
         </div>
       </div>
 
+      <p className="rounded-xl border border-amber-700/50 bg-amber-950/20 p-4 text-xs text-amber-100 leading-relaxed">
+        Treasury's ten expenditure functions total £1,167.6bn before EU transactions in 2024/25,
+        whereas the ONS Total Managed Expenditure measure used for the headline per-person figure is
+        £1,290.348bn. The distinction reflects expenditure-on-services versus TME, accounting adjustments
+        and data vintages. The function cards do not purport to allocate every pound of TME.
+        Per-person values are arithmetical averages, not entitlements or actual individual usage.
+      </p>
       {/* Itemized Sector Split Table / Cards */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-bold text-white">
-              Complete Breakdown by Expenditure Sector
+              Treasury Expenditure by Function (Excluding TME Adjustments)
             </h3>
             <p className="text-xs text-slate-400">
-              Exact share of public services delivered {getTimeframeLabel().toLowerCase()} ({perspectiveLabel})
+              Illustrative expenditure per {perspectiveLabel.toLowerCase()} {getTimeframeLabel().toLowerCase()}; not the value of services actually used
             </p>
           </div>
           <button
@@ -292,7 +299,7 @@ export const PerPersonBudgetCalculator: React.FC = () => {
                       </div>
                       <div className="flex items-center sm:justify-end gap-2 text-xs">
                         <span className="font-semibold" style={{ color: sector.color }}>
-                          {sector.percentage.toFixed(1)}% of budget
+                          {sector.percentage.toFixed(1)}% of published Treasury function totals
                         </span>
                         <span className="text-slate-500">•</span>
                         <span className="text-slate-400 font-mono">£{sector.amount.toFixed(1)}bn total</span>
@@ -322,7 +329,7 @@ export const PerPersonBudgetCalculator: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <h5 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-                        Subprogram Allocations {getTimeframeLabel().toLowerCase()} ({perspectiveLabel}):
+                        Programme details (official figures not supplied for this function):
                       </h5>
                       <span className="text-[11px] text-slate-500">Calculated proportionately</span>
                     </div>

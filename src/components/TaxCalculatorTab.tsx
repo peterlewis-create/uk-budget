@@ -13,23 +13,24 @@ import {
   TrendingUp,
   Percent
 } from 'lucide-react';
-import { calculatePersonalTax, UK_FISCAL_TOTALS } from '../data/ukBudgetData';
+import { calculatePersonalTax, UK_FISCAL_TOTALS, UKIncomeTaxNation } from '../data/ukBudgetData';
 import { IconHelper } from './IconHelper';
 
 export const TaxCalculatorTab: React.FC = () => {
   const [salary, setSalary] = useState<number>(37500);
+  const [nation, setNation] = useState<UKIncomeTaxNation>('england-wales-ni');
   const [timeframe, setTimeframe] = useState<'annual' | 'monthly' | 'daily'>('annual');
 
   const presets = [
-    { label: 'Living Wage', value: 23795, desc: 'Full-time minimum wage' },
-    { label: 'UK Median', value: 37500, desc: 'Average full-time worker' },
-    { label: 'Nurse / Teacher', value: 43000, desc: 'Public service mid-career' },
+    { label: 'Example £24k', value: 24000, desc: 'Illustrative gross pay' },
+    { label: 'Example £38k', value: 38000, desc: 'Illustrative gross pay' },
+    { label: 'Example £43k', value: 43000, desc: 'Illustrative gross pay' },
     { label: 'Higher Rate', value: 50270, desc: '40% tax threshold' },
-    { label: 'Manager / Tech', value: 75000, desc: 'Top 15% UK income' },
+    { label: 'Example £75k', value: 75000, desc: 'Illustrative gross pay' },
     { label: '£100k Club', value: 100000, desc: 'Allowance taper zone' }
   ];
 
-  const taxDetails = calculatePersonalTax(salary);
+  const taxDetails = calculatePersonalTax(salary, nation);
 
   const formatCurrency = (val: number) => {
     if (timeframe === 'annual') return `£${Math.round(val).toLocaleString()}`;
@@ -50,14 +51,13 @@ export const TaxCalculatorTab: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20 mb-2">
             <Receipt className="w-3.5 h-3.5" />
-            Personal Tax Breakdown Engine (2024/25)
+            Illustrative Employee PAYE & NIC Calculator (2026/27)
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            Where Does Your Tax Money Actually Go?
+            Calculate Your Tax — Explore Public Spending
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mt-1">
-            Enter your gross annual salary to see your exact Income Tax, National Insurance contributions, 
-            and an itemized receipt showing how many pounds and pence fund the NHS, State Pensions, Defence, and more.
+            Enter annual employment earnings to estimate Income Tax and employee Class 1 National Insurance using 2026/27 rates. The public-spending allocation is an illustrative proportional comparison, not a statement that your taxes are earmarked.
           </p>
         </div>
 
@@ -90,6 +90,22 @@ export const TaxCalculatorTab: React.FC = () => {
         </div>
       </div>
 
+      <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+        <label htmlFor="tax-region" className="text-xs font-bold text-slate-300 block">
+          Income Tax jurisdiction (2026/27)
+        </label>
+        <select id="tax-region" value={nation} onChange={e => setNation(e.target.value as UKIncomeTaxNation)}
+          className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-white text-sm">
+          <option value="england-wales-ni">England, Wales and Northern Ireland</option>
+          <option value="scotland">Scotland — non-savings income tax bands</option>
+        </select>
+        <p className="text-xs text-slate-400">
+          Illustrative PAYE estimate for an employee under State Pension age with a standard allowance.
+          Assumes gross salary equals adjusted net income; excludes pension relief, salary sacrifice,
+          tax-code adjustments, student loans, benefits and other income. Scottish savings and dividend
+          income has different rules. Source: HMRC 2026/27 rates and thresholds.
+        </p>
+      </div>
       {/* Salary Input & Preset Selection */}
       <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-6">
         <div className="space-y-3">
@@ -125,7 +141,7 @@ export const TaxCalculatorTab: React.FC = () => {
         {/* Quick Presets */}
         <div>
           <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide block mb-2">
-            Quick Benchmarks:
+            Illustrative Income Examples:
           </span>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
             {presets.map((p) => (
@@ -194,7 +210,7 @@ export const TaxCalculatorTab: React.FC = () => {
         </div>
       </div>
 
-      {/* The Official Itemized "Tax Receipt" Card */}
+      {/* Itemised tax estimate */}
       <div className="max-w-3xl mx-auto rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden font-sans">
         {/* Receipt Header */}
         <div className="bg-slate-950 p-6 border-b border-slate-800 text-center space-y-1 relative">
@@ -202,7 +218,7 @@ export const TaxCalculatorTab: React.FC = () => {
             <span className="text-2xl">🏛️</span>
           </div>
           <h3 className="text-lg font-black text-white tracking-wide uppercase">
-            Official UK Tax Contribution Receipt
+            Illustrative UK Tax Estimate
           </h3>
           <p className="text-xs text-slate-400">
             HM Revenue & Customs / HM Treasury • Fiscal Year 2024/25
@@ -219,8 +235,8 @@ export const TaxCalculatorTab: React.FC = () => {
         {/* Itemized Line Items */}
         <div className="p-6 divide-y divide-slate-800/80 space-y-3">
           <div className="flex justify-between text-xs uppercase font-bold text-slate-400 pb-2">
-            <span>Public Service / Department</span>
-            <span className="text-right">Your Contribution ({getSubTitle()})</span>
+            <span>Treasury expenditure function (illustrative share)</span>
+            <span className="text-right">Equivalent Share ({getSubTitle()})</span>
           </div>
 
           {taxDetails.taxDistribution.map((item) => {
@@ -260,7 +276,7 @@ export const TaxCalculatorTab: React.FC = () => {
         {/* Receipt Footer */}
         <div className="bg-slate-950 p-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-xs text-slate-400 text-center sm:text-left">
-            <span className="font-semibold text-slate-200">Thank you for funding the United Kingdom.</span><br />
+            <span className="font-semibold text-slate-200">This estimate uses annualised employee National Insurance. The spending allocation illustrates each function’s share of Treasury expenditure.</span><br />
             Calculated proportionally using HM Treasury Autumn Budget & OBR outturn data.
           </div>
           <button
@@ -268,7 +284,7 @@ export const TaxCalculatorTab: React.FC = () => {
             className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs flex items-center gap-2 border border-slate-700 transition-colors"
           >
             <Download className="w-3.5 h-3.5" />
-            <span>Print / Save Receipt</span>
+            <span>Print / Save Estimate</span>
           </button>
         </div>
       </div>

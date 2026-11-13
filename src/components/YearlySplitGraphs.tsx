@@ -29,7 +29,7 @@ export const YearlySplitGraphs: React.FC = () => {
   const [activeAnalysisMode, setActiveAnalysisMode] = useState<'splits' | 'lines'>('lines'); // default to 10-year lines or splits
   const [splitMode, setSplitMode] = useState<'spending' | 'revenue'>('spending');
   const [displayFormat, setDisplayFormat] = useState<'absolute' | 'percentage'>('absolute');
-  const [selectedYearIndex, setSelectedYearIndex] = useState<number>(YEARLY_SPENDING_SPLITS.length - 2); // default 2024/25
+  const [selectedYearIndex, setSelectedYearIndex] = useState<number>(YEARLY_SPENDING_SPLITS.length - 1); // default 2024/25
   const [highlightCategory, setHighlightCategory] = useState<string | null>(null);
 
   // Enlarged Graph Modal state
@@ -37,7 +37,7 @@ export const YearlySplitGraphs: React.FC = () => {
 
   // Compare mode
   const [compareYearIndex1, setCompareYearIndex1] = useState<number>(0); // 2010/11
-  const [compareYearIndex2, setCompareYearIndex2] = useState<number>(YEARLY_SPENDING_SPLITS.length - 2); // 2024/25
+  const [compareYearIndex2, setCompareYearIndex2] = useState<number>(YEARLY_SPENDING_SPLITS.length - 1); // 2024/25
 
   const spendingCategories = [
     { key: 'welfare', label: 'Welfare & Pensions', color: '#3b82f6', desc: 'State Pension, Universal Credit, disability living benefits' },
@@ -45,7 +45,7 @@ export const YearlySplitGraphs: React.FC = () => {
     { key: 'debtInterest', label: 'Debt Interest', color: '#ef4444', desc: 'Sovereign gilt coupons and inflation-linked index payments' },
     { key: 'education', label: 'Education & Skills', color: '#8b5cf6', desc: 'Primary & secondary schools, colleges, student support' },
     { key: 'defence', label: 'Defence & Security', color: '#10b981', desc: 'Royal Navy, Army, RAF, nuclear deterrent, procurement' },
-    { key: 'otherServices', label: 'Other Services & Capital', color: '#64748b', desc: 'Transport, police, housing, science, international aid' },
+    { key: 'otherServices', label: 'Other functions / EU transactions', color: '#64748b', desc: 'Residual Treasury services including other COFOG functions and EU transactions; avoids double-counting debt interest' },
   ];
 
   const revenueCategories = [
@@ -130,7 +130,7 @@ export const YearlySplitGraphs: React.FC = () => {
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
             Explore an illustrative historical composition of public expenditure and taxation. Category-level history is undergoing source verification; do not treat individual series as audited.
-            Click any bar to <strong>enlarge the graph</strong> and inspect an itemized breakdown with figures and percentages.
+            Click any bar to <strong>enlarge the graph</strong> and inspect HM Treasury's sourced functional breakdown with figures and percentages. Historical revenue composition is withheld pending consistent HMRC series alignment.
           </p>
         </div>
 
@@ -147,15 +147,7 @@ export const YearlySplitGraphs: React.FC = () => {
               <PieChart className="w-3.5 h-3.5" />
               <span>Spending Split</span>
             </button>
-            <button
-              onClick={() => setSplitMode('revenue')}
-              className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-                splitMode === 'revenue' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Coins className="w-3.5 h-3.5" />
-              <span>Revenue Split</span>
-            </button>
+
           </div>
 
           {/* Absolute (£bn) vs Percentage (%) Toggle */}
@@ -188,7 +180,7 @@ export const YearlySplitGraphs: React.FC = () => {
             <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
               <Layers className="w-5 h-5 text-blue-400" />
               {splitMode === 'spending'
-                ? `UK Public Expenditure Split per Year (${displayFormat === 'absolute' ? '£ Billions' : 'Percentage Share %'})`
+                ? `HM Treasury Expenditure on Services Split per Year (${displayFormat === 'absolute' ? '£ Billions' : 'Percentage Share %'})`
                 : `UK Receipts & Borrowing Split per Year (${displayFormat === 'absolute' ? '£ Billions' : 'Percentage Share %'})`}
             </h3>
             <p className="text-xs text-slate-400">

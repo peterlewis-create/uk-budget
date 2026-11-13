@@ -14,6 +14,7 @@ import { AboutModal } from './components/AboutModal';
 import { SpendingItem } from './data/ukBudgetData';
 import { ExternalLink } from 'lucide-react';
 import { ConsentBanner } from './components/ConsentBanner';
+import { FinancialVerificationNotice } from './components/FinancialVerificationNotice';
 import { trackEvent } from "./utils/analytics";
 
 export const App: React.FC = () => {
@@ -49,7 +50,7 @@ export const App: React.FC = () => {
 
         {activeTab === 'per_person' && <PerPersonBudgetCalculator />}
 
-        {activeTab === 'g20' && <G20ComparisonTab />}
+        {activeTab === 'g20' && <FinancialVerificationNotice title="G20 comparison" reason="The legacy international figures mix incompatible fiscal and debt definitions. A single consistent IMF vintage and public-debt definition are required before restoring these comparisons." sources="IMF World Economic Outlook database and IMF Fiscal Monitor" />}
 
         {activeTab === 'spending' && (
           <SpendingTab
@@ -62,7 +63,7 @@ export const App: React.FC = () => {
 
         {activeTab === 'calculator' && <TaxCalculatorTab />}
 
-        {activeTab === 'simulator' && <ChancellorSimulatorTab />}
+        {activeTab === 'simulator' && <FinancialVerificationNotice title="Chancellor Simulator" reason="Existing sensitivity coefficients, behavioural responses and the claimed fiscal-rule test have not been substantiated against OBR or HM Treasury material. Until independently calibrated, numerical policy forecasts cannot be presented responsibly." sources="OBR Policy Costings and Economic and Fiscal Outlook" />}
 
         {activeTab === 'historical' && <HistoricalTab />}
       </main>
@@ -86,7 +87,7 @@ export const App: React.FC = () => {
             <div>
               <div className="font-bold text-white">UK National Budget Explorer & Policy Simulator</div>
               <p className="text-[11px] text-slate-500">
-                Independent public analysis tool based on HM Treasury & Office for Budget Responsibility (OBR) data.
+                Independent analysis using dated ONS, HM Treasury, HMRC and OBR data. Some specialist tools remain under verification.
               </p>
             </div>
           </div>
