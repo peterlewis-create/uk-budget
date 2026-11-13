@@ -24,7 +24,9 @@ interface SectorConfig {
 export const SectorGrowthLineGraph: React.FC = () => {
   const [viewMode, setViewMode] = useState<'combined' | 'separate'>('combined');
   const [scaleMode, setScaleMode] = useState<'absolute' | 'indexed'>('absolute');
-  const [activeHoverIndex, setActiveHoverIndex] = useState<number | null>(null);
+  const [hoveredYearIndex, setHoveredYearIndex] = useState<number | null>(null);
+  const [selectedYearIndex, setSelectedYearIndex] = useState<number | null>(null);
+  const activeHoverIndex = hoveredYearIndex ?? selectedYearIndex;
   const [visibleSectors, setVisibleSectors] = useState<{ [key: string]: boolean }>({
     welfare: true,
     health: true,
@@ -260,7 +262,7 @@ export const SectorGrowthLineGraph: React.FC = () => {
             <svg
               viewBox={`0 0 ${svgWidth} ${svgHeight}`}
               className="w-full h-auto select-none"
-              onMouseLeave={() => setActiveHoverIndex(null)}
+              onMouseLeave={() => setHoveredYearIndex(null)}
             >
               {/* Y-Axis Grid Lines & Numerical Labels */}
               {scaleMode === 'absolute' ? (
@@ -420,16 +422,34 @@ export const SectorGrowthLineGraph: React.FC = () => {
                     height={plotHeight}
                     fill="transparent"
                     className="cursor-pointer"
-                    onMouseEnter={() => setActiveHoverIndex(idx)}
+                    onMouseEnter={() => setHoveredYearIndex(idx)}
                   />
                 );
               })}
             </svg>
           </div>
 
+          <label className="flex flex-wrap items-center gap-2 text-xs text-slate-300">
+            Inspect fiscal year
+            <select
+              className="rounded-md border border-slate-600 bg-slate-900 px-2 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
+              value={selectedYearIndex ?? ''}
+              onChange={event => {
+                const year = event.currentTarget.value;
+                setSelectedYearIndex(year === '' ? null : Number(year));
+                setHoveredYearIndex(null);
+              }}
+            >
+              <option value="">Choose a year</option>
+              {dataPoints.map((point, index) => (
+                <option key={point.year} value={index}>{point.year}</option>
+              ))}
+            </select>
+          </label>
+
           {/* Interactive Inspection HUD */}
           {activeHoverIndex !== null && (
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3 animate-fadeIn">
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3 animate-fadeIn" role="region" aria-label="Selected fiscal year spending">
               <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold text-white">

@@ -221,7 +221,7 @@ export const TaxCalculatorTab: React.FC = () => {
             Illustrative UK Tax Estimate
           </h3>
           <p className="text-xs text-slate-400">
-            HM Revenue & Customs / HM Treasury • Fiscal Year 2024/25
+            Tax and National Insurance rates for 2026/27 · Spending allocation based on 2024/25 Treasury figures
           </p>
           <div className="pt-2 flex justify-center items-center gap-3 text-xs text-slate-300 font-mono">
             <span>Gross: £{salary.toLocaleString()}</span>

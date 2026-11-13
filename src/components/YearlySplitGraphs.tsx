@@ -126,7 +126,7 @@ export const YearlySplitGraphs: React.FC = () => {
             Illustrative Multi-Year Composition Analysis (2010–2026)
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            UK Budget Split Per Year: Spending & Revenue Over Time
+            UK Spending by Function Over Time
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
             Explore an illustrative historical composition of public expenditure and taxation. Category-level history is undergoing source verification; do not treat individual series as audited.

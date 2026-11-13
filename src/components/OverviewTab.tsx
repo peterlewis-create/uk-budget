@@ -249,7 +249,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
               onClick={() => setActiveTab('spending')}
               className="text-blue-400 hover:text-blue-300 ml-auto font-medium"
             >
-              View all 13 sectors →
+              View all {UK_SPENDING_DATA.length} sectors →
             </button>
           </div>
         </div>
