@@ -61,7 +61,7 @@ export const UK_FISCAL_TOTALS: FiscalTotals = {
   totalSpending: 1290.348,
   totalReceipts: 1140.539,
   netBorrowing: 149.809,
-  borrowingPercentGdp: 5.0, // rounded indicative ratio; exact GDP denominator not supplied in this extract
+  borrowingPercentGdp: 5.1, // ONS J5IJ, financial year ending March 2025
   netDebt: 2806.699, // March 2025 PSND ex banks
   debtPercentGdp: 92.9, // ONS March 2025 PSND / GDP
   gdp: 3021.2, // indicative ratio-implied denominator; do not label as official annual GDP
@@ -162,21 +162,26 @@ export const UK_SPENDING_DATA: SpendingItem[] = [
   }
 ];
 
-/** HMRC Annual Report and Accounts 2024/25, Financial Review figure 15.
- *  HMRC receipts total £875.9bn on the report's basis; this breakdown MUST NOT
- *  be added to ONS public-sector current receipts (£1,140.539bn), a different
- *  accounting and coverage definition. Rounded tax-group amounts sum to £875.9bn.
+/** HMRC 2025/26 Trust Statement, including the restated 2024/25 comparison.
+ *  These are accrual-based revenues. Other HMRC Revenue is the residual of the
+ *  published total after the six displayed groups, using rounded amounts.
  */
-export const HMRC_REVENUE_TOTAL_2024_25 = 875.9;
-export const UK_REVENUE_DATA: RevenueItem[] = [
-  { id: "income-tax", name: "Income Tax", category: "Direct Taxes", amount: 309.4, percentage: 35.32367, color: "#3b82f6", description: "Income Tax received by HMRC, covering PAYE, self-assessment and other Income Tax liabilities.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
-  { id: "nics", name: "National Insurance Contributions", category: "Direct Taxes", amount: 168.8, percentage: 19.27161, color: "#6366f1", description: "National Insurance contributions collected by HMRC (employees, employers and other contributors).", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
-  { id: "vat", name: "Value Added Tax (VAT)", category: "Indirect Taxes", amount: 178.5, percentage: 20.37904, color: "#06b6d4", description: "Value Added Tax collected by HMRC on taxable supplies and imports.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
-  { id: "corporation-tax", name: "Corporation Tax", category: "Capital & Business Taxes", amount: 89.6, percentage: 10.22948, color: "#8b5cf6", description: "Corporation Tax revenue collected by HMRC.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
-  { id: "fuel-duty", name: "Hydrocarbon Oils Duties", category: "Duties & Levies", amount: 24.7, percentage: 2.81996, color: "#f97316", description: "Hydrocarbon oils duties collected by HMRC, including fuel duties.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
-  { id: "stamp-taxes", name: "Stamp Taxes", category: "Capital & Business Taxes", amount: 18.8, percentage: 2.14636, color: "#84cc16", description: "HMRC stamp taxes, including SDLT, SDRT and related duties; not solely SDLT.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." },
-  { id: "other-hmrc", name: "Other HMRC Taxes and Duties", category: "Other", amount: 86.1, percentage: 9.82989, color: "#64748b", description: "Remaining HMRC receipts, including Capital Gains Tax, alcohol duties, Insurance Premium Tax and other taxes and duties. This is HMRC's published residual category, not non-tax public-sector income.", details: "Official HMRC receipts, 2024/25, figure 15 in the HMRC Annual Report and Accounts. Includes rounding; not directly comparable with the ONS public-sector receipts aggregate." }
+export const HMRC_REVENUE_TOTAL_2024_25 = 876.0;
+export const HMRC_REVENUE_TOTAL_2025_26 = 966.4;
+const HMRC_REVENUE_GROUPS: Omit<RevenueItem, 'percentage'>[] = [
+  { id: "income-tax", name: "Income Tax", category: "Direct Taxes", amount: 309.4, color: "#3b82f6", description: "Income Tax received by HMRC, covering PAYE, self-assessment and other Income Tax liabilities.", details: "HMRC 2025/26 Trust Statement, restated 2024/25 comparative figures. Amounts are on an accrual basis and rounded to £0.1bn." },
+  { id: "nics", name: "National Insurance Contributions", category: "Direct Taxes", amount: 168.8, color: "#6366f1", description: "National Insurance contributions collected by HMRC (employees, employers and other contributors).", details: "HMRC 2025/26 Trust Statement, restated 2024/25 comparative figures. Amounts are on an accrual basis and rounded to £0.1bn." },
+  { id: "vat", name: "Value Added Tax (VAT)", category: "Indirect Taxes", amount: 178.5, color: "#06b6d4", description: "Value Added Tax collected by HMRC on taxable supplies and imports.", details: "HMRC 2025/26 Trust Statement, restated 2024/25 comparative figures. Amounts are on an accrual basis and rounded to £0.1bn." },
+  { id: "corporation-tax", name: "Corporation Tax", category: "Capital & Business Taxes", amount: 89.7, color: "#8b5cf6", description: "Corporation Tax revenue collected by HMRC.", details: "HMRC 2025/26 Trust Statement, restated 2024/25 comparative figures. Amounts are on an accrual basis and rounded to £0.1bn." },
+  { id: "fuel-duty", name: "Hydrocarbon Oils Duties", category: "Duties & Levies", amount: 24.7, color: "#f97316", description: "Hydrocarbon oils duties collected by HMRC, including fuel duties.", details: "HMRC 2025/26 Trust Statement, restated 2024/25 comparative figures. Amounts are on an accrual basis and rounded to £0.1bn." },
+  { id: "stamp-taxes", name: "Stamp Taxes", category: "Capital & Business Taxes", amount: 18.8, color: "#84cc16", description: "HMRC stamp taxes, including SDLT, SDRT and related duties; not solely SDLT.", details: "HMRC 2025/26 Trust Statement, restated 2024/25 comparative figures. Amounts are on an accrual basis and rounded to £0.1bn." },
+  { id: "other-hmrc", name: "Other HMRC Revenue", category: "Other", amount: 86.1, color: "#64748b", description: "Residual HMRC revenue, including Capital Gains Tax, alcohol duties and other revenue and income.", details: "HMRC 2025/26 Trust Statement, restated 2024/25 comparative figures. Amounts are on an accrual basis and rounded to £0.1bn." }
 ];
+
+export const UK_REVENUE_DATA: RevenueItem[] = HMRC_REVENUE_GROUPS.map(item => ({
+  ...item,
+  percentage: (item.amount / HMRC_REVENUE_TOTAL_2024_25) * 100,
+}));
 
 /** ONS Public Sector Finances, October 2026 vintage. These selected year-end FY
  *  outturn figures are constructed by summing twelve Apr-Mar monthly observations:
@@ -261,22 +266,24 @@ export const YEARLY_REVENUE_SPLITS: YearlyRevenueSplit[] = [
   { year: '2021/22', incomeTax: 233.4, nics: 158.3, vat: 148.7, corpTax: 68.3, otherTaxes: 122.4, borrowing: 0, totalReceiptsAndBorrowing: 731.1 },
   { year: '2022/23', incomeTax: 258, nics: 175.8, vat: 166.9, corpTax: 80.5, otherTaxes: 132.8, borrowing: 0, totalReceiptsAndBorrowing: 814 },
   { year: '2023/24', incomeTax: 286.2, nics: 177, vat: 165.5, corpTax: 89.6, otherTaxes: 125.1, borrowing: 0, totalReceiptsAndBorrowing: 843.4 },
-  { year: '2024/25', incomeTax: 309.4, nics: 168.8, vat: 178.5, corpTax: 89.6, otherTaxes: 129.6, borrowing: 0, totalReceiptsAndBorrowing: 875.9 },
+  { year: '2024/25', incomeTax: 309.4, nics: 168.8, vat: 178.5, corpTax: 89.7, otherTaxes: 129.6, borrowing: 0, totalReceiptsAndBorrowing: HMRC_REVENUE_TOTAL_2024_25 },
 ];
 
-// Debt Interest Real-Time Rate Constants
+// ONS September 2026 release. The monthly net debt estimate is provisional.
+export const LATEST_ONS_NET_DEBT = {
+  amount: 3_005_000_000_000,
+  date: 'September 2026',
+  percentGdp: 94.0,
+};
+
+// OBR October 2026 EFO, table 6.17, 2026/27, central government interest net of APF.
+const annualDebtInterest = 123_900_000_000;
 export const DEBT_INTEREST_METRICS = {
-  // OBR October 2026 EFO, table 6.17, 2026/27, central government interest net of APF.
-  annualAmount: 123853926000,
-  perSecond: 123853926000 / (365 * 24 * 60 * 60),
-  perMinute: 123853926000 / (365 * 24 * 60),
-  perHour: 123853926000 / (365 * 24),
-  perDay: 123853926000 / 365,
-  medianWorkerAnnualSalary: 37500, // legacy illustrative comparison, not independently verified
-  nhsNurseAnnualSalary: 38000, // legacy illustrative comparison, not independently verified
-  nhsHipReplacementCost: 8000, // legacy illustrative comparison, not independently verified
-  newAmbulanceCost: 240000,
-  primarySchoolPupilPerYear: 7690,
+  annualAmount: annualDebtInterest,
+  perSecond: annualDebtInterest / (365 * 24 * 60 * 60),
+  perMinute: annualDebtInterest / (365 * 24 * 60),
+  perHour: annualDebtInterest / (365 * 24),
+  perDay: annualDebtInterest / 365,
 };
 
 export interface G20CountryFiscalData {

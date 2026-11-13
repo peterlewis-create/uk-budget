@@ -36,7 +36,7 @@ export const SectorGrowthLineGraph: React.FC = () => {
 
   const sectors: SectorConfig[] = [
     { key: 'welfare', label: 'Welfare & Pensions', color: '#3b82f6', desc: 'State Pension & working-age support' },
-    { key: 'health', label: 'Health & NHS', color: '#06b6d4', desc: 'Hospital care, GPs, medicines & social care' },
+    { key: 'health', label: 'Health', color: '#06b6d4', desc: 'Treasury health expenditure on services' },
     { key: 'debtInterest', label: 'Debt Interest Servicing', color: '#ef4444', desc: 'Government gilt coupons & index bonds' },
     { key: 'education', label: 'Education & Skills', color: '#8b5cf6', desc: 'Primary, secondary, nursery & colleges' },
     { key: 'defence', label: 'Defence & Security', color: '#10b981', desc: 'Armed forces, equipment & NATO operations' },
@@ -46,6 +46,7 @@ export const SectorGrowthLineGraph: React.FC = () => {
   const dataPoints = TEN_YEAR_SECTOR_DATA;
   const baseYearData = dataPoints[0]; // 2014/15
   const latestYearData = dataPoints[dataPoints.length - 1]; // 2024/25
+  const peakDebtInterest = dataPoints.reduce((peak, year) => year.debtInterest > peak.debtInterest ? year : peak);
 
   // SVG Dimensions for Combined Chart
   const svgWidth = 900;
@@ -595,14 +596,12 @@ export const SectorGrowthLineGraph: React.FC = () => {
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300 leading-relaxed">
           <div>
-            <strong className="text-red-400 block mb-0.5">1. Debt Interest Grew Faster Than Any Other Sector (+126.3%)</strong>
-            Public debt interest rose from <strong className="text-white">£45.2bn</strong> in 2014/15 to over <strong className="text-white">£102.3bn</strong> in 2024/25. 
-            Because 25% of UK debt is inflation-linked, the 2022-2023 inflation spike caused debt interest to briefly peak at £111.8bn.
+            <strong className="text-red-400 block mb-0.5">1. Debt interest</strong>
+            Debt interest rose from £{baseYearData.debtInterest.toFixed(1)}bn in {baseYearData.year} to £{latestYearData.debtInterest.toFixed(1)}bn in {latestYearData.year}. It peaked at £{peakDebtInterest.debtInterest.toFixed(1)}bn in {peakDebtInterest.year} over the period shown.
           </div>
           <div>
-            <strong className="text-cyan-400 block mb-0.5">2. Health & NHS Absorbed the Largest Budget Expansion (+£77.3bn)</strong>
-            NHS expenditure grew from <strong className="text-white">£134.1bn</strong> to <strong className="text-white">£211.4bn</strong> (+57.6%), 
-            reflecting post-pandemic elective backlogs, clinical staff pay awards, expanding drug costs, and an aging population.
+            <strong className="text-cyan-400 block mb-0.5">2. Health spending</strong>
+            Treasury health expenditure rose from £{baseYearData.health.toFixed(1)}bn in {baseYearData.year} to £{latestYearData.health.toFixed(1)}bn in {latestYearData.year}, an increase of £{(latestYearData.health - baseYearData.health).toFixed(1)}bn in cash terms.
           </div>
         </div>
       </div>

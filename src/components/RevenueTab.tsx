@@ -10,7 +10,7 @@ import {
   Building,
   Zap
 } from 'lucide-react';
-import { UK_REVENUE_DATA, UK_FISCAL_TOTALS, HMRC_REVENUE_TOTAL_2024_25, RevenueItem } from '../data/ukBudgetData';
+import { UK_REVENUE_DATA, UK_FISCAL_TOTALS, HMRC_REVENUE_TOTAL_2024_25, HMRC_REVENUE_TOTAL_2025_26, RevenueItem } from '../data/ukBudgetData';
 
 export const RevenueTab: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,10 +39,10 @@ export const RevenueTab: React.FC = () => {
             HMRC Tax Revenues · 2024/25 Outturn
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            How HMRC Collected £{HMRC_REVENUE_TOTAL_2024_25.toFixed(1)}bn in 2024/25
+            HMRC Reported £{HMRC_REVENUE_TOTAL_2024_25.toFixed(1)}bn in 2024/25
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-            These seven tax groups reproduce HMRC's published 2024/25 revenue receipts (£875.9bn). Separately, ONS reports £{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn of public-sector current receipts, a broader and differently measured aggregate. The two totals must not be combined or forced into a cash reconciliation.
+            HMRC's 2025/26 Trust Statement restated the 2024/25 total. The seven groups below show 2024/25 on an accrual basis. HMRC reported £{HMRC_REVENUE_TOTAL_2025_26.toFixed(1)}bn for 2025/26. The ONS measure of £{UK_FISCAL_TOTALS.totalReceipts.toFixed(1)}bn covers public-sector current receipts for 2024/25.
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export const RevenueTab: React.FC = () => {
         <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-left md:text-right shrink-0">
           <div className="text-xs text-slate-400 font-medium">Total HMRC Revenue</div>
           <div className="text-2xl font-black text-emerald-400">£{HMRC_REVENUE_TOTAL_2024_25.toFixed(1)}bn</div>
-          <div className="text-[11px] text-slate-500">HMRC 2024/25 annual report, figure 15</div>
+          <div className="text-[11px] text-slate-500">HMRC 2025/26 Trust Statement · restated 2024/25</div>
         </div>
       </div>
 
@@ -126,7 +126,7 @@ export const RevenueTab: React.FC = () => {
                     £{item.amount.toFixed(1)}bn
                   </div>
                   <div className="text-xs text-slate-400">
-                    {item.percentage}% {item.id === 'borrowing-shortfall' ? 'of spending' : 'of HMRC receipts'}
+                    {item.percentage.toFixed(1)}% of HMRC revenue
                   </div>
                 </div>
               </div>

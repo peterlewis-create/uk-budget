@@ -73,9 +73,9 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <li className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start justify-between gap-3">
                 <div>
                   <strong className="text-white block text-xs">HM Revenue &amp; Customs (HMRC)</strong>
-                  <span className="text-[11px] text-slate-400">Annual Report 2024/25, figure 15: £875.9bn tax receipts; 2026/27 employee PAYE and NIC thresholds. HMRC receipts are distinct from ONS public-sector receipts.</span>
+                  <span className="text-[11px] text-slate-400">2025/26 Trust Statement, including restated 2024/25 accrual-based HMRC revenue. Employee PAYE and NIC estimates use 2026/27 thresholds.</span>
                 </div>
-                <a href="https://www.gov.uk/government/publications/hmrc-annual-report-and-accounts-2024-to-2025" target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 shrink-0">
+                <a href="https://www.gov.uk/government/publications/hmrc-annual-report-and-accounts-2025-to-2026/hmrcs-annual-report-and-accounts-2025-to-2026-our-accounts-and-annexes" target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 shrink-0">
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </li>

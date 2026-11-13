@@ -210,7 +210,7 @@ export const TaxCalculatorTab: React.FC = () => {
         </div>
       </div>
 
-      {/* The Official Itemized "Tax Receipt" Card */}
+      {/* Itemised tax estimate */}
       <div className="max-w-3xl mx-auto rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden font-sans">
         {/* Receipt Header */}
         <div className="bg-slate-950 p-6 border-b border-slate-800 text-center space-y-1 relative">
@@ -218,7 +218,7 @@ export const TaxCalculatorTab: React.FC = () => {
             <span className="text-2xl">🏛️</span>
           </div>
           <h3 className="text-lg font-black text-white tracking-wide uppercase">
-            Official UK Tax Contribution Receipt
+            Illustrative UK Tax Estimate
           </h3>
           <p className="text-xs text-slate-400">
             HM Revenue & Customs / HM Treasury • Fiscal Year 2024/25
@@ -276,7 +276,7 @@ export const TaxCalculatorTab: React.FC = () => {
         {/* Receipt Footer */}
         <div className="bg-slate-950 p-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-xs text-slate-400 text-center sm:text-left">
-            <span className="font-semibold text-slate-200">Indicative allocation — not earmarked tax receipts.</span><br />
+            <span className="font-semibold text-slate-200">This estimate uses annualised employee National Insurance. The spending allocation illustrates each function’s share of Treasury expenditure.</span><br />
             Calculated proportionally using HM Treasury Autumn Budget & OBR outturn data.
           </div>
           <button
@@ -284,7 +284,7 @@ export const TaxCalculatorTab: React.FC = () => {
             className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs flex items-center gap-2 border border-slate-700 transition-colors"
           >
             <Download className="w-3.5 h-3.5" />
-            <span>Print / Save Receipt</span>
+            <span>Print / Save Estimate</span>
           </button>
         </div>
       </div>

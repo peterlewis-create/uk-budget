@@ -14,6 +14,8 @@ import {
 import {
   UK_FISCAL_TOTALS,
   UK_SPENDING_DATA,
+  UK_REVENUE_DATA,
+  HMRC_REVENUE_TOTAL_2024_25,
   DEBT_INTEREST_METRICS,
   SpendingItem
 } from '../data/ukBudgetData';
@@ -28,6 +30,9 @@ interface OverviewTabProps {
 
 export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelectSpendingItem }) => {
   const [hoveredSector, setHoveredSector] = useState<string | null>(null);
+  const incomeTaxAndNicShare = UK_REVENUE_DATA
+    .filter(item => item.id === 'income-tax' || item.id === 'nics')
+    .reduce((share, item) => share + item.percentage, 0);
 
   return (
     <div className="space-y-8 animate-fadeIn">
@@ -340,7 +345,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ setActiveTab, onSelect
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-white">Income Tax and NICs — HMRC's Largest Revenue Sources</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              HMRC received <strong className="text-blue-400">£309.4bn Income Tax</strong> and <strong className="text-indigo-400">£168.8bn NICs</strong> in 2024/25. Together these are 54.6% of HMRC's £875.9bn revenue total. This differs from the broader ONS current-receipts measure.
+              HMRC reported <strong className="text-blue-400">£309.4bn Income Tax</strong> and <strong className="text-indigo-400">£168.8bn NICs</strong> in 2024/25. Together these are {incomeTaxAndNicShare.toFixed(1)}% of HMRC's restated £{HMRC_REVENUE_TOTAL_2024_25.toFixed(1)}bn accrual-based revenue total. This differs from the broader ONS current-receipts measure.
             </p>
           </div>
         </div>

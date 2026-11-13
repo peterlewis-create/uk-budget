@@ -27,7 +27,7 @@ export const PerPersonBudgetCalculator: React.FC = () => {
 
   // Demographic divisor:
   // - resident: 69.2563 Million UK population
-  // - taxpayer: 38.6 Million working income taxpayers
+  // - taxpayer: 38.6 million estimated Income Tax payers
   // - household: 28.6 Million UK households
   const totalSpending = UK_FISCAL_TOTALS.totalSpending * 1_000_000_000; // in £
 
@@ -124,7 +124,7 @@ export const PerPersonBudgetCalculator: React.FC = () => {
                 }`}
               >
                 <span>Per Income Tax Payer</span>
-                <span className="font-mono text-[11px] opacity-80">38.6m workers</span>
+                <span className="font-mono text-[11px] opacity-80">38.6m Income Tax payers</span>
               </button>
               <button
                 onClick={() => setPerspective('household')}
